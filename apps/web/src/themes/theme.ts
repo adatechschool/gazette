@@ -7,20 +7,13 @@ const config = defineConfig({
 				heading: { value: `'Staatliches', sans-serif` },
 				body: { value: `'Poppins', sans-serif` },
 			},
-            
-            colors: {
-                kakadoie: { value: "#606c38"}
-            },
-        },
-            semanticTokens: {
-                colors: {
-                  danger: { value: "{colors.kakadoie}" },
-                },
+			colors: {
+				green: {
+					chaletGreen: { value: '#606c38' },
+				},
+			},
 		},
 	},
 });
 
-
-
-
-export const system = createSystem(config)
+export const system = createSystem(config);

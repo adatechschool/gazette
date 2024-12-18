@@ -1,18 +1,31 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-// Import des fichiers de traduction
-import translationFr from '../locales/fr/translation.json';
-i18n
-    .use(initReactI18next) // Intégration avec React
-    .init({
-        resources: {
-            fr: { translation: translationFr },
-        },
-        lng: 'fr', // Langue par défaut
-        fallbackLng: 'en', // Langue par défaut si aucune langue détectée
-        debug: true, // Affiche les logs en mode développement
-        interpolation: {
-            escapeValue: false, // React gère déjà l'échappement
-        },
-    });
+import type { InitOptions } from "i18next";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import common from "./locales/fr/common.json";
+
+export enum Locales {
+  FR = "fr",
+}
+
+export const config: InitOptions = {
+  debug: false,
+  ns: ["common", "errors"],
+  defaultNS: "common",
+  fallbackNS: "common",
+  resources: {
+    [Locales.FR]: {
+      common,
+    },
+  },
+  lng: Locales.FR,
+  fallbackLng: Locales.FR,
+  interpolation: {
+    escapeValue: false,
+  },
+};
+
+i18n.use(initReactI18next).init(config);
+
+export const locales = [{ locale: Locales.FR, name: "Français" }];
+
 export default i18n;
