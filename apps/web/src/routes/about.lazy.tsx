@@ -1,10 +1,11 @@
-import AppTitleHeaderCC from '@/components/custom/AppTitleHeaderCC'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import AppTitleHeaderCC from '@/components/custom/AppTitleHeaderCC';
+import LayoutCC from '@/components/custom/LayoutCC';
+import { createLazyFileRoute } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/about')({
-  component: RouteComponent,
-})
+	component: RouteComponent,
+});
 
 function RouteComponent() {
-  return <AppTitleHeaderCC />
+	return <LayoutCC></LayoutCC>;
 }

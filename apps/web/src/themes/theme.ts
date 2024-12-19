@@ -1,26 +1,22 @@
-import { createSystem, defineConfig } from '@chakra-ui/react';
+import { defaultConfig, createSystem, defineConfig } from '@chakra-ui/react';
 
-const config = defineConfig({
+const customConfig = defineConfig({
 	theme: {
 		tokens: {
 			fonts: {
 				heading: { value: `'Staatliches', sans-serif` },
 				body: { value: `'Poppins', sans-serif` },
 			},
-            
-            colors: {
-                kakadoie: { value: "#606c38"}
-            },
-        },
-            semanticTokens: {
-                colors: {
-                  danger: { value: "{colors.kakadoie}" },
-                },
+			colors: {
+				color: {
+					chaletGreen: { value: '#606c38' },
+					white: { value: '#ffffff' },
+					mineShaft: { value: '1F1F1F' },
+					black: { value: '000000' },
+				},
+			},
 		},
 	},
 });
 
-
-
-
-export const system = createSystem(config)
+export const system = createSystem(defaultConfig, customConfig);

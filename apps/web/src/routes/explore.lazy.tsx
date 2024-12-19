@@ -1,9 +1,17 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import AppTitleHeaderCC from '@/components/custom/AppTitleHeaderCC';
+import LayoutCC from '@/components/custom/LayoutCC';
+import MenuDisplayCC from '@/components/custom/MenuDisplayCC';
+import { createLazyFileRoute } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/explore')({
-  component: RouteComponent,
-})
+	component: RouteComponent,
+});
 
 function RouteComponent() {
-  return <div>coucou</div>
+	return (
+		<LayoutCC>
+			<AppTitleHeaderCC />
+			<MenuDisplayCC />
+		</LayoutCC>
+	);
 }

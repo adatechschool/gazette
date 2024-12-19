@@ -1,15 +1,15 @@
-import GazetteIlluCC from '@/components/custom/GazetteIlluCC';
 import LayoutCC from '@/components/custom/LayoutCC';
+import WelcomeDisplayDesktopCC from '@/components/custom/WelcomeDisplayDesktopCC';
 import { createLazyFileRoute } from '@tanstack/react-router';
 
-export const Route = createLazyFileRoute('/login')({
+export const Route = createLazyFileRoute('/')({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
 	return (
 		<LayoutCC>
-			<GazetteIlluCC />
+			<WelcomeDisplayDesktopCC />;
 		</LayoutCC>
 	);
 }

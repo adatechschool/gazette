@@ -7,9 +7,9 @@ const GazetteIlluCC = () => {
 		<Box
 			width="50%"
 			height="100%"
-			bgColor="#606C38"
+			bgColor="color.chaletGreen"
 			display="flex"
-			color="#ffffff"
+			color="color.white"
 			justifyContent="center"
 			alignItems="center"
 		>

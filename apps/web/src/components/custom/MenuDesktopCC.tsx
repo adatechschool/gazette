@@ -5,10 +5,13 @@ import {
 	MenuTrigger,
 } from '@/components/ui/menu';
 import { Button } from '@chakra-ui/react';
+import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
 const MenuDesktopCC = () => {
-	const { t } = useTranslation();
+	const { t } = useTranslation('common', {
+		keyPrefix: 'navigateApp',
+	});
 	return (
 		<MenuRoot>
 			<MenuTrigger asChild>
@@ -55,7 +58,7 @@ const MenuDesktopCC = () => {
 					}}
 					padding="40px 40px"
 				>
-					{t('navigateApp.home')}
+					<Link to="/">{t('home')}</Link>
 				</MenuItem>
 				<MenuItem
 					fontSize={60}
@@ -74,7 +77,7 @@ const MenuDesktopCC = () => {
 					}}
 					padding="40px 40px"
 				>
-					{t('navigateApp.explore')}
+					<Link to="/explore">{t('explore')}</Link>
 				</MenuItem>
 				<MenuItem
 					fontSize={60}
@@ -93,7 +96,7 @@ const MenuDesktopCC = () => {
 					}}
 					padding="40px 40px"
 				>
-					{t('accountManagement.account')}
+					<Link to="/parameters">{t('account')}</Link>
 				</MenuItem>
 			</MenuContent>
 		</MenuRoot>

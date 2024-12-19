@@ -16,21 +16,15 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
-const WelcomeLazyImport = createFileRoute('/welcome')()
 const SigninLazyImport = createFileRoute('/signin')()
 const ParametersLazyImport = createFileRoute('/parameters')()
 const LoginLazyImport = createFileRoute('/login')()
 const HomepageLazyImport = createFileRoute('/homepage')()
 const ExploreLazyImport = createFileRoute('/explore')()
 const AboutLazyImport = createFileRoute('/about')()
+const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
-
-const WelcomeLazyRoute = WelcomeLazyImport.update({
-  id: '/welcome',
-  path: '/welcome',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/welcome.lazy').then((d) => d.Route))
 
 const SigninLazyRoute = SigninLazyImport.update({
   id: '/signin',
@@ -68,10 +62,23 @@ const AboutLazyRoute = AboutLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
+const IndexLazyRoute = IndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -114,98 +121,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninLazyImport
       parentRoute: typeof rootRoute
     }
-    '/welcome': {
-      id: '/welcome'
-      path: '/welcome'
-      fullPath: '/welcome'
-      preLoaderRoute: typeof WelcomeLazyImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/explore': typeof ExploreLazyRoute
   '/homepage': typeof HomepageLazyRoute
   '/login': typeof LoginLazyRoute
   '/parameters': typeof ParametersLazyRoute
   '/signin': typeof SigninLazyRoute
-  '/welcome': typeof WelcomeLazyRoute
 }
 
 export interface FileRoutesByTo {
+  '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/explore': typeof ExploreLazyRoute
   '/homepage': typeof HomepageLazyRoute
   '/login': typeof LoginLazyRoute
   '/parameters': typeof ParametersLazyRoute
   '/signin': typeof SigninLazyRoute
-  '/welcome': typeof WelcomeLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/explore': typeof ExploreLazyRoute
   '/homepage': typeof HomepageLazyRoute
   '/login': typeof LoginLazyRoute
   '/parameters': typeof ParametersLazyRoute
   '/signin': typeof SigninLazyRoute
-  '/welcome': typeof WelcomeLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/about'
     | '/explore'
     | '/homepage'
     | '/login'
     | '/parameters'
     | '/signin'
-    | '/welcome'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/about'
     | '/explore'
     | '/homepage'
     | '/login'
     | '/parameters'
     | '/signin'
-    | '/welcome'
   id:
     | '__root__'
+    | '/'
     | '/about'
     | '/explore'
     | '/homepage'
     | '/login'
     | '/parameters'
     | '/signin'
-    | '/welcome'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
+  IndexLazyRoute: typeof IndexLazyRoute
   AboutLazyRoute: typeof AboutLazyRoute
   ExploreLazyRoute: typeof ExploreLazyRoute
   HomepageLazyRoute: typeof HomepageLazyRoute
   LoginLazyRoute: typeof LoginLazyRoute
   ParametersLazyRoute: typeof ParametersLazyRoute
   SigninLazyRoute: typeof SigninLazyRoute
-  WelcomeLazyRoute: typeof WelcomeLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexLazyRoute: IndexLazyRoute,
   AboutLazyRoute: AboutLazyRoute,
   ExploreLazyRoute: ExploreLazyRoute,
   HomepageLazyRoute: HomepageLazyRoute,
   LoginLazyRoute: LoginLazyRoute,
   ParametersLazyRoute: ParametersLazyRoute,
   SigninLazyRoute: SigninLazyRoute,
-  WelcomeLazyRoute: WelcomeLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -218,14 +218,17 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/about",
         "/explore",
         "/homepage",
         "/login",
         "/parameters",
-        "/signin",
-        "/welcome"
+        "/signin"
       ]
+    },
+    "/": {
+      "filePath": "index.lazy.tsx"
     },
     "/about": {
       "filePath": "about.lazy.tsx"
@@ -244,9 +247,6 @@ export const routeTree = rootRoute
     },
     "/signin": {
       "filePath": "signin.lazy.tsx"
-    },
-    "/welcome": {
-      "filePath": "welcome.lazy.tsx"
     }
   }
 }
