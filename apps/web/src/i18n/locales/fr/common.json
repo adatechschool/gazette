@@ -1,28 +1,29 @@
 {
-  "accountManagement": {
-    "appTitle": "Gazette",
-    "create": "Créer un compte",
-    "login": "Se connecter",
-    "pseudo": "Pseudo",
-    "mail": "Adresse mail",
-    "password": "Mot de passe",
-    "confirmPassword": "Confirmer le mot de passe",
-    "signIn": "S'inscrire",
-    "alreadyCreated": "Vous avez un compte ?",
-    "noAccount": "Pas encore de compte ?",
-    "logout": "Se déconnecter",
-    "delete": "Supprimer le compte",
-    "confirmDelete": "Votre compte a bien été supprimé",
-    "about": "À propos",
-    "policy": "Politique et confidentialité",
-    "account": "Mon compte"
-  },
-  "navigateApp": {
-    "explore": "Explorer",
-    "subscribe": "S'abonner",
-    "subscriber": "Abonné·e",
-    "home": "Accueil",
-    "menu": "Menu",
-    "appTitle": "Gazette"
-  }
+	"accountManagement": {
+		"appTitle": "Gazette",
+		"create": "Créer un compte",
+		"login": "Se connecter",
+		"pseudo": "Pseudo",
+		"mail": "Adresse mail",
+		"password": "Mot de passe",
+		"confirmPassword": "Confirmer le mot de passe",
+		"signIn": "S'inscrire",
+		"alreadyCreated": "Vous avez un compte ?",
+		"noAccount": "Pas encore de compte ?",
+		"logout": "Se déconnecter",
+		"delete": "Supprimer le compte",
+		"confirmDelete": "Votre compte a bien été supprimé",
+		"about": "À propos",
+		"policy": "Politique et confidentialité",
+		"account": "Mon compte"
+	},
+	"navigateApp": {
+		"explore": "Explorer",
+		"subscribe": "S'abonner",
+		"subscriber": "Abonné·e",
+		"home": "Accueil",
+		"menu": "Menu",
+		"appTitle": "Gazette",
+		"account": "Mon compte"
+	}
 }

@@ -1,6 +1,6 @@
-import { createSystem, defineConfig } from '@chakra-ui/react';
+import { defaultConfig, createSystem, defineConfig } from '@chakra-ui/react';
 
-const config = defineConfig({
+const customConfig = defineConfig({
 	theme: {
 		tokens: {
 			fonts: {
@@ -8,12 +8,15 @@ const config = defineConfig({
 				body: { value: `'Poppins', sans-serif` },
 			},
 			colors: {
-				green: {
+				color: {
 					chaletGreen: { value: '#606c38' },
+					white: { value: '#ffffff' },
+					mineShaft: { value: '1F1F1F' },
+					black: { value: '000000' },
 				},
 			},
 		},
 	},
 });
 
-export const system = createSystem(config);
+export const system = createSystem(defaultConfig, customConfig);
