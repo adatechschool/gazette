@@ -2,6 +2,12 @@ import { defaultConfig, createSystem, defineConfig } from '@chakra-ui/react';
 
 const customConfig = defineConfig({
 	theme: {
+		breakpoints: {
+			sm: '480px',
+			md: '768px',
+			lg: '1024px',
+			xl: '1280px',
+		},
 		tokens: {
 			fonts: {
 				heading: { value: `'Staatliches', sans-serif` },
