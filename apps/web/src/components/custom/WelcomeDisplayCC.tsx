@@ -1,14 +1,14 @@
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
-const WelcomeDisplayDesktop = () => {
+const WelcomeDisplay = () => {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
 	});
 	return (
 		<Box
-			width="100%"
-			height="100%"
+			width="full"
+			height="full"
 			bgColor="color.chaletGreen"
 			display="flex"
 			flexDirection="column"
@@ -17,16 +17,28 @@ const WelcomeDisplayDesktop = () => {
 			alignItems="center"
 		>
 			<Box>
-				<Heading fontSize="30rem" fontWeight="bold">
+				<Heading
+					fontSize={{
+						sm: '8.75rem',
+						'2xl': '30rem',
+					}}
+					fontWeight="bold"
+				>
 					{t('appTitle')}
 				</Heading>
 				<Flex
-					marginTop="15rem"
+					marginTop={{
+						sm: '2rem',
+						'2xl': '15rem',
+					}}
 					justifyContent="space-between"
 					alignItems="center"
 				>
 					<Text
-						fontSize="3rem"
+						fontSize={{
+							sm: '1rem',
+							'2xl': '3rem',
+						}}
 						fontWeight="bold"
 						marginLeft="1rem"
 						lineHeight="2.25rem"
@@ -34,7 +46,10 @@ const WelcomeDisplayDesktop = () => {
 						{t('create')}
 					</Text>
 					<Text
-						fontSize="3rem"
+						fontSize={{
+							sm: '1rem',
+							'2xl': '3rem',
+						}}
 						fontWeight="bold"
 						marginRight="1rem"
 						lineHeight="2.25rem"
@@ -47,4 +62,4 @@ const WelcomeDisplayDesktop = () => {
 	);
 };
 
-export default WelcomeDisplayDesktop;
+export default WelcomeDisplay;

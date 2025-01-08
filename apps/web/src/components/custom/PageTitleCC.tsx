@@ -1,22 +1,27 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading } from '@chakra-ui/react';
 
 type PageTitleCCProps = {
-  fontColor: string;
-  text: string;
-  fontSize?: number;
+	fontColor: string;
+	text: string;
 };
 
-const PageTitleCC = ({ fontColor, fontSize, text }: PageTitleCCProps) => {
-  return (
-    <Heading
-      fontFamily="Staatliches"
-      color={fontColor}
-      fontSize={fontSize}
-      margin={10}
-    >
-      {text.toUpperCase()}
-    </Heading>
-  );
+const PageTitleCC = ({ fontColor }: PageTitleCCProps) => {
+	return (
+		<Heading
+			fontFamily={{
+				sm: 'Poppins',
+				lg: 'Staatliches',
+			}}
+			color={fontColor}
+			fontSize={{
+				sm: '1.125rem',
+				lg: '6.25rem',
+			}}
+			margin={10}
+		>
+			hello
+		</Heading>
+	);
 };
 
 export default PageTitleCC;

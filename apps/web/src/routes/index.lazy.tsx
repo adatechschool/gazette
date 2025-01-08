@@ -1,5 +1,8 @@
 import LayoutCC from '@/components/custom/LayoutCC';
-import WelcomeDisplayDesktopCC from '@/components/custom/WelcomeDisplayDesktopCC';
+import LogoHeaderMobileCC from '@/components/custom/LogoHeaderMobileCC';
+import NavbarCC from '@/components/custom/NavbarCC';
+
+import WelcomeDisplayDesktopCC from '@/components/custom/WelcomeDisplayCC';
 import { createLazyFileRoute } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/')({
