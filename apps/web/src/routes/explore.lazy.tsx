@@ -13,9 +13,14 @@ export const Route = createLazyFileRoute('/explore')({
 function RouteComponent() {
 	return (
 		<LayoutCC>
-			{/* <AppTitleHeaderCC />
-			<MenuDisplayCC /> */}
-			<LogoHeaderMobileCC />
+			<div>
+				<AppTitleHeaderCC />
+			</div>
+			<div>
+				<MenuDisplayCC />
+			</div>
+
+			{/* <LogoHeaderMobileCC /> */}
 			{/* <WelcomeDialogDesktopCC /> */}
 			<Navbar />
 		</LayoutCC>

@@ -1,11 +1,11 @@
 import { Heading } from '@chakra-ui/react';
 
-type PageTitleCCProps = {
+export type PageTitleCCProps = {
 	fontColor: string;
 	text: string;
 };
 
-const PageTitleCC = ({ fontColor }: PageTitleCCProps) => {
+const PageTitleCC = ({ fontColor, text }: PageTitleCCProps) => {
 	return (
 		<Heading
 			fontFamily={{
@@ -19,7 +19,7 @@ const PageTitleCC = ({ fontColor }: PageTitleCCProps) => {
 			}}
 			margin={10}
 		>
-			hello
+			{text}
 		</Heading>
 	);
 };

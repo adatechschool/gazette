@@ -5,8 +5,8 @@ const GazetteIlluCC = () => {
 	const { t } = useTranslation();
 	return (
 		<Box
-			width="50%"
-			height="100%"
+			width="50vw"
+			height="100vh"
 			bgColor="color.chaletGreen"
 			display="flex"
 			color="color.white"
