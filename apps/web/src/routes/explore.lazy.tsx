@@ -14,7 +14,7 @@ function RouteComponent() {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'navigateApp',
 	});
-	// Déterminer si c'est un écran mobile ou desktop
+
 	const isMobile = useBreakpointValue({ base: true, lg: false });
 
 	return (

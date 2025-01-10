@@ -3,6 +3,7 @@ import ButtonCC from './ButtonCC';
 import { useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
 import { Toaster, toaster } from '@/components/ui/toaster';
+import WelcomeDialogDesktopCC from './WelcomeDialogDesktopCC';
 
 type FormValues = {
 	pseudo: string;
@@ -89,7 +90,7 @@ const FormSignUpCC = () => {
 						<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
 					</ul>
 
-					<ButtonCC
+					{/* <ButtonCC
 						type="submit"
 						width="72"
 						fontSize="xl"
@@ -110,7 +111,8 @@ const FormSignUpCC = () => {
 							{' '}
 							<b>Se connecter</b>
 						</a>
-					</Text>
+					</Text> */}
+					<WelcomeDialogDesktopCC />
 				</VStack>
 			</Stack>
 			<Toaster />
