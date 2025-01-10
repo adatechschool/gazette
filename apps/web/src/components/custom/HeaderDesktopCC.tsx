@@ -1,20 +1,28 @@
 import { Flex } from '@chakra-ui/react';
 import AppTitleHeaderCC from './AppTitleHeaderCC';
-import TitleCC from './PageTitleCC';
 import MenuCC from './MenuDisplayCC';
+import PageTitleCC from './PageTitleCC';
 
-const HeaderDesktopCC = () => {
+export type HeaderDesktopCCProps = {
+	text: string;
+};
+
+const HeaderDesktopCC = ({ text }: HeaderDesktopCCProps) => {
 	return (
-		<Flex>
-			<div>
-				<Flex justifyContent="space-between" padding={6}>
-					<AppTitleHeaderCC />
-					<MenuCC />
-				</Flex>
-				<Flex justifyContent="center">
-					<TitleCC fontColor="#606c38" fontSize={80} text="créer un compte" />;
-				</Flex>
-			</div>
+		<Flex
+			flexDirection="column"
+			gap="6"
+			marginTop="3rem"
+			marginLeft="1rem"
+			marginRight="1rem"
+		>
+			<Flex justifyContent="space-between">
+				<AppTitleHeaderCC />
+				<MenuCC />
+			</Flex>
+			<Flex justifyContent="center">
+				<PageTitleCC fontColor="color.chaletGreen" text={text} />
+			</Flex>
 		</Flex>
 	);
 };
