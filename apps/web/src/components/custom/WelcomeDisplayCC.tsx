@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Flex, Heading, Link } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
 const WelcomeDisplay = () => {
@@ -6,59 +6,67 @@ const WelcomeDisplay = () => {
 		keyPrefix: 'accountManagement',
 	});
 	return (
-		<Box
-			width="full"
-			height="full"
+		<Flex
+			flexDirection="column"
+			width="100vw"
+			height="100vh"
 			bgColor="color.chaletGreen"
 			display="flex"
-			flexDirection="column"
 			color="color.white"
 			justifyContent="center"
 			alignItems="center"
 		>
-			<Box>
+			<Flex
+				flexDirection="column"
+				gap={{
+					base: '6',
+					lg: '20',
+				}}
+			>
 				<Heading
+					width="100%"
 					fontSize={{
-						sm: '8.75rem',
-						'2xl': '30rem',
+						base: '6rem',
+						lg: '20rem',
 					}}
 					fontWeight="bold"
+					textAlign="center"
 				>
 					{t('appTitle')}
 				</Heading>
 				<Flex
-					marginTop={{
-						sm: '2rem',
-						'2xl': '15rem',
-					}}
 					justifyContent="space-between"
 					alignItems="center"
+					width="100%"
+					marginTop={{
+						lg: '2rem',
+					}}
 				>
-					<Text
+					<Link
+						href="/signin"
 						fontSize={{
-							sm: '1rem',
-							'2xl': '3rem',
+							base: '1rem',
+							lg: '2rem',
 						}}
 						fontWeight="bold"
-						marginLeft="1rem"
-						lineHeight="2.25rem"
+						color="color.white"
 					>
 						{t('create')}
-					</Text>
-					<Text
+					</Link>
+					<Link
+						href="/login"
 						fontSize={{
-							sm: '1rem',
-							'2xl': '3rem',
+							base: '1rem',
+							lg: '2rem',
 						}}
 						fontWeight="bold"
-						marginRight="1rem"
-						lineHeight="2.25rem"
+						color="color.white"
 					>
 						{t('login')}
-					</Text>
+					</Link>
 				</Flex>
-			</Box>
-		</Box>
+			</Flex>
+		</Flex>
 	);
 };
 

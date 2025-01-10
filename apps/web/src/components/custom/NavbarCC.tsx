@@ -17,7 +17,7 @@ const Navbar = () => {
 			justifyContent="space-around"
 			marginBottom={5}
 		>
-			<Link to="/">
+			<Link href="/">
 				<Box
 					display="flex"
 					flexDirection="column"
@@ -31,7 +31,7 @@ const Navbar = () => {
 				</Box>
 			</Link>
 
-			<Link to="/explore">
+			<Link href="/explore">
 				<Box
 					display="flex"
 					flexDirection="column"
@@ -45,7 +45,7 @@ const Navbar = () => {
 				</Box>
 			</Link>
 
-			<Link to="/parameters">
+			<Link href="/parameters">
 				<Box
 					display="flex"
 					flexDirection="column"
