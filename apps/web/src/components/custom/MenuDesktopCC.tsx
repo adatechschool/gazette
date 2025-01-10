@@ -16,12 +16,12 @@ const MenuDesktopCC = () => {
 		<MenuRoot>
 			<MenuTrigger asChild>
 				<Button
-					bgColor="#ffffff"
+					bgColor="color.white"
 					width="0"
 					height="0"
-					borderLeft="70px solid transparent"
-					borderRight="70px solid transparent"
-					borderTop="50px solid #606C38"
+					borderLeft="4.375rem solid transparent"
+					borderRight="4.375rem solid transparent"
+					borderTop="3.125rem solid #606c38"
 					padding="0"
 					minW="0"
 					minH="0"
@@ -42,59 +42,71 @@ const MenuDesktopCC = () => {
 				width="100%"
 			>
 				<MenuItem
-					fontSize={60}
-					color="#606C38"
+					fontSize="3.75rem"
+					color="color.chaletGreen"
 					textAlign="center"
 					justifyContent="center"
 					alignItems="center"
 					value="accueil"
 					_hover={{
-						bg: '#606C38',
-						color: '#ffffff',
+						bg: 'color.chaletGreen',
+						color: 'color.white',
 					}}
 					_active={{
-						bg: '#606C38',
-						color: '#ffffff',
+						bg: 'color.chaletGreen',
+						color: 'color.white',
 					}}
-					padding="40px 40px"
+					padding="2.5rem 2.5rem"
+					_focus={{
+						boxShadow: 'none',
+						outline: 'none',
+					}}
 				>
 					<Link to="/">{t('home')}</Link>
 				</MenuItem>
 				<MenuItem
-					fontSize={60}
-					color="#606C38"
+					fontSize="3.75rem"
+					color="color.chaletGreen"
 					textAlign="center"
 					justifyContent="center"
 					alignItems="center"
 					value="explorer"
 					_hover={{
-						bg: '#606C38',
-						color: '#ffffff',
+						bg: 'color.chaletGreen',
+						color: 'color.white',
 					}}
 					_active={{
-						bg: '#606C38',
-						color: '#ffffff',
+						bg: 'color.chaletGreen',
+						color: 'color.white',
 					}}
-					padding="40px 40px"
+					padding="2.5rem 2.5rem"
+					_focus={{
+						boxShadow: 'none',
+						outline: 'none',
+					}}
 				>
 					<Link to="/explore">{t('explore')}</Link>
 				</MenuItem>
 				<MenuItem
-					fontSize={60}
-					color="#606C38"
+					fontSize="3.75rem"
+					color="color.chaletGreen"
 					textAlign="center"
 					justifyContent="center"
 					alignItems="center"
 					value="mon-compte"
 					_hover={{
-						bg: '#606C38',
-						color: '#ffffff',
+						bg: 'color.chaletGreen',
+						color: 'color.white',
 					}}
 					_active={{
-						bg: '#606C38',
-						color: '#ffffff',
+						bg: 'color.chaletGreen',
+						color: 'color.white',
 					}}
-					padding="40px 40px"
+					padding="2.5rem 2.5rem"
+					_focus={{
+						boxShadow: 'none',
+						outline: 'none',
+					}}
 				>
 					<Link to="/parameters">{t('account')}</Link>
 				</MenuItem>
