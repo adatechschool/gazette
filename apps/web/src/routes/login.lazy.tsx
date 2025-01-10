@@ -20,7 +20,15 @@ function RouteComponent() {
 	return (
 		<LayoutCC>
 			{isMobile ? (
-				<Flex flexDirection="column">
+				<Flex
+					flexDirection="column"
+					marginLeft="1rem"
+					marginTop="2rem"
+					gap="6"
+					alignContent="center"
+					justifyContent="center"
+					alignItems="center"
+				>
 					<AppTitleHeaderCC />
 					<FormTitleCC text={t('login')} fontColor="color.black" />
 					<FormLoginCC />

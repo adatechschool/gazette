@@ -6,7 +6,7 @@ const FormLoginCC = () => {
 	return (
 		<div>
 			{isMobile ? (
-				<Flex width="100vw" flexDirection="column" gap="8">
+				<Flex width="80vw" flexDirection="column">
 					<Field label="Email">
 						<Input placeholder="me@example.com" />
 					</Field>
