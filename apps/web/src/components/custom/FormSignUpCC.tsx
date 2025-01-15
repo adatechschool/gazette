@@ -1,9 +1,10 @@
-import { HStack, Input, Stack, Text, VStack } from '@chakra-ui/react';
+import { Flex, HStack, Input, Stack, Text, VStack } from '@chakra-ui/react';
 import ButtonCC from './ButtonCC';
 import { useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
 import { Toaster, toaster } from '@/components/ui/toaster';
 import WelcomeDialogDesktopCC from './WelcomeDialogDesktopCC';
+import { useTranslation } from 'react-i18next';
 
 type FormValues = {
 	pseudo: string;
@@ -13,6 +14,9 @@ type FormValues = {
 };
 
 const FormSignUpCC = () => {
+	const { t } = useTranslation('common', {
+		keyPrefix: 'accountManagement',
+	});
 	const {
 		register,
 		handleSubmit,
@@ -22,65 +26,70 @@ const FormSignUpCC = () => {
 	const onSubmit = handleSubmit((data) => console.log(data));
 
 	return (
+		<Flex>
 		<form onSubmit={onSubmit}>
-			<Stack maxWidth="-webkit-fit-content" padding="10">
+			<Stack maxWidth="-webkit-fit-content" paddingTop={6} >
 				<Text color="fg.error" fontSize="sm" alignSelf="flex-end">
 					* Champs obligatoires
 				</Text>
 
 				<VStack gap="4">
-					<HStack gap="4">
 						<Field
 							required
-							label="Pseudo"
+							label={t("pseudo")}
 							invalid={!!errors.pseudo}
 							errorText={errors.pseudo?.message}
 						>
 							<Input
+								rounded="md"
 								shadow="md"
-								{...register('pseudo', { required: 'Champ obligatoire' })}
+								variant="flushed"
+								{...register('pseudo', { required: t("requiredField") })}
 							/>
 						</Field>
 						<Field
 							required
-							label="Adresse mail"
+							label={t("mail")}
 							invalid={!!errors.email}
 							errorText={errors.email?.message}
 						>
 							<Input
+								rounded="md"
 								shadow="md"
-								{...register('email', { required: 'Champ obligatoire' })}
+								variant="flushed"								
+								{...register('email', { required: t("requiredField") })}
 							/>
 						</Field>
-					</HStack>
 
-					<HStack gap="4">
 						<Field
 							required
-							label="Mot de passe"
+							label={t("password")}
 							invalid={!!errors.password}
 							errorText={errors.password?.message}
 						>
 							<Input
+								rounded="md"
 								shadow="md"
-								{...register('password', { required: 'Champ obligatoire' })}
+								variant="flushed"
+								{...register('password', { required: t("requiredField") })}
 							/>
 						</Field>
 
 						<Field
 							required
-							label="Confirmer le mot de passe"
+							label={t("confirmPassword")}
 							invalid={!!errors.passwordConfirmation}
 							errorText={errors.passwordConfirmation?.message}
 						>
 							<Input
+								rounded="md"
 								shadow="md"
-								{...register('passwordConfirmation', {
-									required: 'Champ obligatoire',
+								variant="flushed"
+								{...register('passwordConfirmation', { required:
+									t("requiredField")
 								})}
 							/>
 						</Field>
-					</HStack>
 
 					<ul color="red.500">
 						Votre mot de passe doit inclure :<li>au moins 8 caractères</li>
@@ -90,33 +99,32 @@ const FormSignUpCC = () => {
 						<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
 					</ul>
 
-					{/* <ButtonCC
+					 <ButtonCC
 						type="submit"
-						width="72"
-						fontSize="xl"
+						width="22rem"
+						fontSize="1.375rem"
 						fontWeight="bold"
-						fontColor="#ffffff"
-						backgroundColor="#606C38"
-						text="S'inscrire"
+						fontColor="color.white"
+						backgroundColor="color.chaletGreen"
+						text={t("signIn")}
 						onClick={() =>
 							toaster.create({
-								description: 'Votre compte a bien été créé',
+								description: t("confirmCreation"),
 								type: 'success',
 							})
 						}
 					></ButtonCC>
 					<Text>
-						Vous avez un compte ?{' '}
-						<a href="http://localhost:5173/">
-							{' '}
-							<b>Se connecter</b>
+						{t("alreadyCreated")}
+						<a href="http://localhost:5173/login">
+							<b> {t("login")}</b>
 						</a>
-					</Text> */}
-					<WelcomeDialogDesktopCC />
+					</Text> 
 				</VStack>
 			</Stack>
 			<Toaster />
 		</form>
+		</Flex>
 	);
 };
 

@@ -5,9 +5,9 @@ type ButtonCCProps = ButtonProps & {
   fontColor: string;
   backgroundColor: string;
   text: string;
-  height?: number;
-  width?: number;
-  fontSize?: number;
+  height?: string;
+  width?: string;
+  fontSize?: string;
   capitalizeText?: boolean; // Conditionnal prop to handle text's style
 };
 

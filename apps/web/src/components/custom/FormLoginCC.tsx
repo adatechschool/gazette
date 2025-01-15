@@ -41,7 +41,10 @@ const FormLoginCC = () => {
                             invalid={!!errors.email}
                             errorText={errors.email?.message}
                         >
-                            <Input shadow="md"
+                            <Input 
+                                rounded="md"
+								shadow="md"
+								variant="flushed"
                                 {...register("email")}
                             />
                         </Field>
@@ -54,7 +57,10 @@ const FormLoginCC = () => {
                             invalid={!!errors.password}
                             errorText={errors.password?.message}
                         >
-                            <Input shadow="md"
+                            <Input 
+                                rounded="md"
+								shadow="md"
+								variant="flushed"
                                 {...register("password")}
                             />
                         </Field>
@@ -71,11 +77,11 @@ const FormLoginCC = () => {
 
                     <ButtonCC
                         type="submit"
-                        width={72}
-                        fontSize={12}
-                        fontWeight="bold"
-                        fontColor="#ffffff"
-                        backgroundColor="#606C38"
+                        width="22rem"
+						fontSize="1.375rem"
+						fontWeight="bold"
+						fontColor="color.white"
+						backgroundColor="color.chaletGreen"
                         text={t("login")}
                         onClick={() => navigate({
                             to: '/explore'
@@ -84,7 +90,7 @@ const FormLoginCC = () => {
                     >
                     </ButtonCC>
                     <Text>
-                        {t("noAccount")} <a href="http://localhost:5173/"> <b>{t("signIn")}</b></a>
+                        {t("noAccount")} <a href="http://localhost:5173/signin"> <b>{t("signIn")}</b></a>
                     </Text>
                 </VStack>
             </Stack>
