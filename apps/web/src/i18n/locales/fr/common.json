@@ -15,7 +15,8 @@
 		"confirmDelete": "Votre compte a bien été supprimé",
 		"about": "À propos",
 		"policy": "Politique et confidentialité",
-		"account": "Mon compte"
+		"account": "Mon compte",
+		"obligatoryField": "* champs obligatoires"
 	},
 	"navigateApp": {
 		"explore": "Explorer",

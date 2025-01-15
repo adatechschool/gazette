@@ -36,7 +36,8 @@ function RouteComponent() {
 			) : (
 				<Flex>
 					<GazetteIlluCC />
-					<Flex flexDirection="column">
+					<Flex flexDirection="column" alignItems="center" justifyContent="center" width="50vw">
+
 						<FormTitleCC text={t('login')} fontColor="color.chaletGreen" />
 						<FormLoginCC />
 					</Flex>

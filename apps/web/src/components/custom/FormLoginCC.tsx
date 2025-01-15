@@ -2,7 +2,10 @@ import { HStack, Input, Stack, Text, VStack } from "@chakra-ui/react";
 import ButtonCC from "./ButtonCC";
 import { useForm } from "react-hook-form";
 import { Field } from "../ui/field";
-import { Toaster } from "../ui/toaster";
+import { Toaster, toaster } from "../ui/toaster";
+import { Link } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next'
 
 type FormValues = {
     email: string;
@@ -10,6 +13,8 @@ type FormValues = {
 }
 
 const FormLoginCC = () => {
+    const navigate = useNavigate()
+    const { t } = useTranslation('common', { keyPrefix: 'accountManagement' })
     const {
         register,
         handleSubmit,
@@ -23,7 +28,7 @@ const FormLoginCC = () => {
         <form onSubmit={onSubmit}>
             <Stack maxWidth="-webkit-fit-content" padding="10">
                 <Text color="fg.error" fontSize="sm" alignSelf="flex-end">
-                    * Champs obligatoires
+                    {t("obligatoryField")}
                 </Text>
 
                 <VStack gap="4">
@@ -32,7 +37,7 @@ const FormLoginCC = () => {
 
                         <Field
                             required
-                            label="Adresse mail"
+                            label={t("mail")}
                             invalid={!!errors.email}
                             errorText={errors.email?.message}
                         >
@@ -45,7 +50,7 @@ const FormLoginCC = () => {
                     <HStack gap="4">
                         <Field
                             required
-                            label="Mot de passe"
+                            label={t("password")}
                             invalid={!!errors.password}
                             errorText={errors.password?.message}
                         >
@@ -66,22 +71,20 @@ const FormLoginCC = () => {
 
                     <ButtonCC
                         type="submit"
-                        width="72"
-                        fontSize="xl"
+                        width={72}
+                        fontSize={12}
                         fontWeight="bold"
                         fontColor="#ffffff"
                         backgroundColor="#606C38"
-                        text="S'inscrire"
-                        onClick={() =>
-                            toaster.create({
-                                description: "Vous êtes connecté·e",
-                                type: "success",
-                            })
+                        text={t("login")}
+                        onClick={() => navigate({
+                            to: '/explore'
+                        })
                         }
                     >
                     </ButtonCC>
                     <Text>
-                        Vous n'avez pas de compte ? <a href="http://localhost:5173/"> <b>S'inscrire</b></a>
+                        {t("noAccount")} <a href="http://localhost:5173/"> <b>{t("signIn")}</b></a>
                     </Text>
                 </VStack>
             </Stack>
