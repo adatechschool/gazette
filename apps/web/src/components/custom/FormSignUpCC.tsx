@@ -1,10 +1,10 @@
-import { Flex, HStack, Input, Stack, Text, VStack } from '@chakra-ui/react';
+import { Flex, Input, Stack, Text, VStack } from '@chakra-ui/react';
 import ButtonCC from './ButtonCC';
 import { useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
 import { Toaster, toaster } from '@/components/ui/toaster';
-import WelcomeDialogDesktopCC from './WelcomeDialogDesktopCC';
 import { useTranslation } from 'react-i18next';
+import { Link } from '@tanstack/react-router';
 
 type FormValues = {
 	pseudo: string;
@@ -27,16 +27,16 @@ const FormSignUpCC = () => {
 
 	return (
 		<Flex>
-		<form onSubmit={onSubmit}>
-			<Stack maxWidth="-webkit-fit-content" paddingTop={6} >
-				<Text color="fg.error" fontSize="sm" alignSelf="flex-end">
-					* Champs obligatoires
-				</Text>
+			<form onSubmit={onSubmit}>
+				<Stack maxWidth="-webkit-fit-content" paddingTop={6}>
+					<Text color="fg.error" fontSize="sm" alignSelf="flex-end">
+						* Champs obligatoires
+					</Text>
 
-				<VStack gap="4">
+					<VStack gap="4">
 						<Field
 							required
-							label={t("pseudo")}
+							label={t('pseudo')}
 							invalid={!!errors.pseudo}
 							errorText={errors.pseudo?.message}
 						>
@@ -44,26 +44,26 @@ const FormSignUpCC = () => {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('pseudo', { required: t("requiredField") })}
+								{...register('pseudo', { required: t('requiredField') })}
 							/>
 						</Field>
 						<Field
 							required
-							label={t("mail")}
+							label={t('mail')}
 							invalid={!!errors.email}
 							errorText={errors.email?.message}
 						>
 							<Input
 								rounded="md"
 								shadow="md"
-								variant="flushed"								
-								{...register('email', { required: t("requiredField") })}
+								variant="flushed"
+								{...register('email', { required: t('requiredField') })}
 							/>
 						</Field>
 
 						<Field
 							required
-							label={t("password")}
+							label={t('password')}
 							invalid={!!errors.password}
 							errorText={errors.password?.message}
 						>
@@ -71,13 +71,13 @@ const FormSignUpCC = () => {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('password', { required: t("requiredField") })}
+								{...register('password', { required: t('requiredField') })}
 							/>
 						</Field>
 
 						<Field
 							required
-							label={t("confirmPassword")}
+							label={t('confirmPassword')}
 							invalid={!!errors.passwordConfirmation}
 							errorText={errors.passwordConfirmation?.message}
 						>
@@ -85,45 +85,45 @@ const FormSignUpCC = () => {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('passwordConfirmation', { required:
-									t("requiredField")
+								{...register('passwordConfirmation', {
+									required: t('requiredField'),
 								})}
 							/>
 						</Field>
 
-					<ul color="red.500">
-						Votre mot de passe doit inclure :<li>au moins 8 caractères</li>
-						<li>une majuscule</li>
-						<li>une minuscule</li>
-						<li>un chiffre</li>
-						<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
-					</ul>
+						<ul color="red.500">
+							Votre mot de passe doit inclure :<li>au moins 8 caractères</li>
+							<li>une majuscule</li>
+							<li>une minuscule</li>
+							<li>un chiffre</li>
+							<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
+						</ul>
 
-					 <ButtonCC
-						type="submit"
-						width="22rem"
-						fontSize="1.375rem"
-						fontWeight="bold"
-						fontColor="color.white"
-						backgroundColor="color.chaletGreen"
-						text={t("signIn")}
-						onClick={() =>
-							toaster.create({
-								description: t("confirmCreation"),
-								type: 'success',
-							})
-						}
-					></ButtonCC>
-					<Text>
-						{t("alreadyCreated")}
-						<a href="http://localhost:5173/login">
-							<b> {t("login")}</b>
-						</a>
-					</Text> 
-				</VStack>
-			</Stack>
-			<Toaster />
-		</form>
+						<ButtonCC
+							type="submit"
+							width="22rem"
+							fontSize="1.375rem"
+							fontWeight="bold"
+							fontColor="color.white"
+							backgroundColor="color.chaletGreen"
+							text={t('signIn')}
+							onClick={() =>
+								toaster.create({
+									description: t('confirmCreation'),
+									type: 'success',
+								})
+							}
+						></ButtonCC>
+						<Text>
+							{t('alreadyCreated') + ' '}
+							<Link to="/login">
+								<b>{t('login')}</b>
+							</Link>
+						</Text>
+					</VStack>
+				</Stack>
+				<Toaster />
+			</form>
 		</Flex>
 	);
 };
