@@ -6,7 +6,7 @@ const AppTitleHeaderCC = () => {
 		keyPrefix: 'accountManagement',
 	});
 	return (
-		<Heading color="color.chaletGreen" fontSize={80} margin={10}>
+		<Heading color="color.chaletGreen" fontSize="5rem">
 			{t('appTitle')}
 		</Heading>
 	);

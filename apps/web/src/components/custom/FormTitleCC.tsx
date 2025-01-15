@@ -1,11 +1,11 @@
 import { Heading } from '@chakra-ui/react';
 
-export type PageTitleCCProps = {
+export type FormTitleCCProps = {
 	fontColor: string;
 	text: string;
 };
 
-const PageTitleCC = ({ fontColor, text }: PageTitleCCProps) => {
+const FormTitleCC = ({ fontColor, text }: FormTitleCCProps) => {
 	return (
 		<Heading
 			fontFamily={{
@@ -15,7 +15,7 @@ const PageTitleCC = ({ fontColor, text }: PageTitleCCProps) => {
 			color={fontColor}
 			fontSize={{
 				base: '1.125rem',
-				lg: '6.25rem',
+				lg: '5rem',
 			}}
 		>
 			{text}
@@ -23,4 +23,4 @@ const PageTitleCC = ({ fontColor, text }: PageTitleCCProps) => {
 	);
 };
 
-export default PageTitleCC;
+export default FormTitleCC;
