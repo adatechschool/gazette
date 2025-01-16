@@ -45,7 +45,7 @@ const Navbar = () => {
 				</Box>
 			</Link>
 
-			<Link href="/parameters">
+			<Link href="/settings">
 				<Box
 					display="flex"
 					flexDirection="column"
