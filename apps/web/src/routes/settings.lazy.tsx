@@ -2,12 +2,12 @@ import HeaderDesktopCC from '@/components/custom/HeaderDesktopCC';
 import HeaderMobileCC from '@/components/custom/HeaderMobileCC';
 import LayoutCC from '@/components/custom/LayoutCC';
 import Navbar from '@/components/custom/NavbarCC';
-import ParametersMenuCC from '@/components/custom/ParametersMenuCC';
-import { createLazyFileRoute } from '@tanstack/react-router';
+import SettingsMenuCC from '@/components/custom/SettingsMenuCC';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
+import { createLazyFileRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
-export const Route = createLazyFileRoute('/parameters')({
+export const Route = createLazyFileRoute('/settings')({
 	component: RouteComponent,
 });
 
@@ -20,18 +20,17 @@ function RouteComponent() {
 	return (
 		<LayoutCC>
 			{isMobile ? (
-				<Flex flexDirection='column'>
+				<Flex flexDirection="column">
 					<HeaderMobileCC text={t('account')} />
 					<Navbar />
-					<ParametersMenuCC />
+					<SettingsMenuCC />
 				</Flex>
 			) : (
-				<Flex flexDirection='column'>
+				<Flex flexDirection="column">
 					<HeaderDesktopCC text={t('account')} />
-					<ParametersMenuCC />
+					<SettingsMenuCC />
 				</Flex>
 			)}
-
 		</LayoutCC>
-	)
+	);
 }

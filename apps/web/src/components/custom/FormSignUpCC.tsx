@@ -3,7 +3,7 @@ import ButtonCC from './ButtonCC';
 import { useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
 import { Toaster, toaster } from '@/components/ui/toaster';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 
 type FormValues = {
@@ -98,6 +98,7 @@ const FormSignUpCC = () => {
 							<li>un chiffre</li>
 							<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
 						</ul>
+						{/* <Trans i18nKey="form.passwordInstructions" /> */}
 
 						<ButtonCC
 							type="submit"
