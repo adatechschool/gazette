@@ -3,8 +3,9 @@ import {
 	OneToMany,
 	PrimaryKey,
 	Property,
-	SerializedPrimaryKey,
 } from '@mikro-orm/core';
+import { Media } from './media.entity.js';
+
 
 @Entity()
 export class User {
@@ -26,6 +27,6 @@ export class User {
 	@Property({ onUpdate: () => new Date() })
 	lastConnection = new Date();
 
-	// @OneToMany()
-	// mediaId!: number[]
+	@OneToMany(() => Media, media => media.id)
+	mediaId!: number[]
 }

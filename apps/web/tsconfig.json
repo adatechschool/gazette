@@ -5,14 +5,19 @@
     "module": "ESNext",
     "jsx": "react-jsx", // Important pour React 17+ (nouvelle syntaxe JSX)
     "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*.ts"
+  ]
 }
