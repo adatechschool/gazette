@@ -3,7 +3,7 @@ import ButtonCC from './ButtonCC';
 import { useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
 import { Toaster, toaster } from '@/components/ui/toaster';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 
 type FormValues = {
