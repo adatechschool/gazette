@@ -1,20 +1,30 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/app.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.10.7",
-    "express": "^4.21.2",
-    "ts-node": "^10.9.2",
-    "typescript": "5.5.4"
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "tsc",
+		"start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/app.ts",
+		"test": "vitest"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"devDependencies": {
+		"@mikro-orm/cli": "^6.4.3",
+		"@types/express": "^5.0.0",
+		"@types/node": "^22.10.7",
+		"express": "^4.21.2",
+		"ts-node": "^10.9.2",
+		"typescript": "5.5.4",
+		"vitest": "^3.0.2"
+	},
+	"dependencies": {
+		"@mikro-orm/core": "^6.4.3",
+		"@mikro-orm/postgresql": "^6.4.3",
+		"@mikro-orm/reflection": "^6.4.3",
+		"rss-parser": "^3.13.0"
+	}
 }

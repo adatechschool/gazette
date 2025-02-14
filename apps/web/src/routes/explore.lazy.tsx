@@ -5,6 +5,7 @@ import HeaderMobileCC from '@/components/custom/HeaderMobileCC';
 import HeaderDesktopCC from '@/components/custom/HeaderDesktopCC';
 import { useTranslation } from 'react-i18next';
 import Navbar from '@/components/custom/NavbarCC';
+import TestRSSS from '@/components/custom/TestRSS'
 
 export const Route = createLazyFileRoute('/explore')({
 	component: RouteComponent,
@@ -25,7 +26,12 @@ function RouteComponent() {
 					<Navbar />
 				</div>
 			) : (
-				<HeaderDesktopCC text={t('explore')} />
+				<div>
+					<HeaderDesktopCC text={t('explore')} />
+					<TestRSSS />
+			
+				</div>
+				
 			)}
 		</LayoutCC>
 	);
