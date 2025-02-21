@@ -4,7 +4,13 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 const config: Options = {
 	// for simplicity, we use the PostGresql database, as it's available pretty much everywhere
 	driver: PostgreSqlDriver,
-	dbName: 'gazette.db',
+
+	dbName: process.env.DB_NAME || 'gazette_db',
+	host: process.env.DB_HOST,
+	port: parseInt(process.env.DB_PORT || '5432'),
+	user: process.env.DB_USER || 'postgres',
+	password: process.env.DB_PASSWORD?.toString(),
+
 	// folder-based discovery setup, using common filename suffix
 	entities: ['dist/**/*.entity.js'],
 	entitiesTs: ['src/**/*.entity.ts'],
