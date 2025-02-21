@@ -1,16 +1,17 @@
+'use client'
 import { Box, Card, HStack, Image, Text } from '@chakra-ui/react';
 import { LockKeyhole } from 'lucide-react';
 
 type CardHorizontalCCProps = {
-	photo: string;
+	photo?: string;
 	date: string;
 	cardTitle: string;
 	cardDescription: string;
-	media: string;
-	medium: string;
+	media?: string;
+	medium?: string;
 };
 
-const CardHorizontal = ({
+const CardHorizontalCC = ({
 	photo,
 	date,
 	cardTitle,
@@ -46,14 +47,4 @@ const CardHorizontal = ({
 	</Card.Root>
 );
 
-export default CardHorizontal;
-
-// {/* <CardHorizontal
-// photo="https://pbs.twimg.com/profile_images/1441069207593095175/Yzn8Q2Sn_400x400.jpg"
-// date="22/11/2024"
-// cardTitle="The substance » : d’injonctions en injections,..."
-// cardDescription="Le film de Coralie Fargeat, dans ses outrances parfaitement assumées, s’avère aussi stimulant qu’irritant. Irritant parce que long, répétitif et ..."
-// media="Blast"
-// medium="Article presse"
-
-// /> */}
+export default CardHorizontalCC;
