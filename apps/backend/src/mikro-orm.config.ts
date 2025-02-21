@@ -1,18 +1,47 @@
-import { Options, PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { MikroORM } from '@mikro-orm/postgresql';
+import { User } from './modules/user.entity.js';
 
-const config: Options = {
-	// for simplicity, we use the PostGresql database, as it's available pretty much everywhere
-	driver: PostgreSqlDriver,
-	dbName: 'gazette.db',
-	// folder-based discovery setup, using common filename suffix
-	entities: ['dist/**/*.entity.js'],
-	entitiesTs: ['src/**/*.entity.ts'],
-	// we will use the ts-morph reflection, an alternative to the default reflect-metadata provider
-	// check the documentation for their differences: https://mikro-orm.io/docs/metadata-providers
-	metadataProvider: TsMorphMetadataProvider,
-	// enable debug mode to log SQL queries and discovery information
-	debug: true,
+export const DI = {} as {
+  orm: MikroORM;
+  em: MikroORM['em'];
 };
 
-export default config;
+export default {
+	driver: PostgreSqlDriver,
+	dbName: process.env.DB_NAME || 'gazette_db',
+	host: process.env.DB_HOST,
+	port: parseInt(process.env.DB_PORT || '5432'),
+	user: process.env.DB_USER || 'postgres',
+	password: process.env.DB_PASSWORD,
+	entities: [User],
+	migrations: {
+		path: './src/migrations',
+		disableForeignKeys: false,
+	  },
+	metadataProvider: TsMorphMetadataProvider,
+	debug: true,
+} as Parameters<typeof MikroORM.init>[0];
+
+export async function initializeDatabase() {
+  try {
+    const orm = await MikroORM.init({
+      entities: [User],
+	  dbName: process.env.DB_NAME || 'gazette_db',
+	  host: process.env.DB_HOST,
+	  port: parseInt(process.env.DB_PORT || '5432'),
+	  user: process.env.DB_USER || 'postgres',
+	  password: process.env.DB_PASSWORD,
+      debug: process.env.NODE_ENV !== 'production',
+    });
+
+    DI.orm = orm;
+    DI.em = orm.em;
+
+    return orm;
+  } catch (error) {
+    console.error('Error connecting to database:', error);
+    throw error;
+  }
+}
