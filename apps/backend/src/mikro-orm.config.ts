@@ -1,24 +1,23 @@
-import { Options, PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { MikroORM } from '@mikro-orm/core';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import dotenv from 'dotenv';
 
-const config: Options = {
-	// for simplicity, we use the PostGresql database, as it's available pretty much everywhere
-	driver: PostgreSqlDriver,
+dotenv.config(); // Charge les variables d'environnement
 
-	dbName: process.env.DB_NAME || 'gazette_db',
-	host: process.env.DB_HOST,
-	port: parseInt(process.env.DB_PORT || '5432'),
-	user: process.env.DB_USER || 'postgres',
-	password: process.env.DB_PASSWORD?.toString(),
-
-	// folder-based discovery setup, using common filename suffix
-	entities: ['dist/**/*.entity.js'],
-	entitiesTs: ['src/**/*.entity.ts'],
-	// we will use the ts-morph reflection, an alternative to the default reflect-metadata provider
-	// check the documentation for their differences: https://mikro-orm.io/docs/metadata-providers
-	metadataProvider: TsMorphMetadataProvider,
-	// enable debug mode to log SQL queries and discovery information
-	debug: true,
-};
+const config = {
+  entities: ['./dist/entities'], // Chemin vers vos entités
+  entitiesTs: ['./src/entities'], // Pour le développement avec TypeScript
+  dbName: process.env.DB_NAME,
+  driver: PostgreSqlDriver,
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT), // Convertir en nombre
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  debug: true, // Activez le mode debug si nécessaire
+  migrations: {
+    path: './migrations', // Dossier des migrations
+    glob: '!(*.d).{js,ts}',
+  },
+} as Parameters<typeof MikroORM.init>[0];
 
 export default config;
