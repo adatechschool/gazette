@@ -1,18 +1,22 @@
-import { Options, PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { config } from 'dotenv';
 
-const config: Options = {
-	// for simplicity, we use the PostGresql database, as it's available pretty much everywhere
-	driver: PostgreSqlDriver,
-	dbName: 'gazette.db',
-	// folder-based discovery setup, using common filename suffix
-	entities: ['dist/**/*.entity.js'],
-	entitiesTs: ['src/**/*.entity.ts'],
-	// we will use the ts-morph reflection, an alternative to the default reflect-metadata provider
-	// check the documentation for their differences: https://mikro-orm.io/docs/metadata-providers
-	metadataProvider: TsMorphMetadataProvider,
-	// enable debug mode to log SQL queries and discovery information
-	debug: true,
+config();
+
+const ormConfig = {
+  driver: PostgreSqlDriver,
+  entities: ['./dist/entities'],
+  entitiesTs: ['./src/entities'],
+  dbName: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT), // Convertir en nombre
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  debug: true,
+  migrations: {
+    path: './migrations',
+    pathTs: './src/migrations',
+  },
 };
 
-export default config;
+export default ormConfig;
