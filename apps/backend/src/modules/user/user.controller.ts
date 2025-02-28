@@ -1,15 +1,16 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { UsersService } from './user.service';
+import { User } from '../../../../../packages/types/user.type';
 
 @Controller('users')
-export class UserController {
+export class UsersController {
+  constructor(private usersService: UsersService) {}
   @Post()
-  create(): string {
-      return 'This action adds a new cat';
-    }
-
-    @Get()
-    findAll(): string {
-      return 'This action returns all cats';
-    }
-
+  async create(@Body() createUserDto: User) {
+    this.usersService.create(createUserDto);
+  }
+  @Get()
+  async findAll(): Promise<User[]> {
+    return this.usersService.findAll();
+  }
 }
