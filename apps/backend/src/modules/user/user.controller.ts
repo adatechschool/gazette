@@ -1,5 +1,6 @@
 import { Controller, Post } from '@nestjs/common';
 import { UsersService } from './user.service';
+
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -8,8 +9,4 @@ export class UsersController {
     const newUser = await this.usersService.create();
     return newUser;
   }
-  // @Get()
-  // async findAll(): Promise<User[]> {
-  //   return this.usersService.findAll();
-  // }
 }
