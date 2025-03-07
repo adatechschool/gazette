@@ -1,7 +1,7 @@
-import { EntityManager } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+// import { EntityManager } from '@mikro-orm/postgresql';
+// import { Injectable } from '@nestjs/common';
 
-@Injectable()
-export class ContentService {
-  constructor(private readonly em: EntityManager) {}
-}
+// @Injectable()
+// export class ContentService {
+//   constructor(private readonly em: EntityManager) {}
+// }
