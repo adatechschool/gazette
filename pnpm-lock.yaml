@@ -147,6 +147,9 @@ importers:
       i18next:
         specifier: ^24.1.0
         version: 24.2.2(typescript@5.5.4)
+      ky:
+        specifier: ^1.7.5
+        version: 1.7.5
       lucide-react:
         specifier: ^0.468.0
         version: 0.468.0(react@19.0.0)
@@ -3568,6 +3571,10 @@ packages:
         optional: true
       tedious:
         optional: true
+
+  ky@1.7.5:
+    resolution: {integrity: sha512-HzhziW6sc5m0pwi5M196+7cEBtbt0lCYi67wNsiwMUmz833wloE0gbzJPWKs1gliFKQb34huItDQX97LyOdPdA==}
+    engines: {node: '>=18'}
 
   leven@3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
@@ -8967,6 +8974,8 @@ snapshots:
       pg: 8.13.3
     transitivePeerDependencies:
       - supports-color
+
+  ky@1.7.5: {}
 
   leven@3.1.0: {}
 

@@ -1,9 +1,6 @@
-export interface User {
+export interface CreateUserDto {
 	pseudo: string;
-
 	email: string;
-
 	password: string;
-
-	createdAt: Date;
+	createdAt?: Date;
 }
