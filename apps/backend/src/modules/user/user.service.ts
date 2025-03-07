@@ -15,4 +15,15 @@ export class UsersService {
     // Retourner l'utilisateur créé
     return user;
   }
+  async getAll(): Promise<User[]> {
+    const users = await this.em.findAll(User);
+    return users.map((user) => ({
+      pseudo: user.pseudo,
+      email: user.email,
+      password: user.password,
+      id: user.id,
+      createdAt: user.createdAt,
+      lastConnection: user.lastConnection,
+    }));
+  }
 }

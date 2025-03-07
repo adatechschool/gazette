@@ -6,7 +6,7 @@ import HeaderDesktopCC from '@/components/custom/HeaderDesktopCC';
 import { useTranslation } from 'react-i18next';
 import Navbar from '@/components/custom/NavbarCC';
 import TestRSSS from '@/components/custom/TestRSS';
-import { createUser } from '@/services/api';
+import { createUser, getAllUsers } from '@/services/api';
 
 export const Route = createLazyFileRoute('/explore')({
 	component: RouteComponent,
@@ -22,6 +22,9 @@ function RouteComponent() {
 	const newUser = createUser();
 	console.log('new user:', newUser);
 
+	const users = getAllUsers();
+	console.log('users', users);
+
 	return (
 		<LayoutCC>
 			{isMobile ? (
@@ -33,6 +36,7 @@ function RouteComponent() {
 				<div>
 					<HeaderDesktopCC text={t('explore')} />
 					{/* <TestRSSS /> */}
+					<p>{}</p>
 				</div>
 			)}
 		</LayoutCC>
