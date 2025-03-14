@@ -14,7 +14,7 @@ export const Route = createLazyFileRoute('/signin')({
 function RouteComponent() {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
-	});	
+	});
 	const isMobile = useBreakpointValue({ base: true, lg: false });
 
 	return (
@@ -36,11 +36,15 @@ function RouteComponent() {
 			) : (
 				<Flex>
 					<GazetteIlluCC />
-					<Flex flexDirection="column" alignItems="center" justifyContent="center" width="50vw">
-
+					<Flex
+						flexDirection="column"
+						alignItems="center"
+						justifyContent="center"
+						width="50vw"
+					>
 						<FormTitleCC text={t('signIn')} fontColor="color.chaletGreen" />
 						<FormSignUpCC />
-					</Flex>				
+					</Flex>
 				</Flex>
 			)}
 		</LayoutCC>

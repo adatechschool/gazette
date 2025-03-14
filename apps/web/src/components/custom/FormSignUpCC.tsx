@@ -5,13 +5,38 @@ import { Field } from '../ui/field';
 import { Toaster, toaster } from '@/components/ui/toaster';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createUser } from '@/services/api';
 
-type FormValues = {
-	pseudo: string;
-	email: string;
-	password: string;
-	passwordConfirmation: string;
-};
+const passwordValidation = new RegExp(
+	/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*()-]).{8,}$/,
+);
+
+const CreateUserSchema = z
+	.object({
+		pseudo: z.string().min(2, { message: 'must be at least 2 characters' }),
+		email: z.string().email(),
+		password: z
+			.string()
+			.min(8, { message: 'must contains at least 8 characters' })
+			.regex(passwordValidation),
+		confirmPassword: z
+			.string()
+			.min(8, { message: 'must contains at least 8 characters' })
+			.regex(passwordValidation),
+	})
+	.refine(
+		(values) => {
+			return values.password === values.confirmPassword;
+		},
+		{
+			message: 'Passwords must match!',
+			path: ['confirmPassword'],
+		},
+	);
+
+export type CreateUser = z.infer<typeof CreateUserSchema>;
 
 const FormSignUpCC = () => {
 	const { t } = useTranslation('common', {
@@ -21,13 +46,27 @@ const FormSignUpCC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<FormValues>();
+	} = useForm<CreateUser>({
+		resolver: zodResolver(CreateUserSchema),
+	});
 
-	const onSubmit = handleSubmit((data) => console.log(data));
+	const onSubmit = async (data: {
+		pseudo: string;
+		email: string;
+		password: string;
+		confirmPassword: string;
+	}) => {
+		try {
+			const response = await createUser(data);
+			console.log('user created', response);
+		} catch (error) {
+			console.error();
+		}
+	};
 
 	return (
 		<Flex>
-			<form onSubmit={onSubmit}>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<Stack maxWidth="-webkit-fit-content" paddingTop={6}>
 					<Text color="fg.error" fontSize="sm" alignSelf="flex-end">
 						* Champs obligatoires
@@ -35,7 +74,6 @@ const FormSignUpCC = () => {
 
 					<VStack gap="4">
 						<Field
-							required
 							label={t('pseudo')}
 							invalid={!!errors.pseudo}
 							errorText={errors.pseudo?.message}
@@ -48,7 +86,6 @@ const FormSignUpCC = () => {
 							/>
 						</Field>
 						<Field
-							required
 							label={t('mail')}
 							invalid={!!errors.email}
 							errorText={errors.email?.message}
@@ -62,7 +99,6 @@ const FormSignUpCC = () => {
 						</Field>
 
 						<Field
-							required
 							label={t('password')}
 							invalid={!!errors.password}
 							errorText={errors.password?.message}
@@ -76,16 +112,15 @@ const FormSignUpCC = () => {
 						</Field>
 
 						<Field
-							required
 							label={t('confirmPassword')}
-							invalid={!!errors.passwordConfirmation}
-							errorText={errors.passwordConfirmation?.message}
+							invalid={!!errors.confirmPassword}
+							errorText={errors.confirmPassword?.message}
 						>
 							<Input
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('passwordConfirmation', {
+								{...register('confirmPassword', {
 									required: t('requiredField'),
 								})}
 							/>
