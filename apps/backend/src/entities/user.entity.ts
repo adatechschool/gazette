@@ -1,5 +1,5 @@
 import { Entity, Property } from '@mikro-orm/core';
-import { PrimaryKeyUuid } from 'src/utils/PrimaryKeyUuid.decorator';
+import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
 
 @Entity()
 export class User {
