@@ -1,25 +1,26 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Property } from '@mikro-orm/core';
+import { PrimaryKeyUuid } from 'src/utils/PrimaryKeyUuid.decorator';
 
 @Entity()
 export class User {
-	@PrimaryKey()
-	id!: number;
+  @PrimaryKeyUuid()
+  id: string;
 
-	@Property()
-	pseudo!: string;
+  @Property()
+  pseudo!: string;
 
-	@Property()
-	email!: string;
+  @Property()
+  email!: string;
 
-	@Property()
-	password!: string;
+  @Property()
+  password!: string;
 
-	@Property()
-	createdAt = new Date();
+  @Property()
+  createdAt = new Date();
 
-	@Property({ onUpdate: () => new Date() })
-	lastConnection = new Date();
+  @Property({ onUpdate: () => new Date() })
+  lastConnection = new Date();
 
-	// @OneToMany(() => Media, media => media.id)
-	// mediaId!: number[]
+  // @OneToMany(() => Media, media => media.id)
+  // mediaId!: number[]
 }
