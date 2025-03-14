@@ -1,32 +1,33 @@
-import { Entity, Enum, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { Media } from './media.entity.js';
+import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core';
+import { Media } from './media.entity';
+import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
 
 @Entity()
 export class Content {
-  @PrimaryKey()
-	id!: number;
+  @PrimaryKeyUuid()
+  id!: number;
 
-	@Property()
-	title!: string;
+  @Property()
+  title!: string;
 
-	@Property()
-	date = new Date();
+  @Property()
+  date = new Date();
 
-	@Property({ nullable: true })
-	description!: string;
+  @Property({ nullable: true })
+  description!: string;
 
-	@Enum(() => ContentType)
-	type!: ContentType;
+  @Enum(() => ContentType)
+  type!: ContentType;
 
-	@ManyToOne(() => Media)
-	mediaId!: Media;
+  @ManyToOne(() => Media)
+  mediaId!: Media;
 
   @Property()
   createdAt = new Date();
 }
 
 export enum ContentType {
-	Article = 'article',
-	Video = 'video',
-	Podcast = 'podcast',
+  Article = 'article',
+  Video = 'video',
+  Podcast = 'podcast',
 }

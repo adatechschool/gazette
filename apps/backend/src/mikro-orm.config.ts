@@ -14,7 +14,7 @@ const ormConfig = {
   password: process.env.DB_PASSWORD,
   debug: true,
   migrations: {
-    path: './migrations',
+    path: './dist/migrations',
     pathTs: './src/migrations',
   },
 };
