@@ -4,7 +4,7 @@ import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
 @Entity()
 export class Media {
   @PrimaryKeyUuid()
-  id!: number;
+  id!: string;
 
   @Property()
   name!: string;

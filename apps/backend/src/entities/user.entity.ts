@@ -4,7 +4,7 @@ import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
 @Entity()
 export class User {
   @PrimaryKeyUuid()
-  id: string;
+  id!: string;
 
   @Property()
   pseudo!: string;

@@ -5,7 +5,7 @@ import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
 @Entity()
 export class Content {
   @PrimaryKeyUuid()
-  id!: number;
+  id!: string;
 
   @Property()
   title!: string;
