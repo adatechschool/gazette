@@ -8,12 +8,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "unsigned": false,
-          "autoincrement": true,
-          "primary": true,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "default": "gen_random_uuid()",
+          "mappedType": "uuid"
         },
         "name": {
           "name": "name",
@@ -91,12 +92,13 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "unsigned": false,
-          "autoincrement": true,
-          "primary": true,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "default": "gen_random_uuid()",
+          "mappedType": "uuid"
         },
         "title": {
           "name": "title",
@@ -144,12 +146,12 @@
         },
         "media_id_id": {
           "name": "media_id_id",
-          "type": "int",
+          "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "uuid"
         },
         "created_at": {
           "name": "created_at",

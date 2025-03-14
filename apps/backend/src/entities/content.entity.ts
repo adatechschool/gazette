@@ -1,9 +1,10 @@
-import { Entity, Enum, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core';
 import { Media } from './media.entity';
+import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
 
 @Entity()
 export class Content {
-  @PrimaryKey()
+  @PrimaryKeyUuid()
   id!: number;
 
   @Property()
