@@ -9,35 +9,7 @@ import { Link } from '@tanstack/react-router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createUser } from '@/services/api';
-
-const passwordValidation = new RegExp(
-	/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*()-]).{8,}$/,
-);
-
-const CreateUserSchema = z
-	.object({
-		pseudo: z.string().min(2, { message: 'must be at least 2 characters' }),
-		email: z.string().email(),
-		password: z
-			.string()
-			.min(8, { message: 'must contains at least 8 characters' })
-			.regex(passwordValidation),
-		confirmPassword: z
-			.string()
-			.min(8, { message: 'must contains at least 8 characters' })
-			.regex(passwordValidation),
-	})
-	.refine(
-		(values) => {
-			return values.password === values.confirmPassword;
-		},
-		{
-			message: 'Passwords must match!',
-			path: ['confirmPassword'],
-		},
-	);
-
-export type CreateUser = z.infer<typeof CreateUserSchema>;
+import { CreateUserDto } from '../../../../../shared-packages/src/types/user.dtos';
 
 const FormSignUpCC = () => {
 	const { t } = useTranslation('common', {
@@ -47,8 +19,8 @@ const FormSignUpCC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<CreateUser>({
-		resolver: zodResolver(CreateUserSchema),
+	} = useForm<CreateUserDto>({
+		resolver: zodResolver(),
 	});
 
 	const onSubmit = async (data: {
