@@ -1,4 +1,4 @@
-import { List } from '@chakra-ui/react';
+import { Link, List } from '@chakra-ui/react';
 import { LogOut, Trash, CircleHelp, FileBadge } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,19 +13,28 @@ const SettingsMenuCC = () => {
 				<List.Indicator asChild>
 					<LogOut />
 				</List.Indicator>
+				<Link 
+					href="/">
 				{t('logout')}
+				</Link>
 			</List.Item>
 			<List.Item>
 				<List.Indicator asChild>
 					<Trash />
 				</List.Indicator>
+				<Link
+					href="/">
 				{t('delete')}
+				</Link>
 			</List.Item>
 			<List.Item>
 				<List.Indicator asChild>
 					<CircleHelp />
 				</List.Indicator>
+				<Link
+					href="/about">
 				{t('about')}
+				</Link>
 			</List.Item>
 			<List.Item>
 				<List.Indicator asChild>
