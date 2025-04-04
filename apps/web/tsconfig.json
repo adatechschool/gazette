@@ -14,7 +14,9 @@
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "@gazette/shared-packages/schemas": ["../../shared-packages/src/schemas"],
+      "@gazette/shared-packages/types": ["../../shared-packages/src/types"]
     }
   },
   "include": [
