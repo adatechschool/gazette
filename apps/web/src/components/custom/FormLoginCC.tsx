@@ -6,6 +6,7 @@ import { Toaster } from '../ui/toaster';
 import { Link } from '@tanstack/react-router';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { PasswordInput } from '../ui/password-input';
 
 type FormValues = {
 	email: string;
@@ -39,6 +40,7 @@ const FormLoginCC = () => {
 							errorText={errors.email?.message}
 						>
 							<Input
+								minW="md"
 								rounded="md"
 								shadow="md"
 								variant="flushed"
@@ -54,7 +56,8 @@ const FormLoginCC = () => {
 							invalid={!!errors.password}
 							errorText={errors.password?.message}
 						>
-							<Input
+							<PasswordInput
+								minW="md"
 								rounded="md"
 								shadow="md"
 								variant="flushed"
