@@ -2,6 +2,7 @@ import { Flex, Input, Stack, Text, VStack } from '@chakra-ui/react';
 import ButtonCC from './ButtonCC';
 import { useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Toaster, toaster } from '@/components/ui/toaster';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
@@ -59,6 +60,10 @@ const FormSignUpCC = () => {
 		try {
 			const response = await createUser(data);
 			console.log('user created', response);
+			toaster.create({
+				description: t('confirmCreation'),
+				type: 'success',
+			});
 		} catch (error) {
 			console.error();
 		}
@@ -103,7 +108,8 @@ const FormSignUpCC = () => {
 							invalid={!!errors.password}
 							errorText={errors.password?.message}
 						>
-							<Input
+							<PasswordInput
+								minW="md"
 								rounded="md"
 								shadow="md"
 								variant="flushed"
@@ -116,7 +122,8 @@ const FormSignUpCC = () => {
 							invalid={!!errors.confirmPassword}
 							errorText={errors.confirmPassword?.message}
 						>
-							<Input
+							<PasswordInput
+								minW="md"
 								rounded="md"
 								shadow="md"
 								variant="flushed"
@@ -143,12 +150,6 @@ const FormSignUpCC = () => {
 							fontColor="color.white"
 							backgroundColor="color.chaletGreen"
 							text={t('signIn')}
-							onClick={() =>
-								toaster.create({
-									description: t('confirmCreation'),
-									type: 'success',
-								})
-							}
 						></ButtonCC>
 						<Text>
 							{t('alreadyCreated') + ' '}

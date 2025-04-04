@@ -1,15 +1,34 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/entities/user.entity';
+import * as bcrypt from 'bcryptjs';
+
+export async function hashPassword(password: string): Promise<string> {
+  const salt = await bcrypt.genSalt();
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
+}
+
+export async function verifyPassword(
+  inputPassword: string,
+  hashedPassword: string,
+): Promise<boolean> {
+  return await bcrypt.compare(inputPassword, hashedPassword);
+}
 
 @Injectable()
 export class UsersService {
   constructor(private readonly em: EntityManager) {}
-  async create(pseudo: string, email: string, password: string): Promise<User> {
+  async create(userData: {
+    pseudo: string;
+    email: string;
+    password: string;
+  }): Promise<User> {
+    const hashedPassword = await hashPassword(userData.password);
     const user = new User();
-    user.pseudo = pseudo;
-    user.email = email;
-    user.password = password;
+    user.pseudo = userData.pseudo;
+    user.email = userData.email;
+    user.password = hashedPassword;
     await this.em.persistAndFlush(user);
     return user;
   }

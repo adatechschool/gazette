@@ -8,8 +8,8 @@ export class UsersController {
   async create(
     @Body() body: { pseudo: string; email: string; password: string },
   ) {
-    const { pseudo, email, password } = body;
-    const newUser = await this.usersService.create(pseudo, email, password);
+    const user = body;
+    const newUser = await this.usersService.create(user);
     return newUser;
   }
   @Get()
