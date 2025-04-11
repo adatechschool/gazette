@@ -1,15 +1,10 @@
-import { CreateUser } from '@/components/custom/FormSignUpCC';
 import { api } from '../../config';
-import { CreateUserDto } from './dtos';
+import { CreateUserDto } from '../../../../shared-packages/src/types/user.dtos';
 
-export async function createUser(user: CreateUser): Promise<CreateUserDto> {
+export async function createUser(user: CreateUserDto): Promise<CreateUserDto> {
 	return await api.post('users', { json: user }).json();
 }
 
 export async function getAllUsers(): Promise<CreateUserDto> {
 	return await api.get('users').json();
 }
-
-// export async function createPlayer(name: string): Promise<PlayerDto> {
-// 	return await api.post('players', { json: { name } }).json()
-//   }

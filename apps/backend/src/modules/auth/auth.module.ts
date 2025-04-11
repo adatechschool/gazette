@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { jwtConstants } from './constants';
 import { APP_GUARD } from '@nestjs/core/constants';
+import { UsersService } from '../user/user.service';
 
 @Module({
   imports: [
@@ -15,32 +16,8 @@ import { APP_GUARD } from '@nestjs/core/constants';
       signOptions: { expiresIn: '120s' },
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, UsersService],
   controllers: [AuthController],
   exports: [AuthService],
 })
 export class AuthModule {}
-
-
-// import { Module } from '@nestjs/common';
-// import { AuthService } from './auth.service';
-// import { JwtModule } from '@nestjs/jwt';
-// import { AuthController } from './auth.controller';
-// import { jwtConstants } from './constants';
-// import { UsersModule } from '../user/user.module';
-// import { UsersService } from '../user/user.service';
-
-// @Module({
-//   imports: [
-//     UsersModule,
-//     JwtModule.register({
-//       global: true,
-//       secret: jwtConstants.secret,
-//       signOptions: { expiresIn: '60s' },
-//     }),
-//   ],
-//   providers: [AuthService, UsersService],
-//   controllers: [AuthController],
-//   exports: [AuthService],
-// })
-// export class AuthModule {}
