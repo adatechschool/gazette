@@ -8,4 +8,9 @@ export interface UserDto {
 	createdAt?: Date;
 }
 
+export interface SignInDto {
+	pseudo: string;
+	password: string;
+}
+
 export type CreateUserDto = z.infer<typeof CreateUserSchema>;

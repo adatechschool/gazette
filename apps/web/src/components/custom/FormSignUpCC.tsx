@@ -5,13 +5,14 @@ import { Field } from '../ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
 import { Toaster, toaster } from '@/components/ui/toaster';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createUser } from '@/services/api';
 import { CreateUserDto } from '../../../../../shared-packages/src/types/user.dtos';
 import { CreateUserSchema } from '../../../../../shared-packages/src/types/user.zods';
 
 const FormSignUpCC = () => {
+	const navigate = useNavigate();
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
 	});
@@ -35,7 +36,11 @@ const FormSignUpCC = () => {
 			toaster.create({
 				description: t('confirmCreation'),
 				type: 'success',
+				duration: 6000,
 			});
+			//navigate({
+			//	to: '/explore',
+			//});
 		} catch (error) {
 			console.error();
 		}

@@ -16,6 +16,8 @@ export async function verifyPassword(
   return await bcrypt.compare(inputPassword, hashedPassword);
 }
 
+export type NewUser = any;
+
 @Injectable()
 export class UsersService {
   constructor(private readonly em: EntityManager) {}
@@ -42,5 +44,11 @@ export class UsersService {
       createdAt: user.createdAt,
       lastConnection: user.lastConnection,
     }));
+  }
+
+  async findOne(pseudo: string): Promise<User | undefined> {
+    const user = await this.em.findOne(User, { pseudo });
+    console.log(user);
+    return user ?? undefined;
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UsersService } from './user.service';
 
 @Controller('users')
@@ -12,9 +12,14 @@ export class UsersController {
     const newUser = await this.usersService.create(user);
     return newUser;
   }
-  @Get()
+  @Get('users')
   async getAll() {
     const users = await this.usersService.getAll();
     return users;
+  }
+  @Get('user')
+  async findOne(@Query('pseudo') pseudo: string) {
+    const user = await this.usersService.findOne(pseudo);
+    return user;
   }
 }
