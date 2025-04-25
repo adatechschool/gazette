@@ -13,4 +13,9 @@ export interface SignInDto {
 	password: string;
 }
 
+export interface LoginDto {
+	email: string;
+	password: string;
+}
+
 export type CreateUserDto = z.infer<typeof CreateUserSchema>;

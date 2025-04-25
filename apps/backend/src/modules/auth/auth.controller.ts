@@ -23,7 +23,7 @@ export class AuthController {
   ) {}
 
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('signin')
   async signIn(
     @Body() signInDto: Record<string, any>,
     @Res({ passthrough: true }) res: Response,
@@ -49,4 +49,9 @@ export class AuthController {
     if (!token) throw new UnauthorizedException('No token provided');
     return { message: 'Profile OK', token };
   }
+
+  @Post('login') 
+  async login(@Body () loginDto: LoginDto )
 }
+
+
