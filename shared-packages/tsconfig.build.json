@@ -1,5 +1,18 @@
 {
-  "extends": "./tsconfig.json",
-  
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+  "extends": "../tsconfig.json",  // Utilise la config globale du projet
+  "compilerOptions": {
+    "outDir": "../shared-packages/dist",  // Le répertoire de sortie pour les fichiers compilés
+    "declaration": true,                 // Générer les fichiers .d.ts (déclaration)
+    "declarationMap": true,              // Générer des cartes de déclaration
+    "emitDeclarationOnly": false          // Ne compiler que les déclarations
+  },
+  "include": [
+    "src/**/*",
+    "src/index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "**/*spec.ts"
+  ]
 }

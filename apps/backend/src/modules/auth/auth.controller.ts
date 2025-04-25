@@ -14,6 +14,7 @@ import { Request, Response } from 'express';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { UsersService } from '../user/user.service';
+import { LoginDto } from '../../../../../shared-packages/src/types/user.dtos';
 
 @Controller('auth')
 export class AuthController {
@@ -45,13 +46,26 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   async getProfile(@Req() req: Request) {
-    const token = req.cookies['token'];
+    const token = await req.cookies['token'];
     if (!token) throw new UnauthorizedException('No token provided');
     return { message: 'Profile OK', token };
   }
 
-  @Post('login') 
-  async login(@Body () loginDto: LoginDto )
+  @Post('login')
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { email, password } = loginDto;
+    const token = await this.authService.login(email, password);
+
+    res.cookie('token', token.access_token, {
+      httpOnly: true,
+      secure: false, // true en prod
+      sameSite: 'strict',
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    return { message: 'Connexion réussie' };
+  }
 }
-
-

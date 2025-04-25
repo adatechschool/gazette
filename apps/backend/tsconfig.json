@@ -8,7 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "ESNext",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "./dist",  // Assure-toi que la sortie est bien dans dist
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -18,9 +18,7 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
+      "@/*": ["src/*"],
       "@gazette/shared-packages/schemas": ["../../shared-packages/src/schemas"],
       "@gazette/shared-packages/types": ["../../shared-packages/src/types"]
     }

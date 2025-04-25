@@ -1,4 +1,5 @@
 {
+  "name": "gazette",
   "private": true,
   "scripts": {
     "build": "turbo build",
@@ -13,6 +14,6 @@
     "react-dom": "^18.3.1",
     "turbo": "^2.4.4"
   },
-  "packageManager": "pnpm@8.15.6",
-  "name": "gazette"
+  "packageManager": "pnpm@8.15.6"
+  
 }
