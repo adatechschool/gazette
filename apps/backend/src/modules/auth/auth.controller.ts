@@ -14,7 +14,7 @@ import { Request, Response } from 'express';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { UsersService } from '../user/user.service';
-import { LoginDto } from '../../../../../shared-packages/src/types/user.dtos';
+import { LoginDto } from '@gazette/shared-packages';
 
 @Controller('auth')
 export class AuthController {

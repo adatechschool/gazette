@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "moduleResolution": "node",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -8,8 +9,9 @@
     "allowSyntheticDefaultImports": true,
     "target": "ESNext",
     "sourceMap": true,
-    "outDir": "./dist",  // Assure-toi que la sortie est bien dans dist
+    "outDir": "./dist",  
     "baseUrl": "./",
+    "rootDir": "./src", 
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -19,8 +21,10 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["src/*"],
-      "@gazette/shared-packages/schemas": ["../../shared-packages/src/schemas"],
-      "@gazette/shared-packages/types": ["../../shared-packages/src/types"]
+       "@gazette/shared-packages/schemas": ["../../shared-packages/src/schemas"],
+       "@gazette/shared-packages/types": ["../../shared-packages/src/types"]
     }
-  }
+  },
+  "include": ["src/**/*"],  // Ajoutez cette ligne pour spécifier ce qui doit être compilé
+  "exclude": ["node_modules", "dist"]  // Ajoutez cette ligne pour exclure ce qui ne doit pas être compilé
 }
