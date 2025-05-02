@@ -20,9 +20,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:migration:create": "NODE_OPTIONS='--loader ts-node/esm' mikro-orm migration:create --config src/mikro-orm.config.ts",
-    "db:migration:up": "NODE_OPTIONS='--loader ts-node/esm' mikro-orm migration:up --config src/mikro-orm.config.ts",
-    "db:migration:down": "NODE_OPTIONS='--loader ts-node/esm' mikro-orm migration:down --config src/mikro-orm.config.ts"
+    "db:migration:create": "pnpm build && mikro-orm migration:create --config dist/mikro-orm.config.js",
+    "db:migration:up": "npx mikro-orm migration:up",
+    "db:migration:down": "npx mikro-orm migration:down"
   },
   "dependencies": {
     "@gazette/shared": "link:../../packages/shared",

@@ -1,14 +1,9 @@
 import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import dotenv from 'dotenv';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { Content } from './src/entities/content.entity';
-import { Media } from './src/entities/media.entity';
-import { User } from './src/entities/user.entity';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { Content } from './entities/content.entity.js';
+import { Media } from './entities/media.entity.js';
+import { User } from './entities/user.entity.js';
 
 dotenv.config();
 
@@ -22,7 +17,7 @@ export default {
   password: process.env.DB_PASSWORD,
   debug: true,
   migrations: {
-    path: join(__dirname, 'src', 'migrations'),
+    path: join(process.cwd(), 'src', 'migrations'),
     glob: '!(*.d).{js,ts}',
   },
   discovery: {
