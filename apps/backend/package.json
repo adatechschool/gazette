@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "0.0.1",
+  "type": "module",
   "description": "",
   "author": "",
   "private": true,
@@ -8,20 +9,20 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "dev": "nest start --watch --config nest-cli.json",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "start": "node dist/src/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main.js",
+    "start:prod": "node dist/src/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:migration:create": "npx mikro-orm migration:create",
-    "db:migration:up": "npx mikro-orm migration:up",
-    "db:migration:down": "npx mikro-orm migration:down"
+    "db:migration:create": "NODE_OPTIONS='--loader ts-node/esm' mikro-orm migration:create --config src/mikro-orm.config.ts",
+    "db:migration:up": "NODE_OPTIONS='--loader ts-node/esm' mikro-orm migration:up --config src/mikro-orm.config.ts",
+    "db:migration:down": "NODE_OPTIONS='--loader ts-node/esm' mikro-orm migration:down --config src/mikro-orm.config.ts"
   },
   "dependencies": {
     "@gazette/shared": "link:../../packages/shared",
@@ -62,6 +63,7 @@
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^15.14.0",
     "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
     "prettier": "^3.4.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",

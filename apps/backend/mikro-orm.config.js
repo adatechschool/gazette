@@ -3,9 +3,6 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { Content } from './src/entities/content.entity';
-import { Media } from './src/entities/media.entity';
-import { User } from './src/entities/user.entity';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -14,7 +11,7 @@ dotenv.config();
 
 export default {
   driver: PostgreSqlDriver,
-  entities: [Content, Media, User],
+  entities: ['./src/entities/*.ts'],
   dbName: process.env.DB_NAME,
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
@@ -24,8 +21,5 @@ export default {
   migrations: {
     path: join(__dirname, 'src', 'migrations'),
     glob: '!(*.d).{js,ts}',
-  },
-  discovery: {
-    warnWhenNoEntities: true,
   },
 };
