@@ -38,9 +38,10 @@ RUN apt-get update && apt-get install -y netcat-openbsd
 
 RUN npm install -g pnpm && pnpm install --prod --filter backend...
 
-CMD ["./wait-for.sh", "db:5432", "--", "node", "apps/backend/dist/src/main.js"]
+CMD ["./wait-for.sh", "db:5432", "node", "apps/backend/dist/src/main.js"]
 
 # --- FRONTEND ---
-FROM nginx:alpine AS frontend-runtime
-COPY --from=frontend-build /app/apps/web/dist /usr/share/nginx/html
-EXPOSE 80
+    FROM nginx:alpine AS frontend-runtime
+    COPY --from=frontend-build /app/apps/web/dist /usr/share/nginx/html
+    COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+    EXPOSE 80
