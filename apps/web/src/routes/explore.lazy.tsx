@@ -5,8 +5,9 @@ import HeaderMobileCC from '@/components/custom/HeaderMobileCC';
 import HeaderDesktopCC from '@/components/custom/HeaderDesktopCC';
 import { useTranslation } from 'react-i18next';
 import Navbar from '@/components/custom/NavbarCC';
-import TestRSSS from '@/components/custom/TestRSS';
-import { createUser, getAllUsers } from '@/services/api';
+import { getAllUsers } from '@/services/api';
+import { useEffect, useState } from 'react';
+import { CreateUserDto } from '@gazette/shared';
 
 export const Route = createLazyFileRoute('/explore')({
 	component: RouteComponent,
@@ -18,12 +19,20 @@ function RouteComponent() {
 	});
 
 	const isMobile = useBreakpointValue({ base: true, lg: false });
+	const [users, setUsers] = useState<CreateUserDto[]>([]);
 
-	const newUser = createUser();
-	console.log('new user:', newUser);
+	useEffect(() => {
+		const fetchUsers = async () => {
+			try {
+				const usersData = await getAllUsers();
+				setUsers(usersData);
+			} catch (error) {
+				console.error('Error fetching users:', error);
+			}
+		};
 
-	const users = getAllUsers();
-	console.log('users', users);
+		fetchUsers();
+	}, []);
 
 	return (
 		<LayoutCC>
@@ -35,8 +44,7 @@ function RouteComponent() {
 			) : (
 				<div>
 					<HeaderDesktopCC text={t('explore')} />
-					{/* <TestRSSS /> */}
-					<p>{}</p>
+					<p>{users.length} users found</p>
 				</div>
 			)}
 		</LayoutCC>

@@ -1,12 +1,13 @@
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { config } from 'dotenv';
+import { join } from 'path';
 
 config();
 
 const ormConfig = {
   driver: PostgreSqlDriver,
-  entities: ['./dist/entities'],
-  entitiesTs: ['./src/entities'],
+  entities: [join(__dirname, 'entities', '*.entity.{ts,js}')],
+  entitiesTs: [join(__dirname, 'entities', '*.entity.ts')],
   dbName: process.env.DB_NAME,
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT), // Convertir en nombre
@@ -14,8 +15,8 @@ const ormConfig = {
   password: process.env.DB_PASSWORD,
   debug: true,
   migrations: {
-    path: './dist/migrations',
-    pathTs: './src/migrations',
+    path: join(__dirname, 'migrations'),
+    pathTs: join(__dirname, '..', 'src', 'migrations'),
   },
 };
 

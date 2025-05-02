@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "declaration": true,
@@ -7,24 +8,19 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ESNext",
     "sourceMap": true,
-    "outDir": "./dist",  
-    "baseUrl": "./",
-    "composite": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
     "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@gazette/shared": ["../../packages/shared/src"]
+      "@gazette/shared": ["packages/shared/src"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "references": [
-    { "path": "../../packages/shared" }
-  ]
-}
+  "include": ["**/*.ts", "**/*.tsx"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+} 

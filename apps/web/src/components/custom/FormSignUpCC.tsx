@@ -8,8 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createUser } from '@/services/api';
-import { CreateUserDto } from '../../../../../shared-packages/src/types/user.dtos';
-import { CreateUserSchema } from '../../../../../shared-packages/src/types/user.zods';
+import { CreateUserDto, CreateUserSchema } from '@gazette/shared';
 
 const FormSignUpCC = () => {
 	const { t } = useTranslation('common', {
@@ -23,12 +22,7 @@ const FormSignUpCC = () => {
 		resolver: zodResolver(CreateUserSchema),
 	});
 
-	const onSubmit = async (data: {
-		pseudo: string;
-		email: string;
-		password: string;
-		confirmPassword: string;
-	}) => {
+	const onSubmit = async (data: CreateUserDto) => {
 		try {
 			const response = await createUser(data);
 			console.log('user created', response);
