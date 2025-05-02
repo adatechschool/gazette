@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "0.0.1",
-  "type": "module",
+  "type": "commonjs",
   "description": "",
   "author": "",
   "private": true,
@@ -20,9 +20,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:migration:create": "pnpm build && mikro-orm migration:create --config dist/mikro-orm.config.js",
-    "db:migration:up": "npx mikro-orm migration:up",
-    "db:migration:down": "npx mikro-orm migration:down"
+    "db:migration:create": "ts-node -r tsconfig-paths/register src/mikro-orm.migration.ts migration:create",
+    "db:migration:up": "ts-node -r tsconfig-paths/register src/mikro-orm.migration.ts migration:up",
+    "db:migration:down": "ts-node -r tsconfig-paths/register src/mikro-orm.migration.ts migration:down"
   },
   "dependencies": {
     "@gazette/shared": "link:../../packages/shared",

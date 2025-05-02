@@ -1,9 +1,9 @@
 import { join } from 'path';
 import dotenv from 'dotenv';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { Content } from './entities/content.entity.js';
-import { Media } from './entities/media.entity.js';
-import { User } from './entities/user.entity.js';
+import { Content } from './entities/content.entity';
+import { Media } from './entities/media.entity';
+import { User } from './entities/user.entity';
 
 dotenv.config();
 
