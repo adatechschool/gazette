@@ -13,10 +13,12 @@
 		"logout": "Se déconnecter",
 		"delete": "Supprimer le compte",
 		"confirmDelete": "Votre compte a bien été supprimé",
+		"confirmCreation": "Votre compte a bien été créé",
 		"about": "À propos",
 		"policy": "Politique et confidentialité",
 		"account": "Mon compte",
-		"obligatoryField": "* champs obligatoires"
+		"obligatoryField": "* champs obligatoires",
+		"requiredField": "Champ obligatoire"
 	},
 	"navigateApp": {
 		"explore": "Explorer",

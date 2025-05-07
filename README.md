@@ -1,33 +1,114 @@
-# `Turborepo` Vite starter
+# Gazette Monorepo
 
-This is an official starter Turborepo.
+Ce projet est un monorepo TypeScript comprenant :
+- **Backend** : API NestJS (CommonJS) avec MikroORM et PostgreSQL
+- **Frontend** : Application React (Vite)
+- **Shared** : Code partagé entre le front et le back
 
-## Using this example
+## Prérequis
+- [Node.js 20+](https://nodejs.org/)
+- [pnpm](https://pnpm.io/) (gestionnaire de paquets recommandé)
+- [Docker](https://www.docker.com/) et [Docker Compose](https://docs.docker.com/compose/)
 
-Run the following command:
-
-```sh
-npx create-turbo@latest -e with-vite
+## Clonage du projet
+```bash
+git clone  https://github.com/adatechschool/gazette
+cd gazette
 ```
 
-## What's inside?
+## Installation des dépendances
+```bash
+pnpm install
+```
 
-This Turborepo includes the following packages and apps:
+## Lancer le projet en local (hors Docker)
 
-### Apps and Packages
+### Backend
+```bash
+cd apps/backend
+pnpm build
+pnpm start:dev
+```
 
-- `docs`: a vanilla [vite](https://vitejs.dev) ts app
-- `web`: another vanilla [vite](https://vitejs.dev) ts app
-- `@repo/ui`: a stub component & utility library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: shared `eslint` configurations
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Frontend
+```bash
+cd apps/web
+pnpm dev
+```
 
-Each package and app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Commandes de migration (depuis apps/backend)
+```bash
+# Créer une migration
+pnpm db:migration:create
 
-### Utilities
+# Appliquer les migrations
+pnpm db:migration:up
 
-This Turborepo has some additional tools already setup for you:
+# Revenir en arrière
+pnpm db:migration:down
+```
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+---
+
+## Utilisation avec Docker
+
+### 1. Lancer tous les services (backend, frontend, base de données)
+À la racine du projet :
+```bash
+docker-compose up --build
+```
+- Le backend sera accessible sur [http://localhost:3000](http://localhost:3000)
+- Le frontend sur [http://localhost:5173](http://localhost:5173)
+- La base de données Postgres sur le port 5432
+
+### 2. Arrêter les services
+```bash
+docker-compose down
+```
+
+### 3. Voir les logs d'un service
+```bash
+docker-compose logs backend
+```
+
+### 4. Appliquer les migrations dans le conteneur backend
+Ouvre un shell dans le conteneur backend :
+```bash
+docker-compose exec backend sh
+# Puis dans le shell :
+pnpm db:migration:up
+```
+
+---
+
+## Variables d'environnement
+
+Crée un fichier `.env` dans `apps/backend/` avec :
+```
+DB_NAME=gazette_db
+DB_HOST=db
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=motdepasse
+```
+
+---
+
+## Structure du projet
+```
+apps/
+  backend/    # API NestJS
+  web/        # Frontend React (Vite)
+packages/
+  shared/     # Code partagé
+```
+
+---
+
+## Notes
+- Pour le développement avec hot reload dans Docker, une configuration supplémentaire est nécessaire.
+- Les migrations MikroORM doivent être lancées dans le conteneur backend si tu utilises Docker.
+
+---
+
+**Pour toute question, ouvre une issue ou contacte l'équipe !**

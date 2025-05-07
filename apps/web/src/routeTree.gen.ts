@@ -17,7 +17,7 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const SigninLazyImport = createFileRoute('/signin')()
-const ParametersLazyImport = createFileRoute('/parameters')()
+const SettingsLazyImport = createFileRoute('/settings')()
 const LoginLazyImport = createFileRoute('/login')()
 const HomepageLazyImport = createFileRoute('/homepage')()
 const ExploreLazyImport = createFileRoute('/explore')()
@@ -32,11 +32,11 @@ const SigninLazyRoute = SigninLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/signin.lazy').then((d) => d.Route))
 
-const ParametersLazyRoute = ParametersLazyImport.update({
-  id: '/parameters',
-  path: '/parameters',
+const SettingsLazyRoute = SettingsLazyImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/parameters.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/settings.lazy').then((d) => d.Route))
 
 const LoginLazyRoute = LoginLazyImport.update({
   id: '/login',
@@ -107,11 +107,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginLazyImport
       parentRoute: typeof rootRoute
     }
-    '/parameters': {
-      id: '/parameters'
-      path: '/parameters'
-      fullPath: '/parameters'
-      preLoaderRoute: typeof ParametersLazyImport
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsLazyImport
       parentRoute: typeof rootRoute
     }
     '/signin': {
@@ -132,7 +132,7 @@ export interface FileRoutesByFullPath {
   '/explore': typeof ExploreLazyRoute
   '/homepage': typeof HomepageLazyRoute
   '/login': typeof LoginLazyRoute
-  '/parameters': typeof ParametersLazyRoute
+  '/settings': typeof SettingsLazyRoute
   '/signin': typeof SigninLazyRoute
 }
 
@@ -142,7 +142,7 @@ export interface FileRoutesByTo {
   '/explore': typeof ExploreLazyRoute
   '/homepage': typeof HomepageLazyRoute
   '/login': typeof LoginLazyRoute
-  '/parameters': typeof ParametersLazyRoute
+  '/settings': typeof SettingsLazyRoute
   '/signin': typeof SigninLazyRoute
 }
 
@@ -153,7 +153,7 @@ export interface FileRoutesById {
   '/explore': typeof ExploreLazyRoute
   '/homepage': typeof HomepageLazyRoute
   '/login': typeof LoginLazyRoute
-  '/parameters': typeof ParametersLazyRoute
+  '/settings': typeof SettingsLazyRoute
   '/signin': typeof SigninLazyRoute
 }
 
@@ -165,7 +165,7 @@ export interface FileRouteTypes {
     | '/explore'
     | '/homepage'
     | '/login'
-    | '/parameters'
+    | '/settings'
     | '/signin'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -174,7 +174,7 @@ export interface FileRouteTypes {
     | '/explore'
     | '/homepage'
     | '/login'
-    | '/parameters'
+    | '/settings'
     | '/signin'
   id:
     | '__root__'
@@ -183,7 +183,7 @@ export interface FileRouteTypes {
     | '/explore'
     | '/homepage'
     | '/login'
-    | '/parameters'
+    | '/settings'
     | '/signin'
   fileRoutesById: FileRoutesById
 }
@@ -194,7 +194,7 @@ export interface RootRouteChildren {
   ExploreLazyRoute: typeof ExploreLazyRoute
   HomepageLazyRoute: typeof HomepageLazyRoute
   LoginLazyRoute: typeof LoginLazyRoute
-  ParametersLazyRoute: typeof ParametersLazyRoute
+  SettingsLazyRoute: typeof SettingsLazyRoute
   SigninLazyRoute: typeof SigninLazyRoute
 }
 
@@ -204,7 +204,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExploreLazyRoute: ExploreLazyRoute,
   HomepageLazyRoute: HomepageLazyRoute,
   LoginLazyRoute: LoginLazyRoute,
-  ParametersLazyRoute: ParametersLazyRoute,
+  SettingsLazyRoute: SettingsLazyRoute,
   SigninLazyRoute: SigninLazyRoute,
 }
 
@@ -223,7 +223,7 @@ export const routeTree = rootRoute
         "/explore",
         "/homepage",
         "/login",
-        "/parameters",
+        "/settings",
         "/signin"
       ]
     },
@@ -242,8 +242,8 @@ export const routeTree = rootRoute
     "/login": {
       "filePath": "login.lazy.tsx"
     },
-    "/parameters": {
-      "filePath": "parameters.lazy.tsx"
+    "/settings": {
+      "filePath": "settings.lazy.tsx"
     },
     "/signin": {
       "filePath": "signin.lazy.tsx"

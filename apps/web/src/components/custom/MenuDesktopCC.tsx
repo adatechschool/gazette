@@ -108,7 +108,7 @@ const MenuDesktopCC = () => {
 						outline: 'none',
 					}}
 				>
-					<Link to="/parameters">{t('account')}</Link>
+					<Link to="/settings">{t('account')}</Link>
 				</MenuItem>
 			</MenuContent>
 		</MenuRoot>
