@@ -1,22 +1,26 @@
+import { join } from 'path';
+import dotenv from 'dotenv';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { config } from 'dotenv';
+import { Content } from './entities/content.entity';
+import { Media } from './entities/media.entity';
+import { User } from './entities/user.entity';
 
-config();
+dotenv.config();
 
-const ormConfig = {
+export default {
   driver: PostgreSqlDriver,
-  entities: ['./dist/entities'],
-  entitiesTs: ['./src/entities'],
+  entities: [Content, Media, User],
   dbName: process.env.DB_NAME,
   host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT), // Convertir en nombre
+  port: Number(process.env.DB_PORT),
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   debug: true,
   migrations: {
-    path: './dist/migrations',
-    pathTs: './src/migrations',
+    path: join(process.cwd(), 'src', 'migrations'),
+    glob: '!(*.d).{js,ts}',
+  },
+  discovery: {
+    warnWhenNoEntities: true,
   },
 };
-
-export default ormConfig;

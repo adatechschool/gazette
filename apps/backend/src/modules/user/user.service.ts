@@ -46,9 +46,9 @@ export class UsersService {
     }));
   }
 
-  async findOne(pseudo: string): Promise<User | undefined> {
-    const user = await this.em.findOne(User, { pseudo });
+  async findOne(pseudo: string): Promise<User> {
+    const user = await this.em.findOneOrFail(User, { pseudo });
     console.log(user);
-    return user ?? undefined;
+    return user;
   }
 }
