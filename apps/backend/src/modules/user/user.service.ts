@@ -1,5 +1,5 @@
 import { EntityManager } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 
@@ -50,5 +50,13 @@ export class UsersService {
     const user = await this.em.findOneOrFail(User, { pseudo });
     console.log(user);
     return user;
+  }
+
+  async delete(id: string): Promise<void> {
+    const user = await this.em.findOneOrFail(User, { id });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    await this.em.removeAndFlush(user);
   }
 }

@@ -1,7 +1,7 @@
 import HeaderDesktopCC from '@/components/custom/HeaderDesktopCC';
 import HeaderMobileCC from '@/components/custom/HeaderMobileCC';
 import LayoutCC from '@/components/custom/LayoutCC';
-import Navbar from '@/components/custom/NavbarCC';
+import Navbar from '@/components/custom/Navbar';
 import { useBreakpointValue } from '@chakra-ui/react';
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
