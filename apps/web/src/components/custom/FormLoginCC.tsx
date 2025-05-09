@@ -9,10 +9,10 @@ import { useTranslation } from 'react-i18next';
 import { PasswordInput } from '../ui/password-input';
 import { login } from '@/services/api';
 
-type FormValues = {
-	email: string;
-	password: string;
-};
+// type FormValues = {
+// 	email: string;
+// 	password: string;
+// };
 
 const FormLoginCC = () => {
 	const navigate = useNavigate();

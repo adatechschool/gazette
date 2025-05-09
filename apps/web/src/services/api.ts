@@ -13,10 +13,16 @@ export async function login(
 	email: string,
 	password: string,
 ): Promise<{ message: string }> {
-	return await api
-		.post('auth/login', {
-			json: { email, password },
-			credentials: 'include',
-		})
-		.json();
+	try {
+		return await api
+			.post('auth/login', {
+				json: { email, password },
+			})
+			.json();
+	} catch (error: any) {
+		const message =
+			(await error.response?.json().then((r) => r.message)) ||
+			'Erreur inconnue';
+		throw new Error(message);
+	}
 }

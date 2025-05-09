@@ -1,14 +1,18 @@
 import { EntityManager } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'; // Décorateur pour les services injectables dans Nest
 import { User } from 'src/entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 
+//encapsuler les opérations des users
+
+//crypté le password
 export async function hashPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt();
   const hash = await bcrypt.hash(password, salt);
   return hash;
 }
 
+//comparer le password avec le password saisi dans le input
 export async function verifyPassword(
   inputPassword: string,
   hashedPassword: string,
@@ -31,7 +35,7 @@ export class UsersService {
     user.pseudo = userData.pseudo;
     user.email = userData.email;
     user.password = hashedPassword;
-    await this.em.persistAndFlush(user);
+    await this.em.persistAndFlush(user); //sauvergarder le new user dans la bdd
     return user;
   }
   async getAll(): Promise<User[]> {
