@@ -20,7 +20,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:migration:create": "ts-node -r tsconfig-paths/register src/mikro-orm.migration.ts migration:create",
+    "db:migration:create": "ts-node -r tsconfig-paths/register src/mikro-orm.migration.ts migration:create --name=initial",
     "db:migration:up": "ts-node -r tsconfig-paths/register src/mikro-orm.migration.ts migration:up",
     "db:migration:down": "ts-node -r tsconfig-paths/register src/mikro-orm.migration.ts migration:down"
   },
