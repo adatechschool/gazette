@@ -4,7 +4,7 @@ import { useBreakpointValue } from '@chakra-ui/react';
 import HeaderMobileCC from '@/components/custom/HeaderMobileCC';
 import HeaderDesktopCC from '@/components/custom/HeaderDesktopCC';
 import { useTranslation } from 'react-i18next';
-import Navbar from '@/components/custom/NavbarCC';
+import Navbar from '@/components/custom/Navbar';
 import { getAllUsers } from '@/services/api';
 import { useEffect, useState } from 'react';
 import { CreateUserDto } from '@gazette/shared';

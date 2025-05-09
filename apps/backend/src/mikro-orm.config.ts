@@ -16,9 +16,13 @@ export default {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   debug: true,
+  autoLoadEntities: true,
   migrations: {
     path: join(process.cwd(), 'src', 'migrations'),
     glob: '!(*.d).{js,ts}',
+    transactional: true,
+    allOrNothing: true,
+    emit: 'ts' as const,
   },
   discovery: {
     warnWhenNoEntities: true,

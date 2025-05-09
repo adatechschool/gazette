@@ -26,3 +26,9 @@ export async function login(
 		throw new Error(message);
 	}
 }
+
+export async function deleteUserAccount(): Promise<void> {
+	return await api.delete('users/me', {
+		credentials: 'include',
+	}).json()
+}
