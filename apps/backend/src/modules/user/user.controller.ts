@@ -10,12 +10,11 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
-  @UseGuards(AuthGuard)
+  // ne pas mettre de @UseGuards ici sinon pas d'inscription !
   @Post()
   async create(
     @Body() body: { pseudo: string; email: string; password: string },
@@ -36,10 +35,10 @@ export class UsersController {
     const user = await this.usersService.findOne(pseudo);
     return user;
   }
-  // @UseGuards(AuthGuard)
-  // @Delete(':id')
-  // async deleteUser(@Param('id') id: string) {
-  //   await this.usersService.delete(id);
-  //   return { message: 'User deleted successfully' };
-  // }
+  @UseGuards(AuthGuard)
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string) {
+    await this.usersService.delete(id);
+    return { message: 'User deleted successfully' };
+  }
 }

@@ -8,7 +8,7 @@ import Navbar from '@/components/custom/Navbar';
 import { getAllUsers } from '@/services/api';
 import { useEffect, useState } from 'react';
 import { CreateUserDto } from '@gazette/shared';
-
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 export const Route = createLazyFileRoute('/explore')({
 	component: RouteComponent,
 });
@@ -35,18 +35,20 @@ function RouteComponent() {
 	}, []);
 
 	return (
-		<LayoutCC>
-			{isMobile ? (
-				<div>
-					<HeaderMobileCC text={t('explore')} />
-					<Navbar />
-				</div>
-			) : (
-				<div>
-					<HeaderDesktopCC text={t('explore')} />
-					<p>{users.length} users found</p>
-				</div>
-			)}
-		</LayoutCC>
+		<ProtectedRoute>
+			<LayoutCC>
+				{isMobile ? (
+					<div>
+						<HeaderMobileCC text={t('explore')} />
+						<Navbar />
+					</div>
+				) : (
+					<div>
+						<HeaderDesktopCC text={t('explore')} />
+						<p>{users.length} users found</p>
+					</div>
+				)}
+			</LayoutCC>
+		</ProtectedRoute>
 	);
 }

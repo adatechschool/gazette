@@ -10,6 +10,7 @@ export default defineConfig({
 		alias: {
 			'@': '/src', // Alias pour le dossier src si nécessaire
 			'@gazette/shared': path.resolve(__dirname, '../../packages/shared/dist'),
+			config: path.resolve(__dirname, './config.ts'),
 		},
 	},
 });

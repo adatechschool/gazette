@@ -50,8 +50,8 @@ export class UsersService {
     }));
   }
 
-  async findOne(pseudo: string): Promise<User> {
-    const user = await this.em.findOneOrFail(User, { pseudo });
+  async findOne(email: string): Promise<User> {
+    const user = await this.em.findOneOrFail(User, { email });
     console.log(user);
     return user;
   }

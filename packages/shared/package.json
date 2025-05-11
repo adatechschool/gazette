@@ -19,17 +19,17 @@
     "src/**"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --out-dir dist --clean --external @nestjs/common",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --out-dir dist --watch --external @nestjs/common",
+    "build": "tsc --build && tsup src/types/index.ts --format cjs,esm --out-dir dist --clean --external @nestjs/common",
+    "dev": "tsup src/types/index.ts --format cjs,esm --dts --out-dir dist --watch --external @nestjs/common",
     "lint": "eslint src/",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
-    "zod": "^3.22.4"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "tsup": "^8.0.2",
     "typescript": "^5.7.3"
   }
-} 
+}
