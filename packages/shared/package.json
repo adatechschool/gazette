@@ -19,8 +19,8 @@
     "src/**"
   ],
   "scripts": {
-    "build": "tsc --build && tsup src/types/index.ts --format cjs,esm --out-dir dist --clean --external @nestjs/common",
-    "dev": "tsup src/types/index.ts --format cjs,esm --dts --out-dir dist --watch --external @nestjs/common",
+    "build": "tsup src/index.ts --format cjs,esm --dts --out-dir dist --clean --external @nestjs/common",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --out-dir dist --watch --external @nestjs/common",
     "lint": "eslint src/",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },

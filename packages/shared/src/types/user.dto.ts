@@ -1,5 +1,46 @@
+// import { CreateUserSchemaType } from '../schema/user.schema';
 import { z } from 'zod';
-import type { LoginDto, ProfileResponseDto, UserDto } from '../dto/user.dto';
+
+/**
+ * JWT related DTOs
+ */
+export interface JwtPayload {
+	sub: string;
+	email: string;
+}
+
+/**
+ * User profile related DTOs
+ */
+export interface ProfileResponseDto {
+	id: string;
+	email: string;
+}
+
+export interface UserDto {
+	pseudo: string;
+	email: string;
+	password: string;
+	createdAt?: Date;
+}
+
+/**
+ * Authentication related DTOs
+ */
+export interface LoginResponseDto {
+	access_token: string;
+	message: string;
+}
+
+export interface SignInDto {
+	pseudo: string;
+	password: string;
+}
+
+export interface LoginDto {
+	email: string;
+	password: string;
+}
 
 /**
  * Password validation regex
@@ -55,3 +96,4 @@ export const ProfileResponseSchema = z.object({
 export type CreateUserSchemaType = z.infer<typeof CreateUserSchema>;
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
 export type ProfileResponseSchemaType = z.infer<typeof ProfileResponseSchema>;
+export type CreateUserDto = z.infer<typeof CreateUserSchema>;
