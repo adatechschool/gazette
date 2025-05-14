@@ -8,8 +8,8 @@ export default defineConfig({
 	plugins: [TanStackRouterVite(), viteReact(), tsconfigPaths()],
 	resolve: {
 		alias: {
-			'@': '/src', // Alias pour le dossier src si nécessaire
-			'@gazette/shared': path.resolve(__dirname, '../../packages/shared/dist'),
+			'@': path.resolve(__dirname, './src'),
+			'@gazette/shared': path.resolve(__dirname, '../../packages/shared/src'),
 		},
 	},
 });
