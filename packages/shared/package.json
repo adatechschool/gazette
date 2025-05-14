@@ -2,27 +2,25 @@
   "name": "@gazette/shared",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.js"
-    },
-    "./package.json": "./package.json"
+    }
   },
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "module": "./dist/index.js",
   "files": [
-    "dist/**",
-    "src/**"
+    "dist/**"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --out-dir dist --clean --external @nestjs/common",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --out-dir dist --watch --external @nestjs/common",
+    "build": "tsc",
+    "dev": "tsc -p tsconfig.json --watch",
     "lint": "eslint src/",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "clean": "rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -31,5 +29,9 @@
   "devDependencies": {
     "tsup": "^8.0.2",
     "typescript": "^5.7.3"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.0.0"
   }
 } 
