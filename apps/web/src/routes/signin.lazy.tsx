@@ -1,6 +1,6 @@
 import AppTitleHeaderCC from '@/components/custom/AppTitleHeaderCC';
 import FormSignUpCC from '@/components/custom/FormSignUpCC';
-import FormTitleCC from '@/components/custom/FormTitleCC';
+import FormTitle from '@/components/custom/FormTitle';
 import GazetteIlluCC from '@/components/custom/GazetteIlluCC';
 import LayoutCC from '@/components/custom/LayoutCC';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
@@ -30,7 +30,7 @@ function RouteComponent() {
 					alignItems="center"
 				>
 					<AppTitleHeaderCC />
-					<FormTitleCC text={t('signIn')} fontColor="color.black" />
+					<FormTitle text={t('signIn')} fontColor="color.black" />
 					<FormSignUpCC />
 				</Flex>
 			) : (
@@ -42,7 +42,7 @@ function RouteComponent() {
 						justifyContent="center"
 						width="50vw"
 					>
-						<FormTitleCC text={t('signIn')} fontColor="color.chaletGreen" />
+						<FormTitle text={t('signIn')} fontColor="color.chaletGreen" />
 						<FormSignUpCC />
 					</Flex>
 				</Flex>

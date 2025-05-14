@@ -1,11 +1,11 @@
 import { Heading } from '@chakra-ui/react';
 
-export type FormTitleCCProps = {
+export type FormTitleProps = {
 	fontColor: string;
 	text: string;
 };
 
-const FormTitleCC = ({ fontColor, text }: FormTitleCCProps) => {
+const FormTitle = ({ fontColor, text }: FormTitleProps) => {
 	return (
 		<Heading
 			fontFamily={{
@@ -23,4 +23,4 @@ const FormTitleCC = ({ fontColor, text }: FormTitleCCProps) => {
 	);
 };
 
-export default FormTitleCC;
+export default FormTitle;
