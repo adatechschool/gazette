@@ -6,6 +6,16 @@ import path from 'path';
 
 export default defineConfig({
 	plugins: [TanStackRouterVite(), viteReact(), tsconfigPaths()],
+	server: {
+		proxy: {
+		  '/api': {
+			target: 'http://localhost:3000',
+			changeOrigin: true,
+			secure: false,
+			rewrite: (path) => path.replace(/^\/api/, '')
+		  }
+		}
+	  },
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
