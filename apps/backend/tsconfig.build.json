@@ -1,17 +1,4 @@
 {
   "extends": "./tsconfig.json",
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
-  "compilerOptions": {
-    "outDir": "./dist",
-    "sourceMap": true,
-    "composite": true,
-    "declaration": true,
-    "paths": {
-      "@gazette/shared": ["../../packages/shared/src"]
-    }
-  },
-  "references": [
-    { "path": "../../packages/shared" }
-  ],
-  "rootDir": "./src"
 }
