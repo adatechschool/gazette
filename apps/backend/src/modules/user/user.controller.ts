@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { Role } from 'src/role.enum';
-import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/modules/roles/role.enum';
+import { Roles } from 'src/modules/roles/roles.decorator';
 
 @Controller('users')
 export class UsersController {

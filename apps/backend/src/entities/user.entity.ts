@@ -1,5 +1,6 @@
-import { Entity, Property } from '@mikro-orm/core';
+import { Entity, Enum, Property } from '@mikro-orm/core';
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
+import { Role } from 'src/modules/roles/role.enum';
 
 @Entity()
 export class User {
@@ -20,6 +21,10 @@ export class User {
 
   @Property({ onUpdate: () => new Date() })
   lastConnection = new Date();
+
+ @Enum(() => Role)
+  role: Role = Role.User; // Valeur user par défault
+
 
   // @OneToMany(() => Media, media => media.id)
   // mediaId!: number[]
