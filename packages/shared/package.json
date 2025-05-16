@@ -1,24 +1,20 @@
 {
   "name": "@gazette/shared",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc -p tsconfig.json --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "lint": "eslint src/",
     "clean": "rm -rf node_modules && rm -rf dist"
   },

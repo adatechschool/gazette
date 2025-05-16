@@ -5,7 +5,7 @@ import { Field } from '../ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
 import { Toaster, toaster } from '@/components/ui/toaster';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createUser } from '@/services/api';
 import { CreateUserDto, CreateUserSchema } from '@gazette/shared';
@@ -14,6 +14,7 @@ const FormSignUpCC = () => {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
 	});
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -26,16 +27,27 @@ const FormSignUpCC = () => {
 		try {
 			const response = await createUser(data);
 			console.log('user created', response);
+
+			// Afficher le toaster
 			toaster.create({
 				description: t('confirmCreation'),
 				type: 'success',
-				duration: 6000,
+				duration: 3000, // Réduire la durée pour une meilleure expérience
 			});
-			//navigate({
-			//	to: '/explore',
-			//});
+
+			// Attendre un court instant avant la redirection
+			setTimeout(() => {
+				navigate({
+					to: '/explore',
+				});
+			}, 1000); // Attendre 1 seconde avant la redirection
 		} catch (error) {
-			console.error();
+			console.error(error);
+			toaster.create({
+				description: t('errorCreation'),
+				type: 'error',
+				duration: 4000,
+			});
 		}
 	};
 
