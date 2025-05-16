@@ -43,6 +43,7 @@ export class UsersService {
       id: user.id,
       createdAt: user.createdAt,
       lastConnection: user.lastConnection,
+      role: user.role
     }));
   }
 

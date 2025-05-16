@@ -1,5 +1,6 @@
 // import { CreateUserSchemaType } from '../schema/user.schema';
 import { z } from 'zod';
+import { Role } from '../../../apps/backend/src/modules/roles/role.enum'
 
 /**
  * JWT related DTOs
@@ -22,6 +23,7 @@ export interface UserDto {
 	email: string;
 	password: string;
 	createdAt?: Date;
+	role: string;
 }
 
 /**
@@ -70,6 +72,8 @@ export const CreateUserSchema = z
 			.string()
 			.min(8, { message: 'must contains at least 8 characters' })
 			.regex(passwordValidation),
+		role: z
+			.nativeEnum(Role).default(Role.User),
 	})
 	.refine((values) => values.password === values.confirmPassword, {
 		message: 'Passwords must match!',
