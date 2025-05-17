@@ -1,6 +1,6 @@
 import LayoutCC from '@/components/custom/LayoutCC';
 import { createLazyFileRoute } from '@tanstack/react-router';
-import { useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Link, useBreakpointValue } from '@chakra-ui/react';
 import HeaderMobileCC from '@/components/custom/HeaderMobileCC';
 import HeaderDesktopCC from '@/components/custom/HeaderDesktopCC';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,8 @@ import Navbar from '@/components/custom/Navbar';
 import { useEffect, useState } from 'react';
 import { getUserProfile } from '@/services/api';
 import { UserProfileDto } from '@gazette/shared';
+import FormTitle from '@/components/custom/FormTitle';
+import AppTitleHeaderCC from '@/components/custom/AppTitle';
 export const Route = createLazyFileRoute('/explore')({
 	component: RouteComponent,
 });
@@ -57,14 +59,38 @@ function RouteComponent() {
 					<Navbar />
 				</div>
 			) : (
-				<div>
-					<HeaderDesktopCC text={t('explore')} />
-				</div>
+				<Flex
+					width="100%"
+					height="100%"
+					gap={10}
+					padding={10}
+					flexDirection="column"
+				>
+					<Flex width="100%" height="10%" gap={10} flexDirection="row">
+						<AppTitleHeaderCC />
+						<Navbar />
+					</Flex>
+					<Flex
+						width="100%"
+						height="90%"
+						gap={10}
+						justifyContent="center"
+						padding={10}
+					>
+						<FormTitle text={t('explore')} fontColor="color.chaletGreen" />
+					</Flex>
+					<Link
+						href="/"
+						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
+						fontSize={{ base: '1rem', lg: '2rem' }}
+					>
+						{t('logout')}
+					</Link>
+				</Flex>
 			)}
 			{user && (
 				<div>
 					<h1>Bienvenue {user.email}</h1>
-					<p>Rôle: {user.role}</p>
 				</div>
 			)}
 		</LayoutCC>

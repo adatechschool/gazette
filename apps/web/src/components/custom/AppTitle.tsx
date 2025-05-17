@@ -1,15 +1,15 @@
 import { Heading } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
-const AppTitleHeaderCC = () => {
+const AppTitle = () => {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
 	});
 	return (
-		<Heading color="color.chaletGreen" fontSize="5rem">
+		<Heading color="color.chaletGreen" fontSize="7rem">
 			{t('appTitle')}
 		</Heading>
 	);
 };
 
-export default AppTitleHeaderCC;
+export default AppTitle;
