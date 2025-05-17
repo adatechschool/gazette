@@ -1,5 +1,5 @@
 import { api } from '../../config';
-import { CreateUserDto } from '@gazette/shared';
+import { CreateUserDto, UserProfileDto } from '@gazette/shared';
 
 export async function createUser(user: CreateUserDto): Promise<CreateUserDto> {
 	return await api.post('users', { json: user }).json();
@@ -21,8 +21,18 @@ export async function login(
 		.json();
 }
 
+export async function getUserProfile(): Promise<UserProfileDto> {
+	return await api
+		.get('auth/profile', {
+			credentials: 'include',
+		})
+		.json();
+}
+
 export async function deleteUserAccount(): Promise<void> {
-	return await api.delete('users/me', {
-		credentials: 'include',
-	}).json()
+	return await api
+		.delete('users/me', {
+			credentials: 'include',
+		})
+		.json();
 }

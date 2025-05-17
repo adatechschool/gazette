@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import AppTitleHeaderCC from './AppTitleHeaderCC';
+import AppTitleHeaderCC from './AppTitle';
 import MenuCC from './MenuDisplayCC';
 import PageTitleCC from './PageTitleCC';
 

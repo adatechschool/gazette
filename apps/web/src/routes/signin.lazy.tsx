@@ -1,4 +1,4 @@
-import AppTitleHeaderCC from '@/components/custom/AppTitleHeaderCC';
+import AppTitleHeaderCC from '@/components/custom/AppTitle';
 import FormSignUpCC from '@/components/custom/FormSignUpCC';
 import FormTitle from '@/components/custom/FormTitle';
 import GazetteIlluCC from '@/components/custom/GazetteIlluCC';

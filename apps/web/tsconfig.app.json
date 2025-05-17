@@ -14,7 +14,8 @@
       "paths": {
         "@/*": [
           "./src/*"
-        ]
+        ],
+        "@gazette/shared": ["../../packages/shared/src"]
       },
       "resolveJsonModule": true,
       "allowImportingTsExtensions": true,
