@@ -12,7 +12,7 @@
 	"dependencies": {
 		"@chakra-ui/react": "^3.8.1",
 		"@emotion/react": "^11.14.0",
-		"@gazette/shared": "link:../../packages/shared",
+		"@gazette/shared": "workspace:*",
 		"@hookform/resolvers": "^4.1.3",
 		"@tanstack/react-router": "^1.88.0",
 		"bcryptjs": "^3.0.2",

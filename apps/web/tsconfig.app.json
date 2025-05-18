@@ -28,5 +28,14 @@
       "isolatedModules": true,
       "skipLibCheck": true
     },
-    "include": ["src", "config.ts"]
+    "include": [
+      "src",
+      "config.ts",
+      "../../packages/shared/src/**/*"
+    ],
+    "references": [
+      {
+        "path": "../../packages/shared"
+      }
+    ]
   }
