@@ -14,6 +14,8 @@ RUN npm install -g pnpm && pnpm install
 FROM base AS backend-build
 WORKDIR /app/apps/backend
 RUN pnpm build
+RUN ls -la dist/
+RUN find dist -type f
 
 # --- FRONTEND  ---
 FROM base AS frontend-build
@@ -26,7 +28,7 @@ WORKDIR /app
 COPY --from=backend-build /app/apps/backend/dist ./apps/backend/dist
 COPY --from=base /app/apps/backend/package.json ./apps/backend/package.json
 COPY --from=base /app/packages/shared ./packages/shared
-COPY --from=base /app/apps/backend/.env ./apps/backend/.env
+COPY .env ./.env
 
 # Ajout du script wait-for.sh
 COPY wait-for.sh ./wait-for.sh
@@ -35,13 +37,12 @@ RUN chmod +x wait-for.sh
 # Installation de netcat
 RUN apt-get update && apt-get install -y netcat-openbsd
 
-
 RUN npm install -g pnpm && pnpm install --prod --filter backend...
 
-CMD ["./wait-for.sh", "db:5432", "node", "apps/backend/dist/src/main.js"]
+CMD ["./wait-for.sh", "db:5432", "node", "apps/backend/dist/main.js"]
 
 # --- FRONTEND ---
-    FROM nginx:alpine AS frontend-runtime
-    COPY --from=frontend-build /app/apps/web/dist /usr/share/nginx/html
-    COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
-    EXPOSE 80
+FROM nginx:alpine AS frontend-runtime
+COPY --from=frontend-build /app/apps/web/dist /usr/share/nginx/html
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
