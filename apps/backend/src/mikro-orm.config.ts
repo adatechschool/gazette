@@ -3,19 +3,26 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 
 const config: Options<PostgreSqlDriver> = {
-  // on utilise PostgreSQL comme base de données relationnelle
   driver: PostgreSqlDriver,
-  dbName:  process.env.DB_NAME,
-  user: process.env.DB_user,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  // découverte basée sur les fichiers, avec le suffixe .entity.ts
+  host: process.env.DB_HOST || 'postgres',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  dbName: process.env.DB_NAME || 'gazette_db',
+  debug: process.env.NODE_ENV === 'development',
+  metadataProvider: TsMorphMetadataProvider,
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
-  // on utilise le provider ts-morph comme alternative à reflect-metadata
-  metadataProvider: TsMorphMetadataProvider,
-  // active le mode debug pour afficher les requêtes SQL et les infos de découverte
-  debug: true,
+  migrations: {
+    path: './dist/migrations',
+    pathTs: './src/migrations',
+    tableName: 'mikro_orm_migrations',
+    transactional: true,
+    allOrNothing: true,
+    dropTables: false,
+    safe: true,
+    emit: 'ts',
+  },
 };
+
 export default config;
