@@ -80,7 +80,7 @@ const FormLogin = () => {
 						<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
 					</ul>
 
-					<ButtonCC
+					<Button
 						type="submit"
 						width="22rem"
 						fontSize="1.375rem"
@@ -88,7 +88,7 @@ const FormLogin = () => {
 						fontColor="color.white"
 						backgroundColor="color.chaletGreen"
 						text={t('login')}
-					></ButtonCC>
+					></Button>
 					<Text>
 						{t('noAccount') + ' '}
 						<Link to="/signin">

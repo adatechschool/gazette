@@ -1,6 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 import Layout from '../components/custom/Layout';
+import AppTitle from '../components/custom/AppTitle';
+import FormTitle from '../components/custom/FormTitle';
+import FormLogin from '../components/custom/FormLogin';
+import GazetteIllu from '../components/custom/GazetteIllu';
 
 export default function Login() {
     const { t } = useTranslation('common', {

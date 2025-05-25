@@ -1,4 +1,4 @@
-import { Button Text } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 
 type ButtonProps = {
   //extends ButtonProps to include all props of Chakra UI.

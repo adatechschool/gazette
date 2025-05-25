@@ -1,5 +1,5 @@
 import { Flex, Input, Stack, Text, VStack } from '@chakra-ui/react';
-import ButtonCC from './ButtonCC';
+import Button from './Button';
 import { useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
@@ -13,7 +13,6 @@ const FormSignUpCC = () => {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
 	});
-	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -123,7 +122,7 @@ const FormSignUpCC = () => {
 						</ul>
 						{/* <Trans i18nKey="form.passwordInstructions" /> */}
 
-						<ButtonCC
+						<Button
 							type="submit"
 							width="22rem"
 							fontSize="1.375rem"
@@ -131,7 +130,7 @@ const FormSignUpCC = () => {
 							fontColor="color.white"
 							backgroundColor="color.chaletGreen"
 							text={t('signIn')}
-						></ButtonCC>
+						></Button>
 						<Text>
 							{t('alreadyCreated') + ' '}
 							<Link to="/login">

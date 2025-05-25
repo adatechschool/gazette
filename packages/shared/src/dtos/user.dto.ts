@@ -46,3 +46,12 @@ export interface LoginDto {
 	email: string;
 	password: string;
 }
+
+export interface UserProfileDto {
+	message: string;
+	user: {
+		sub: string;
+		email: string;
+		role: string;
+	};
+}

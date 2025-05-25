@@ -1,5 +1,5 @@
 import { Card, Image, Flex } from "@chakra-ui/react";
-import ButtonCC from "./Button";
+import Button from "./Button";
 import { useState } from "react";
 
 const CardExplorer = () => {
@@ -20,7 +20,7 @@ const CardExplorer = () => {
         {/* Using of flex to align the description and the button */}
         <Flex align="center" justify="space-between">
           <Card.Description>Genre</Card.Description>
-          <ButtonCC
+          <Button
             fontColor={isSubscribed ? "#606c38" : "#ffffff"} // si abonné, 1ere couleur, sinon 2eme
             backgroundColor={isSubscribed ? "#ffffff" : "#606c38"} // si abonné, 1ere couleur, sinon 2eme
             text={isSubscribed ? "Abonné.e" : "S'abonner"} // si abonné, 1er texte, sinon 2eme
