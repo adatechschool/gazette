@@ -41,3 +41,8 @@ export interface UserResponse {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface LoginDto {
+	email: string;
+	password: string;
+}

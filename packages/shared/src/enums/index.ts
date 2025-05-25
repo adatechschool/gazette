@@ -9,3 +9,15 @@ export enum UserStatus {
   INACTIVE = 'inactive',
   PENDING = 'pending',
 } 
+
+export enum ContentType {
+  Article = 'article',
+  Video = 'video',
+  Podcast = 'podcast',
+}
+
+export enum MediaType {
+  Article = 'article',
+  Video = 'video',
+  Podcast = 'podcast',
+}

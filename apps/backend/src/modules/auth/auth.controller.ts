@@ -13,7 +13,8 @@ import {
 import { Request, Response } from 'express';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { LoginDto } from '@gazette/shared';
+import { LoginDto } from '@gazette/shared'
+
 
 interface RequestWithUser extends Request {
 	user: {

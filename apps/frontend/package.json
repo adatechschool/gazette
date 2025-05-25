@@ -10,10 +10,16 @@
   },
   "dependencies": {
     "@gazette/shared": "workspace:*",
-    "@tanstack/react-router": "^1.120.7",
     "next": "15.1.8",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-i18next": "^15.2.0",
+    "i18next": "^24.1.0",
+		"ky": "^1.7.5",
+    "bcryptjs": "^3.0.2",
+    "@chakra-ui/react": "^3.8.1",
+		"@emotion/react": "^11.14.0",
+    "lucide-react": "^0.468.0"
   },
   "devDependencies": {
     "@types/react": "19.1.5"
