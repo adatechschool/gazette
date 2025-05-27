@@ -2,7 +2,6 @@ import { HStack, Input, Stack, Text, VStack } from '@chakra-ui/react';
 import Button from './Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Field } from '../ui/field';
-import { Toaster } from '../ui/toaster';
 import { useTranslation } from 'react-i18next';
 import { PasswordInput } from '../ui/password-input';
 import { login } from '@/services/api';
