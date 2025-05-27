@@ -1,72 +1,73 @@
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { Input, Text, VStack, Stack, Flex } from "@chakra-ui/react"
-import { Field } from "@/components/ui/field"
-import { PasswordInput } from "@/components/ui/password-input"
-import { useRouter } from "next/navigation"
-import { useTranslation } from "react-i18next"
-import Link from "next/link"
-import Button from "./Button"
+import { useState } from 'react';
+import { Flex, Input, Stack, Text, VStack, useToast } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { Field } from '../ui/field';
+import { PasswordInput } from '@/components/ui/password-input';
+import { useTranslation } from 'react-i18next';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createUser } from '@/services/api';
+import { CreateUserDto, CreateUserSchema, UserRole } from '@gazette/shared';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Button from './Button';
 
-const formSchema = z.object({
-	email: z.string().email(),
-	password: z.string().min(8),
-	confirmPassword: z.string().min(8),
-}).refine((data) => data.password === data.confirmPassword, {
-	message: "Passwords don't match",
-	path: ["confirmPassword"],
-});
-
-export default function FormSignUp() {
+const FormSignUp = () => {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
-	})
-	const router = useRouter()
-	const [isLoading, setIsLoading] = useState(false)
+	});
+	const router = useRouter();
+	const toast = useToast();
+	const [isLoading, setIsLoading] = useState(false);
+
+	type FormValues = Omit<CreateUserDto, 'role'>;
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	} = useForm<FormValues>({
+		resolver: zodResolver(CreateUserSchema),
 		defaultValues: {
-			email: "",
-			password: "",
-			confirmPassword: "",
+			pseudo: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
 		},
-	})
+	});
 
-	async function onSubmit(values: z.infer<typeof formSchema>) {
-		setIsLoading(true)
+	const onSubmit = async (data: FormValues) => {
+		setIsLoading(true);
 		try {
-			const response = await fetch("/api/auth/signup", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					email: values.email,
-					password: values.password,
-				}),
-			})
+			const response = await createUser({ ...data, role: UserRole.USER });
+			console.log('user created', response);
 
-			if (!response.ok) {
-				const error = await response.json()
-				throw new Error(error.message || "Something went wrong")
-			}
+			toast({
+				title: t('success'),
+				description: t('confirmCreation'),
+				status: 'success',
+				duration: 3000,
+				isClosable: true,
+			});
 
-			router.push("/login")
+			// Attendre un court instant avant la redirection
+			setTimeout(() => {
+				router.push('/explore');
+			}, 1000);
 		} catch (error) {
-			console.error(error)
+			console.error(error);
+			toast({
+				title: t('error'),
+				description: t('errorCreation'),
+				status: 'error',
+				duration: 4000,
+				isClosable: true,
+			});
 		} finally {
-			setIsLoading(false)
+			setIsLoading(false);
 		}
-	}
+	};
 
 	return (
 		<Flex>
@@ -78,21 +79,33 @@ export default function FormSignUp() {
 
 					<VStack gap="4">
 						<Field
+							label={t('pseudo')}
+							isInvalid={!!errors.pseudo}
+							errorText={errors.pseudo?.message}
+						>
+							<Input
+								rounded="md"
+								shadow="md"
+								variant="flushed"
+								{...register('pseudo', { required: t('requiredField') })}
+							/>
+						</Field>
+						<Field
 							label={t('mail')}
-							invalid={!!errors.email}
+							isInvalid={!!errors.email}
 							errorText={errors.email?.message}
 						>
 							<Input
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('email')}
+								{...register('email', { required: t('requiredField') })}
 							/>
 						</Field>
 
 						<Field
 							label={t('password')}
-							invalid={!!errors.password}
+							isInvalid={!!errors.password}
 							errorText={errors.password?.message}
 						>
 							<PasswordInput
@@ -100,13 +113,13 @@ export default function FormSignUp() {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('password')}
+								{...register('password', { required: t('requiredField') })}
 							/>
 						</Field>
 
 						<Field
 							label={t('confirmPassword')}
-							invalid={!!errors.confirmPassword}
+							isInvalid={!!errors.confirmPassword}
 							errorText={errors.confirmPassword?.message}
 						>
 							<PasswordInput
@@ -114,7 +127,9 @@ export default function FormSignUp() {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('confirmPassword')}
+								{...register('confirmPassword', {
+									required: t('requiredField'),
+								})}
 							/>
 						</Field>
 
@@ -127,8 +142,10 @@ export default function FormSignUp() {
 						</ul>
 
 						<Button
+							type="submit"
 							width="22rem"
 							fontSize="1.375rem"
+							fontWeight="bold"
 							fontColor="color.white"
 							backgroundColor="color.chaletGreen"
 							text={t('signIn')}
@@ -144,5 +161,7 @@ export default function FormSignUp() {
 				</Stack>
 			</form>
 		</Flex>
-	)
-}
+	);
+};
+
+export default FormSignUp;
