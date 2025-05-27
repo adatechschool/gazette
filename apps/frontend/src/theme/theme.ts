@@ -1,7 +1,13 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 import { textStyles } from './textStyles';
 
-const theme = extendTheme({
+const config: ThemeConfig = {
+	initialColorMode: 'light',
+	useSystemColorMode: false,
+};
+
+export const theme = extendTheme({
+	config,
 	textStyles,
 	breakpoints: {
 		sm: '30em', // 480px
@@ -22,10 +28,4 @@ const theme = extendTheme({
 			black: '#000000', // Pure black
 		},
 	},
-	config: {
-		initialColorMode: 'light',
-		useSystemColorMode: false,
-	},
 });
-
-export default theme;
