@@ -1,12 +1,29 @@
 import React from 'react';
+import HeaderMobile from '@/components/custom/HeaderMobile';
+import Layout from '@/components/custom/Layout';
+import Navbar from '@/components/custom/Navbar';
+import { useBreakpointValue } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 const About = () => {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">À propos</h1>
-      <p>Bienvenue sur la page À propos</p>
-    </div>
-  );
+  const { t } = useTranslation('common', {
+		keyPrefix: 'accountManagement',
+	});
+
+	const isMobile = useBreakpointValue({ base: true, lg: false });
+
+	return (
+		<Layout>
+			{isMobile ? (
+				<div>
+					<HeaderMobile text={t('about')} />
+					<Navbar />
+				</div>
+			) : (
+			<p>About</p>
+			)}
+		</Layout>
+	);
 };
 
 export default About; 

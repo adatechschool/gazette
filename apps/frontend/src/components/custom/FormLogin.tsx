@@ -42,9 +42,9 @@ const FormLogin = () => {
 				<VStack gap="4">
 					<HStack gap="4">
 						<Field
-							required
+							isRequired
 							label={t('mail')}
-							invalid={!!errors.email}
+							isInvalid={!!errors.email}
 							errorText={errors.email?.message}
 						>
 							<Input
@@ -59,9 +59,9 @@ const FormLogin = () => {
 
 					<HStack gap="4">
 						<Field
-							required
+							isRequired
 							label={t('password')}
-							invalid={!!errors.password}
+							isInvalid={!!errors.password}
 							errorText={errors.password?.message}
 						>
 							<PasswordInput

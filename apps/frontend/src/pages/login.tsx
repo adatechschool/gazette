@@ -1,38 +1,51 @@
 import React from 'react';
+import AppTitleHeaderCC from '@/components/custom/AppTitle';
+import FormLogin from '@/components/custom/FormLogin';
+import FormTitle from '@/components/custom/FormTitle';
+import GazetteIllu from '@/components/custom/GazetteIllu';
+import Layout from '@/components/custom/Layout';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+	const { t } = useTranslation('common', {
+		keyPrefix: 'accountManagement',
+	});
+	const isMobile = useBreakpointValue({ base: true, lg: false });
+
 	return (
-		<div className="container mx-auto px-4 py-8">
-			<div className="max-w-md mx-auto">
-				<h1 className="text-3xl font-bold mb-6">Connexion</h1>
-				<form className="space-y-4">
-					<div>
-						<label htmlFor="email" className="block mb-2">Email</label>
-						<input
-							type="email"
-							id="email"
-							className="w-full p-2 border rounded"
-							placeholder="votre@email.com"
-						/>
-					</div>
-					<div>
-						<label htmlFor="password" className="block mb-2">Mot de passe</label>
-						<input
-							type="password"
-							id="password"
-							className="w-full p-2 border rounded"
-						/>
-					</div>
-					<button
-						type="submit"
-						className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+		<Layout>
+			{isMobile ? (
+				<Flex
+					flexDirection="column"
+					marginLeft="1rem"
+					marginTop="2rem"
+					gap="6"
+					alignContent="center"
+					justifyContent="center"
+					alignItems="center"
+				>
+					<AppTitleHeaderCC />
+					<FormTitle text={t('login')} fontColor="color.black" />
+					<FormLogin />
+				</Flex>
+			) : (
+				<Flex>
+					<GazetteIllu />
+					<Flex
+						flexDirection="column"
+						alignItems="center"
+						justifyContent="center"
+						width="50vw"
 					>
-						Se connecter
-					</button>
-				</form>
-			</div>
-		</div>
+						<FormTitle text={t('login')} fontColor="color.chaletGreen" />
+						<FormLogin />
+					</Flex>
+				</Flex>
+			)}
+		</Layout>
 	);
+
 };
 
 export default Login;

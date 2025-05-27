@@ -1,52 +1,55 @@
 import React from 'react';
+import FormTitle from '@/components/custom/FormTitle';
+import GazetteIllu from '@/components/custom/GazetteIllu';
+import HeaderMobile from '@/components/custom/HeaderMobile';
+import Layout from '@/components/custom/Layout';
+import Navbar from '@/components/custom/Navbar';
+import SettingsMenu from '@/components/custom/SettingsMenu';
+import { Flex, useBreakpointValue } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Paramètres</h1>
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="border rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-4">Profil</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block mb-2">Photo de profil</label>
-              <button className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
-                Changer la photo
-              </button>
-            </div>
-            <div>
-              <label className="block mb-2">Nom d'utilisateur</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded"
-                placeholder="Votre nom d'utilisateur"
-              />
-            </div>
-          </div>
-        </div>
+  const { t } = useTranslation('common', {
+		keyPrefix: 'navigateApp',
+	});
 
-        <div className="border rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-4">Préférences</h2>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span>Notifications par email</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-              </label>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Mode sombre</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+	const isMobile = useBreakpointValue({ base: true, lg: false });
+	return (
+		<Layout>
+			{isMobile ? (
+				<Flex flexDirection="column">
+					<HeaderMobile text={t('account')} />
+					<Navbar />
+					<SettingsMenu />
+				</Flex>
+			) : (
+				<Flex flexDirection="row">
+					<GazetteIllu />
+					<Flex
+						flexDirection="column"
+						width="50vw"
+						height="100%"
+						gap={10}
+						alignItems="center"
+					>
+						<Navbar />
+						<Flex
+							flexDirection="column"
+							gap={20}
+							justifyContent="center"
+							alignItems="center"
+							marginTop={10}
+							width="100%"
+							height="100%"
+						>
+							<FormTitle text={t('account')} fontColor="color.chaletGreen" />
+							<SettingsMenu />
+						</Flex>
+					</Flex>
+				</Flex>
+			)}
+		</Layout>
+	);
 };
 
 export default Settings; 

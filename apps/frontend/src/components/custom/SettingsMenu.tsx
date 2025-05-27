@@ -1,5 +1,5 @@
-import { Link, List } from '@chakra-ui/react';
-import { LogOut, Trash, CircleHelp, FileBadge } from 'lucide-react';
+import { Link, List, ListItem, Icon, Box } from '@chakra-ui/react';
+import { LogOut, Trash, HelpCircle, FileBadge } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { deleteUserAccount } from '@/services/api';
 
@@ -17,56 +17,50 @@ const SettingsMenu = () => {
 	};
 
 	return (
-		<List.Root gap="2" variant="plain" align="center">
-			<List.Item>
-				<List.Indicator asChild>
-					<LogOut />
-				</List.Indicator>
-				<Link
-					href="/"
-					fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-					fontSize={{ base: '1rem', lg: '2rem' }}
-				>
-					{t('logout')}
-				</Link>
-			</List.Item>
-			<List.Item>
-				<List.Indicator asChild>
-					<Trash />
-				</List.Indicator>
-				<Link
-					onClick={() => handleDeleteAccount()}
-					href="/"
-					fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-					fontSize={{ base: '1rem', lg: '2rem' }}
-				>
-					{t('delete')}
-				</Link>
-			</List.Item>
-			<List.Item>
-				<List.Indicator asChild>
-					<CircleHelp />
-				</List.Indicator>
-				<Link
-					href="/about"
-					fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-					fontSize={{ base: '1rem', lg: '2rem' }}
-				>
-					{t('about')}
-				</Link>
-			</List.Item>
-			<List.Item>
-				<List.Indicator asChild>
-					<FileBadge />
-				</List.Indicator>
-				<Link
-					fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-					fontSize={{ base: '1rem', lg: '2rem' }}
-				>
-					{t('policy')}
-				</Link>
-			</List.Item>
-		</List.Root>
+		<Box textAlign="center">
+			<List spacing={2} variant="plain">
+				<ListItem>
+					<Icon as={LogOut} mr={2} />
+					<Link
+						href="/"
+						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
+						fontSize={{ base: '1rem', lg: '2rem' }}
+					>
+						{t('logout')}
+					</Link>
+				</ListItem>
+				<ListItem>
+					<Icon as={Trash} mr={2} />
+					<Link
+						onClick={() => handleDeleteAccount()}
+						href="/"
+						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
+						fontSize={{ base: '1rem', lg: '2rem' }}
+					>
+						{t('delete')}
+					</Link>
+				</ListItem>
+				<ListItem>
+					<Icon as={HelpCircle} mr={2} />
+					<Link
+						href="/about"
+						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
+						fontSize={{ base: '1rem', lg: '2rem' }}
+					>
+						{t('about')}
+					</Link>
+				</ListItem>
+				<ListItem>
+					<Icon as={FileBadge} mr={2} />
+					<Link
+						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
+						fontSize={{ base: '1rem', lg: '2rem' }}
+					>
+						{t('policy')}
+					</Link>
+				</ListItem>
+			</List>
+		</Box>
 	);
 };
 
