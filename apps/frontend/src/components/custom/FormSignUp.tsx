@@ -1,53 +1,72 @@
-import { Flex, Input, Stack, Text, VStack } from '@chakra-ui/react';
-import Button from './Button';
-import { useForm } from 'react-hook-form';
-import { Field } from '../ui/field';
-import { PasswordInput } from '@/components/ui/password-input';
-import { Toaster, toaster } from '@/components/ui/toaster';
-import { useTranslation } from 'react-i18next';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createUser } from '@/services/api';
-import { CreateUserDto, CreateUserSchema } from '@gazette/shared';
+"use client"
 
-const FormSignUpCC = () => {
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { Input, Text, VStack, Stack, Flex } from "@chakra-ui/react"
+import { Field } from "@/components/ui/field"
+import { PasswordInput } from "@/components/ui/password-input"
+import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
+import Link from "next/link"
+import Button from "./Button"
+
+const formSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8),
+	confirmPassword: z.string().min(8),
+}).refine((data) => data.password === data.confirmPassword, {
+	message: "Passwords don't match",
+	path: ["confirmPassword"],
+});
+
+export default function FormSignUp() {
 	const { t } = useTranslation('common', {
 		keyPrefix: 'accountManagement',
-	});
+	})
+	const router = useRouter()
+	const [isLoading, setIsLoading] = useState(false)
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<CreateUserDto>({
-		resolver: zodResolver(CreateUserSchema),
-	});
+	} = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+			confirmPassword: "",
+		},
+	})
 
-	const onSubmit = async (data: CreateUserDto) => {
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		setIsLoading(true)
 		try {
-			const response = await createUser(data);
-			console.log('user created', response);
+			const response = await fetch("/api/auth/signup", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email: values.email,
+					password: values.password,
+				}),
+			})
 
-			// Afficher le toaster
-			toaster.create({
-				description: t('confirmCreation'),
-				type: 'success',
-				duration: 3000, // Réduire la durée pour une meilleure expérience
-			});
+			if (!response.ok) {
+				const error = await response.json()
+				throw new Error(error.message || "Something went wrong")
+			}
 
-			// Attendre un court instant avant la redirection
-			setTimeout(() => {
-				navigate({
-					to: '/explore',
-				});
-			}, 1000); // Attendre 1 seconde avant la redirection
+			router.push("/login")
 		} catch (error) {
-			console.error(error);
-			toaster.create({
-				description: t('errorCreation'),
-				type: 'error',
-				duration: 4000,
-			});
+			console.error(error)
+		} finally {
+			setIsLoading(false)
 		}
-	};
+	}
 
 	return (
 		<Flex>
@@ -59,18 +78,6 @@ const FormSignUpCC = () => {
 
 					<VStack gap="4">
 						<Field
-							label={t('pseudo')}
-							invalid={!!errors.pseudo}
-							errorText={errors.pseudo?.message}
-						>
-							<Input
-								rounded="md"
-								shadow="md"
-								variant="flushed"
-								{...register('pseudo', { required: t('requiredField') })}
-							/>
-						</Field>
-						<Field
 							label={t('mail')}
 							invalid={!!errors.email}
 							errorText={errors.email?.message}
@@ -79,7 +86,7 @@ const FormSignUpCC = () => {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('email', { required: t('requiredField') })}
+								{...register('email')}
 							/>
 						</Field>
 
@@ -93,7 +100,7 @@ const FormSignUpCC = () => {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('password', { required: t('requiredField') })}
+								{...register('password')}
 							/>
 						</Field>
 
@@ -107,9 +114,7 @@ const FormSignUpCC = () => {
 								rounded="md"
 								shadow="md"
 								variant="flushed"
-								{...register('confirmPassword', {
-									required: t('requiredField'),
-								})}
+								{...register('confirmPassword')}
 							/>
 						</Field>
 
@@ -120,29 +125,24 @@ const FormSignUpCC = () => {
 							<li>un chiffre</li>
 							<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
 						</ul>
-						{/* <Trans i18nKey="form.passwordInstructions" /> */}
 
 						<Button
-							type="submit"
 							width="22rem"
 							fontSize="1.375rem"
-							fontWeight="bold"
 							fontColor="color.white"
 							backgroundColor="color.chaletGreen"
 							text={t('signIn')}
-						></Button>
+							disabled={isLoading}
+						/>
 						<Text>
 							{t('alreadyCreated') + ' '}
-							<Link to="/login">
+							<Link href="/login">
 								<b>{t('login')}</b>
 							</Link>
 						</Text>
 					</VStack>
 				</Stack>
-				<Toaster />
 			</form>
 		</Flex>
-	);
-};
-
-export default FormSignUpCC;
+	)
+}

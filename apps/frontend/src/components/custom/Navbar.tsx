@@ -1,7 +1,7 @@
 import { Box, Text, useBreakpointValue } from '@chakra-ui/react';
-
-import { House, Telescope, User } from 'lucide-react';
+import { Home, Compass, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 const Navbar = () => {
 	const { t } = useTranslation('common', {
@@ -63,7 +63,7 @@ const Navbar = () => {
 			px={2}
 			{...navbarStyles}
 		>
-			<Link to="/">
+			<Link href="/">
 				<Box
 					display="flex"
 					flexDirection="column"
@@ -74,7 +74,7 @@ const Navbar = () => {
 					gap={spacing}
 					mx={2}
 				>
-					<House size={iconSize} />
+					<Home size={iconSize} />
 					<Text
 						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
 						fontWeight="semibold"
@@ -86,7 +86,7 @@ const Navbar = () => {
 				</Box>
 			</Link>
 
-			<Link to="/explore">
+			<Link href="/explore">
 				<Box
 					display="flex"
 					flexDirection="column"
@@ -97,7 +97,7 @@ const Navbar = () => {
 					gap={spacing}
 					mx={2}
 				>
-					<Telescope size={iconSize} />
+					<Compass size={iconSize} />
 					<Text
 						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
 						fontWeight="semibold"
@@ -109,7 +109,7 @@ const Navbar = () => {
 				</Box>
 			</Link>
 
-			<Link to="/settings">
+			<Link href="/settings">
 				<Box
 					display="flex"
 					flexDirection="column"

@@ -1,7 +1,6 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Button as ChakraButton, Text, ButtonProps as ChakraButtonProps } from "@chakra-ui/react";
 
-type ButtonProps = {
-  //extends ButtonProps to include all props of Chakra UI.
+type ButtonProps = ChakraButtonProps & {
   fontColor: string;
   backgroundColor: string;
   text: string;
@@ -19,7 +18,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   return (
-    <Button
+    <ChakraButton
       color={fontColor}
       bgColor={backgroundColor}
       shadow="sm"
@@ -32,7 +31,7 @@ const Button = ({
                     otherwise if capitalizetext is false, text transform stay uppercase */}
         {text}
       </Text>
-    </Button>
+    </ChakraButton>
   );
 };
 

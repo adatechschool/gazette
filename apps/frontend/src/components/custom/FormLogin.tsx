@@ -6,6 +6,8 @@ import { Toaster } from '../ui/toaster';
 import { useTranslation } from 'react-i18next';
 import { PasswordInput } from '../ui/password-input';
 import { login } from '@/services/api';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type FormValues = {
 	email: string;
@@ -14,6 +16,7 @@ type FormValues = {
 
 const FormLogin = () => {
 	const { t } = useTranslation('common', { keyPrefix: 'accountManagement' });
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -24,7 +27,7 @@ const FormLogin = () => {
 		try {
 			const response = await login(data.email, data.password);
 			console.log('✅ Login success:', response);
-			//navigate({ to: '/explore' });
+			router.push('/explore');
 		} catch (err) {
 			console.error('❌ Login failed:', err);
 		}
@@ -81,23 +84,22 @@ const FormLogin = () => {
 					</ul>
 
 					<Button
-						type="submit"
 						width="22rem"
 						fontSize="1.375rem"
-						fontWeight="bold"
 						fontColor="color.white"
 						backgroundColor="color.chaletGreen"
 						text={t('login')}
+						type="submit"
 					></Button>
 					<Text>
 						{t('noAccount') + ' '}
-						<Link to="/signin">
+						<Link href="/signin">
 							<b>{t('signIn')}</b>
 						</Link>
 					</Text>
 				</VStack>
 			</Stack>
-			<Toaster />
+			{/* <Toaster /> */}
 		</form>
 	);
 };

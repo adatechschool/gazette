@@ -1,15 +1,26 @@
 import { Heading } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 
-const AppTitle = () => {
-	const { t } = useTranslation('common', {
-		keyPrefix: 'accountManagement',
-	});
+export type FormTitleProps = {
+	fontColor: string;
+	text: string;
+};
+
+const FormTitle = ({ fontColor, text }: FormTitleProps) => {
 	return (
-		<Heading color="color.chaletGreen" fontSize="7rem">
-			{t('appTitle')}
+		<Heading
+			fontFamily={{
+				base: 'Poppins',
+				lg: 'Staatliches',
+			}}
+			color={fontColor}
+			fontSize={{
+				base: '1.125rem',
+				lg: '5rem',
+			}}
+		>
+			{text}
 		</Heading>
 	);
 };
 
-export default AppTitle;
+export default FormTitle;
