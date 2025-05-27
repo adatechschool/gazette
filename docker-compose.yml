@@ -46,13 +46,16 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:${BACKEND_PORT}
       NODE_ENV: development
-      PORT: 5173
+      PORT: 3002
+      NEXT_TELEMETRY_DISABLED: 1
+      WATCHPACK_POLLING: 1
     ports:
-      - "5173:5173"
+      - "3002:3002"
     volumes:
       - ./apps/frontend:/app/apps/frontend
-      - /app/node_modules
       - /app/apps/frontend/node_modules
+      - /app/apps/frontend/.next
+      - /app/node_modules
     depends_on:
       - backend
     networks:
