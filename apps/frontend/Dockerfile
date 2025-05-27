@@ -5,22 +5,19 @@ RUN npm install -g pnpm
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="${PNPM_HOME}:${PATH}"
 
+# Set pnpm store directory
+RUN pnpm config set store-dir /root/.local/share/pnpm/store
+
 WORKDIR /app
 
 # Copy workspace files
-COPY package.json pnpm-workspace.yaml ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY packages ./packages
 COPY apps/frontend/package.json ./apps/frontend/package.json
 
-# Install dependencies
-RUN pnpm install
-
-# Install TypeScript and other dev dependencies in frontend
-WORKDIR /app/apps/frontend
-RUN pnpm add --save-exact --save-dev @types/node typescript @types/react @types/react-dom
-
-# Install additional required dependencies
-RUN pnpm add @emotion/styled @chakra-ui/react @chakra-ui/next-js i18next react-i18next next-themes react-icons lucide-react react-hook-form @hookform/resolvers zod
+# Clean install dependencies
+RUN rm -rf node_modules
+RUN pnpm install --no-frozen-lockfile
 
 # Build shared package
 WORKDIR /app
@@ -31,6 +28,10 @@ COPY . .
 
 # Set working directory to frontend
 WORKDIR /app/apps/frontend
+
+# Clean install frontend dependencies
+RUN rm -rf node_modules
+RUN pnpm install --no-frozen-lockfile
 
 # Expose port
 EXPOSE 3002
