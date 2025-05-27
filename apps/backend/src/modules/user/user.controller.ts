@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { Role } from 'src/modules/roles/role.enum';
+import { UserRole } from '@gazette/shared';
 import { Roles } from 'src/modules/roles/roles.decorator';
 
 @Controller('users')
@@ -28,7 +28,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  @Roles(Role.Admin)
+  @Roles(UserRole.ADMIN)
   async deleteUser(@Param('id') id: string) {
     await this.usersService.delete(id);
     return { message: 'User deleted successfully' };
