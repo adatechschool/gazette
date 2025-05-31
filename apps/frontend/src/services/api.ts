@@ -2,11 +2,13 @@ import { api } from '../config';
 import { CreateUserDto, UserProfileDto } from '@gazette/shared';
 
 export async function createUser(user: CreateUserDto): Promise<CreateUserDto> {
-	return await api.post('users', { json: user }).json();
+	return await api
+		.post('users', { json: user }).json();
 }
 
 export async function getAllUsers(): Promise<CreateUserDto[]> {
-	return await api.get('users').json();
+	return await api
+		.get('users').json();
 }
 
 export async function login(
@@ -16,23 +18,17 @@ export async function login(
 	return await api
 		.post('auth/login', {
 			json: { email, password },
-			credentials: 'include',
 		})
 		.json();
 }
 
 export async function getUserProfile(): Promise<UserProfileDto> {
 	return await api
-		.get('auth/profile', {
-			credentials: 'include',
-		})
-		.json();
+		.get('auth/profile').json();
 }
 
 export async function deleteUserAccount(): Promise<void> {
 	return await api
-		.delete('users/me', {
-			credentials: 'include',
-		})
+		.delete('users/me')
 		.json();
 }

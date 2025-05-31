@@ -1,6 +1,6 @@
 import ky from 'ky';
 
-export const NODE_PORT = 'http://localhost:3001';
+export const NODE_PORT = 'http://localhost:3000';
 
 export const api = ky.create({
 	prefixUrl: NODE_PORT,
@@ -8,7 +8,7 @@ export const api = ky.create({
 	timeout: 5000,
 	credentials: 'include',
 	headers: {
-		'Content-Type': 'application/json',
 		Accept: 'application/json',
+		'Content-Type': 'application/json'
 	},
 });

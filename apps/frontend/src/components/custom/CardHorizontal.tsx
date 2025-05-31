@@ -1,4 +1,4 @@
-import { Box, Card, HStack, Image, Text } from '@chakra-ui/react';
+import { Box, Card, CardBody, CardFooter, HStack, Image, Text, Heading } from '@chakra-ui/react';
 import { LockKeyhole } from 'lucide-react';
 
 type CardHorizontalCCProps = {
@@ -18,7 +18,7 @@ const CardHorizontal = ({
 	media,
 	medium,
 }: CardHorizontalCCProps) => (
-	<Card.Root flexDirection="row" overflow="hidden" maxW="xl">
+	<Card flexDirection="row" overflow="hidden" maxW="xl" position="relative">
 		<Image
 			shadow="sm"
 			objectFit="cover"
@@ -26,24 +26,24 @@ const CardHorizontal = ({
 			src={photo}
 			alt="image article"
 		/>
-		<Box>
-			<Card.Body>
-				<Card.Title mb="2"> {cardTitle}</Card.Title>
+		<Box flex="1">
+			<CardBody>
+				<Heading size="md" mb="2">{cardTitle}</Heading>
 
 				<Text position="absolute" top="2" right="2" fontSize="sm">
 					{date}
 				</Text>
 
-				<Card.Description>{cardDescription}</Card.Description>
-			</Card.Body>
-			<Card.Footer>
+				<Text color="gray.600">{cardDescription}</Text>
+			</CardBody>
+			<CardFooter>
 				<HStack mt="12">
-					{medium} - {media}
+					<Text>{medium} - {media}</Text>
 					<LockKeyhole />
 				</HStack>
-			</Card.Footer>
+			</CardFooter>
 		</Box>
-	</Card.Root>
+	</Card>
 );
 
 export default CardHorizontal;

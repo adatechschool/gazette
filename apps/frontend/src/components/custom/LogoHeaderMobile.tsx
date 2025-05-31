@@ -1,17 +1,17 @@
-import { Flex } from '@chakra-ui/react';
-import LogoHeaderMobileCC from './LogoHeaderMobile';
-import PageTitle from './PageTitle';
+import { Box, Image } from '@chakra-ui/react';
 
-export type HeaderMobileCCProps = {
-	text: string;
-};
-
-const HeaderMobileCC = ({ text }: HeaderMobileCCProps) => {
+const LogoHeaderMobile = () => {
 	return (
-		<Flex flexDirection="column" gap="6" marginLeft="1rem" marginTop="2rem">
-			<LogoHeaderMobile />
-			<PageTitle fontColor="color.black" text={text} />
-		</Flex>
+		<Box>
+			{/* Remplacez par le chemin vers votre logo */}
+			<Image 
+				src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60" 
+				alt="Logo" 
+				height="40px"
+				width="auto"
+			/>
+		</Box>
 	);
 };
-export default HeaderMobileCC;
+
+export default LogoHeaderMobile;

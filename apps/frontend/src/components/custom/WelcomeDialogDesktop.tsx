@@ -1,54 +1,58 @@
-import { HStack } from "@chakra-ui/react";
-import { Button } from "@/components/ui/button";
 import {
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  HStack,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Text,
+} from "@chakra-ui/react";
 
 const WelcomeDialogDesktop = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <HStack wrap="wrap" gap="4" margin={4}>
-      <DialogRoot placement="center" motionPreset="slide-in-bottom">
-        <DialogTrigger asChild>
-          <Button
-            bgColor="#606C38"
-            width={343}
-            height={50}
-            fontFamily="Poppins"
-            fontStyle="bold"
-            fontSize={22}
-            borderRadius="md"
-          >
-            S'inscrire
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Bienvenue sur Gazette !</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <p>
+      <Button
+        bgColor="#606C38"
+        width="343px"
+        height="50px"
+        fontFamily="Poppins"
+        fontWeight="bold"
+        fontSize="22px"
+        borderRadius="md"
+        color="white"
+        _hover={{ bgColor: "#4a5228" }}
+        onClick={onOpen}
+      >
+        S'inscrire
+      </Button>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Bienvenue sur Gazette !</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <Text mb={4}>
               Pour personnaliser ton fil d'actualités, abonne-toi aux médias qui
               t'intéressent depuis la page Explorer.
-            </p>
-            <br />
-            <p>
+            </Text>
+            
+            <Text mb={4}>
               Leurs contenus apparaîtront automatiquement sur ta page d'Accueil.
-            </p>
-            <br />
-            <p>
+            </Text>
+            
+            <Text>
               Sans abonnement, ta page d'Accueil restera vide. Tu peux choisir
               de t'abonner maintenant ou plus tard - c'est toi qui décides !
-            </p>
-          </DialogBody>
-          <DialogCloseTrigger />
-        </DialogContent>
-      </DialogRoot>
+            </Text>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </HStack>
   );
 };

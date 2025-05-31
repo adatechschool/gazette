@@ -1,4 +1,4 @@
-import { Card, Image, Flex } from "@chakra-ui/react";
+import { Card, CardBody, Image, Flex, Heading, Text } from "@chakra-ui/react";
 import Button from "./Button";
 import { useState } from "react";
 
@@ -10,30 +10,30 @@ const CardExplorer = () => {
   };
 
   return (
-    <Card.Root maxW="sm" overflow="hidden">
+    <Card maxW="sm" overflow="hidden">
       <Image
         src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
         alt="Green double couch with wooden legs"
       />
-      <Card.Body>
-        <Card.Title>Titre</Card.Title>
+      <CardBody>
+        <Heading size="md" mb={2}>Titre</Heading>
         {/* Using of flex to align the description and the button */}
         <Flex align="center" justify="space-between">
-          <Card.Description>Genre</Card.Description>
+          <Text color="gray.600">Genre</Text>
           <Button
             fontColor={isSubscribed ? "#606c38" : "#ffffff"} // si abonné, 1ere couleur, sinon 2eme
             backgroundColor={isSubscribed ? "#ffffff" : "#606c38"} // si abonné, 1ere couleur, sinon 2eme
             text={isSubscribed ? "Abonné.e" : "S'abonner"} // si abonné, 1er texte, sinon 2eme
-            height={19}
-            width={67}
-            fontSize={11}
+            height="19px" 
+            width="67px"
+            fontSize="11px"
             fontWeight={"semibold"}
             capitalizeText={true}
             onClick={handleSubscribe}
           />
         </Flex>
-      </Card.Body>
-    </Card.Root>
+      </CardBody>
+    </Card>
   );
 };
 
