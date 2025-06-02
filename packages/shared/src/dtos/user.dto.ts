@@ -1,11 +1,11 @@
 // Interface pour la représentation d'un utilisateur (response)
 export interface UserResponse {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
+	id: number;
+	firstName: string;
+	lastName: string;
+	email: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 export interface LoginDto {
@@ -18,6 +18,7 @@ export interface UserProfileDto {
 	user: {
 		sub: string;
 		email: string;
+		pseudo: string;
 		role: string;
 	};
 }

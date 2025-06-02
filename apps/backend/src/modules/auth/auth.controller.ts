@@ -20,13 +20,14 @@ interface RequestWithUser extends Request {
 	user: {
 		sub: string;
 		email: string;
+		pseudo: string;
 		role: string;
 	};
 }
 
 @Controller('auth')
 export class AuthController {
-	constructor(private authService: AuthService) {}
+	constructor(private authService: AuthService) { }
 
 	@HttpCode(HttpStatus.OK)
 	@Post('login')

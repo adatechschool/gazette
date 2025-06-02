@@ -11,7 +11,7 @@ export class AuthService {
 		private usersService: UsersService,
 		private jwtService: JwtService,
 		private configService: ConfigService,
-	) {}
+	) { }
 
 	async login(loginDto: LoginDto): Promise<{ access_token: string }> {
 		try {
@@ -28,7 +28,7 @@ export class AuthService {
 				throw new UnauthorizedException('Invalid credentials');
 			}
 
-			const payload = { sub: user.id, email: user.email, role: user.role };
+			const payload = { sub: user.id, email: user.email, pseudo: user.pseudo, role: user.role };
 			return {
 				access_token: await this.jwtService.signAsync(payload, {
 					secret: this.configService.get('JWT_SECRET'),

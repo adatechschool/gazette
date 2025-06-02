@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@/components/custom/Layout';
-import { Flex, Link, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Link, useBreakpointValue, Text as ChakraText } from '@chakra-ui/react';
 import HeaderMobile from '@/components/custom/HeaderMobile';
 import { useTranslation } from 'react-i18next';
 import Navbar from '@/components/custom/Navbar';
@@ -11,7 +11,7 @@ import FormTitle from '@/components/custom/FormTitle';
 import AppTitle from '@/components/custom/AppTitle';
 
 const Explore = () => {
-  const { t } = useTranslation('common', {
+	const { t } = useTranslation('common', {
 		keyPrefix: 'navigateApp',
 	});
 
@@ -40,11 +40,19 @@ const Explore = () => {
 	const isMobile = useBreakpointValue({ base: true, lg: false });
 
 	if (isLoading) {
-		return <div>Chargement...</div>;
+		<Layout>
+			<Flex justify="center" align="center" height="100vh">
+				<ChakraText>Chargement...</ChakraText>
+			</Flex>
+		</Layout>
 	}
 
 	if (error) {
-		return <div>Erreur: {error}</div>;
+		<Layout>
+			<Flex justify="center" align="center" height="100vh">
+				<ChakraText color="red.500">Erreur: {error}</ChakraText>
+			</Flex>
+		</Layout>
 	}
 
 	return (
@@ -75,6 +83,11 @@ const Explore = () => {
 					>
 						<FormTitle text={t('explore')} fontColor="color.chaletGreen" />
 					</Flex>
+					{user && (
+						<div>
+							<h1>Bienvenue {user.pseudo || user.email || 'Utilisateur'}</h1>
+						</div>
+					)}
 					<Link
 						href="/"
 						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
@@ -84,11 +97,7 @@ const Explore = () => {
 					</Link>
 				</Flex>
 			)}
-			{user && (
-				<div>
-					<h1>Bienvenue {user.email}</h1>
-				</div>
-			)}
+
 		</Layout>
 	);
 };
