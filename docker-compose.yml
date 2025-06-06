@@ -37,10 +37,6 @@ services:
       ALLOWED_ORIGINS: http://localhost:3002,http://frontend:3002
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
-    volumes:
-      - ./apps/backend:/app/apps/backend
-      - /app/apps/backend/node_modules # Exclut node_modules du montage
-      - /app/node_modules # Exclut les node_modules globaux
     depends_on:
       postgres:
         condition: service_healthy

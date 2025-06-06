@@ -3,3 +3,44 @@ node_modules
 *.log
 dist
 build
+# Ignorer node_modules locaux, on les installe dans l'image
+node_modules
+**/node_modules
+
+# Ignorer les dossiers de build locaux (dist)
+dist
+**/dist
+
+# Ignorer fichiers de logs
+*.log
+
+# Ignorer fichiers temporaires et cache
+*.tmp
+*.temp
+*.swp
+*.DS_Store
+.vscode
+.idea
+
+# Ignorer fichiers de test et config locale
+test
+tests
+**/*.spec.ts
+**/*.test.ts
+coverage
+
+# Ignorer fichiers de lock et gestionnaires de paquet hors contexte
+.pnpm-debug.log
+npm-debug.log
+yarn-error.log
+
+# Ignorer fichiers de configuration locale d'éditeur ou OS
+*.env.local
+.env.*.local
+
+# Ignorer dossiers de build frontend si tu build le frontend séparément
+apps/frontend/.next
+apps/frontend/node_modules
+
+# Ignorer les scripts locaux non nécessaires dans l'image
+scripts

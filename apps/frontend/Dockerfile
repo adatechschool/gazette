@@ -3,44 +3,32 @@ FROM node:20-alpine
 # Augmenter la limite mémoire Node.js
 ENV NODE_OPTIONS="--max-old-space-size=2048"
 
-RUN npm install -g pnpm
+# Installer pnpm via corepack (plus sûr que npm install -g)
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Configure pnpm store
-ENV PNPM_HOME="/root/.local/share/pnpm"
-ENV PATH="${PNPM_HOME}:${PATH}"
-
-# Set pnpm store directory
-RUN pnpm config set store-dir /root/.local/share/pnpm/store
-
+# Set working directory
 WORKDIR /app
 
-# Copy workspace files
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+# Copier les fichiers de base du monorepo
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages ./packages
-COPY apps/frontend/package.json ./apps/frontend/package.json
+COPY apps/frontend ./apps/frontend
 
-# Clean install dependencies
-RUN rm -rf node_modules
-RUN pnpm install --no-frozen-lockfile
+# Installer toutes les dépendances (dev + prod)
+RUN pnpm install --frozen-lockfile
 
-# Build shared package
-WORKDIR /app
-RUN cd packages/shared && pnpm build
+# Builder le package partagé
+RUN pnpm --filter @gazette/shared build
 
-# Copy the rest of the application
-COPY . .
+# Builder le frontend
+RUN pnpm --filter gazette_frontend build
 
-# Set working directory to frontend
-WORKDIR /app/apps/frontend
-
-# Clean install frontend dependencies
-RUN rm -rf node_modules
-RUN pnpm install --no-frozen-lockfile
-
-# Expose port
+# Exposer le port
 EXPOSE 3002
 
-# Start the development server
+# Définir les variables d'env
 ENV PORT=3002
 ENV NEXT_TELEMETRY_DISABLED=1
-CMD ["pnpm", "dev", "--hostname", "0.0.0.0", "--port", "3002"] 
+
+# Lancer le frontend en mode dev
+CMD ["pnpm", "--filter", "gazette_frontend", "dev", "--hostname", "0.0.0.0", "--port", "3002"]

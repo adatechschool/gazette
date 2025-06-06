@@ -1,13 +1,14 @@
-import type { NextConfig } from "next";
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   reactStrictMode: true,
   output: 'standalone',
   transpilePackages: ['@gazette/shared'],
   experimental: {
     optimizePackageImports: ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion']
+  },
+  compiler: {
+    emotion: true
   }
-} satisfies NextConfig;
+};
 
 export default nextConfig;
