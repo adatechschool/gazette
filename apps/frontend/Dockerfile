@@ -1,4 +1,8 @@
 FROM node:20-alpine
+
+# Augmenter la limite mémoire Node.js
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
 RUN npm install -g pnpm
 
 # Configure pnpm store

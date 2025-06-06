@@ -1,41 +1,32 @@
 FROM node:20-alpine
 
+# Install system dependencies
+RUN apk add --no-cache postgresql-client netcat-openbsd
+
+# Create app directory
 WORKDIR /app
 
-# Install pnpm and postgres client
-RUN npm install -g pnpm && \
-    apk add --no-cache postgresql-client netcat-openbsd
+# Enable and install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copy root package files
-COPY package.json pnpm-workspace.yaml ./
+# Copy all files
+COPY . .
 
-# Copy packages
-COPY packages/shared/package.json ./packages/shared/package.json
-COPY packages/shared/tsconfig.json ./packages/shared/tsconfig.json
-COPY packages/shared/src ./packages/shared/src
+# Install dependencies from workspace
+RUN pnpm install --frozen-lockfile
 
-# Copy backend package
-COPY apps/backend/package.json ./apps/backend/package.json
-COPY apps/backend/tsconfig.json ./apps/backend/tsconfig.json
-COPY apps/backend/src ./apps/backend/src
-
-# Install all dependencies
-RUN pnpm install
-
-# Build shared package
-WORKDIR /app/packages/shared
-RUN pnpm build
-
-# Build backend
+# Set working directory to the backend
 WORKDIR /app/apps/backend
+
+# Build the backend
 RUN pnpm build
 
-# Copy entrypoint script
-COPY apps/backend/entrypoint.sh .
-RUN chmod +x entrypoint.sh
-
-# Expose the port the app runs on
+# Expose backend port
 EXPOSE 3000
 
-# Start the application
-CMD ["./entrypoint.sh"] 
+# Copy entrypoint script
+COPY apps/backend/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Entrypoint script to handle migration
+ENTRYPOINT ["/entrypoint.sh"]

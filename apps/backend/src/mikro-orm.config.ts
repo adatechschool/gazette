@@ -1,13 +1,16 @@
 import { Options } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+// import dotenv from 'dotenv';
+
+// dotenv.config();
 
 const config: Options<PostgreSqlDriver> = {
   driver: PostgreSqlDriver,
-  host: process.env.DB_HOST || 'postgres',
+  host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || '5432'),
   user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'postgres',
+  password: process.env.DB_PASSWORD,
   dbName: process.env.DB_NAME || 'gazette_db',
   debug: process.env.NODE_ENV === 'development',
   metadataProvider: TsMorphMetadataProvider,
