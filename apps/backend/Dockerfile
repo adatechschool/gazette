@@ -7,10 +7,15 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-COPY . .
+# Copier les fichiers de configuration du workspace
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
 
-RUN pnpm install --frozen-lockfile
+# Copier les packages
+COPY packages/shared ./packages/shared
+COPY apps/backend ./apps/backend
 
+# Installer les dépendances et construire
+RUN pnpm install --no-frozen-lockfile
 RUN pnpm --filter @gazette/shared build
 RUN pnpm --filter gazette_backend build
 
@@ -19,22 +24,28 @@ FROM node:20-alpine
 
 RUN apk add --no-cache postgresql-client
 
-WORKDIR /app/apps/backend
+WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copier le build et les fichiers de config backend
-COPY --from=builder /app/apps/backend/dist ./dist
-COPY --from=builder /app/apps/backend/package.json ./package.json
-COPY --from=builder /app/apps/backend/entrypoint.sh ./entrypoint.sh
+# Copier les fichiers de configuration
+COPY --from=builder /app/pnpm-workspace.yaml /app/pnpm-lock.yaml /app/package.json ./
 
-# Copier lockfiles et workspace à la racine /app pour pnpm
-COPY --from=builder /app/pnpm-lock.yaml /app/pnpm-workspace.yaml /app/
+# Copier le package partagé
+COPY --from=builder /app/packages/shared ./packages/shared
 
-# Copier node_modules du builder à la racine /app/node_modules
-COPY --from=builder /app/apps/backend/node_modules ./node_modules
+# Copier le backend
+COPY --from=builder /app/apps/backend ./apps/backend
 
-RUN chmod +x ./entrypoint.sh
+# Copier les node_modules nécessaires
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages/shared/node_modules ./packages/shared/node_modules
+COPY --from=builder /app/apps/backend/node_modules ./apps/backend/node_modules
+
+WORKDIR /app/apps/backend
+
+# S'assurer que le fichier entrypoint.sh existe et est exécutable
+RUN ls -la && chmod +x entrypoint.sh
 
 EXPOSE 3000
 

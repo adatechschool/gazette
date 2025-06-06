@@ -13,8 +13,8 @@ until PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -U "$DB_USER" -c '\q'; do
 done
 echo "PostgreSQL is up - executing command"
 
-echo "Running migrations with pnpm..."
-pnpm --filter gazette_backend migration:up
+echo "Updating database schema with pnpm..."
+pnpm --filter gazette_backend schema:update
 
 echo "Starting application with pnpm..."
 pnpm --filter gazette_backend start:prod
