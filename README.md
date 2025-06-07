@@ -20,6 +20,11 @@ cd gazette
 ```bash
 pnpm i
 ```
+## Installer les DTOs partagés
+```bash
+cd packages/shared
+pnpm build
+```
 
 ## Lancer le projet en local (hors Docker)
 
@@ -55,10 +60,11 @@ pnpm db:migration:down
 ### 1. Lancer tous les services (backend, frontend, base de données)
 À la racine du projet :
 ```bash
-docker-compose up --build
+Windows : docker-compose up --build 
+Mac : docker compose up --build 
 ```
 - Le backend sera accessible sur [http://localhost:3000](http://localhost:3000)
-- Le frontend sur [http://localhost:5173](http://localhost:5173)
+- Le frontend sur [http://localhost:5173](http://localhost:3002)
 - La base de données Postgres sur le port 5432
 
 ### 2. Arrêter les services
