@@ -266,8 +266,8 @@
           "nullable": false,
           "default": "'user'",
           "enumItems": [
-            "user",
             "admin",
+            "user",
             "moderator"
           ],
           "mappedType": "enum"

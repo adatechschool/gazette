@@ -1,36 +1,81 @@
 version: '3.8'
+
 services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gazette-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: .
-      target: backend-runtime
-    ports:
-      - "3001:3001"
+      dockerfile: apps/backend/Dockerfile
     env_file:
-      - .env
+      - ./apps/backend/.env # Charge le .env du backend
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${BACKEND_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      ALLOWED_ORIGINS: http://localhost:3002,http://frontend:3002
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     depends_on:
-      - db
+      postgres:
+        condition: service_healthy
+    networks:
+      - gazette-network
 
   frontend:
     build:
       context: .
-      target: frontend-runtime
-    ports:
-      - "5173:80"
-    env_file:
-      - .env
-
-  db:
-    image: postgres:15
-    restart: always
+      dockerfile: apps/frontend/Dockerfile
     environment:
-      POSTGRES_DB: gazette_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      NEXT_PUBLIC_API_URL: http://localhost:${BACKEND_PORT}
+      NODE_ENV: development
+      PORT: 3002
+      NEXT_TELEMETRY_DISABLED: 1
+      WATCHPACK_POLLING: 1
+      # Variables pour optimiser Next.js
+      NODE_OPTIONS: "--max-old-space-size=2048"
     ports:
-      - "5433:5432"
+      - "3002:3002"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./apps/frontend:/app/apps/frontend
+      - /app/apps/frontend/node_modules
+      - /app/apps/frontend/.next
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - gazette-network
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+
+networks:
+  gazette-network:
+    driver: bridge
 
 volumes:
-  pgdata:
+  postgres_data:
