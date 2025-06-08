@@ -11,8 +11,12 @@ import FormTitle from '@/components/custom/FormTitle';
 import AppTitle from '@/components/custom/AppTitle';
 
 const Explore = () => {
-	const { t } = useTranslation('common', {
-		keyPrefix: 'navigateApp',
+	const { t: tAccount } = useTranslation('common', {
+		keyPrefix: 'accountManagement'
+	});
+
+	const { t: tNav } = useTranslation('common', {
+		keyPrefix: 'navigateApp'
 	});
 
 	const [user, setUser] = useState<UserProfileDto['user'] | null>(null);
@@ -59,7 +63,7 @@ const Explore = () => {
 		<Layout>
 			{isMobile ? (
 				<div>
-					<HeaderMobile text={t('explore')} />
+					<HeaderMobile text={tNav('explore')} />
 					<Navbar />
 				</div>
 			) : (
@@ -81,7 +85,7 @@ const Explore = () => {
 						justifyContent="center"
 						padding={10}
 					>
-						<FormTitle text={t('explore')} fontColor="color.chaletGreen" />
+						<FormTitle text={tNav('explore')} fontColor="color.chaletGreen" />
 					</Flex>
 					{user && (
 						<div>
@@ -93,7 +97,7 @@ const Explore = () => {
 						fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
 						fontSize={{ base: '1rem', lg: '2rem' }}
 					>
-						{t('logout')}
+						{tAccount('logout')}
 					</Link>
 				</Flex>
 			)}
