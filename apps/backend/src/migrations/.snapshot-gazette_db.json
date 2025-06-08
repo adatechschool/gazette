@@ -256,6 +256,21 @@
           "nullable": false,
           "length": 6,
           "mappedType": "datetime"
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'user'",
+          "enumItems": [
+            "admin",
+            "user",
+            "moderator"
+          ],
+          "mappedType": "enum"
         }
       },
       "name": "user",

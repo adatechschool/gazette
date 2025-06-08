@@ -1,7 +1,9 @@
-// import { EntityManager } from '@mikro-orm/postgresql';
-// import { Injectable } from '@nestjs/common';
+// import { Controller, Get } from '@nestjs/common';
 
-// @Injectable()
-// export class ContentService {
-//   constructor(private readonly em: EntityManager) {}
+// @Controller('content')
+// export class ContentController {
+//   @Get()
+//   findAll(): string {
+//     return 'This action returns all content';
+//   }
 // }

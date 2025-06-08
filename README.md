@@ -1,8 +1,8 @@
-# Gazette Monorepo
+#Documentation Gazette
 
 Ce projet est un monorepo TypeScript comprenant :
 - **Backend** : API NestJS (CommonJS) avec MikroORM et PostgreSQL
-- **Frontend** : Application React (Vite)
+- **Frontend** : Application React (Next)
 - **Shared** : Code partagé entre le front et le back
 
 ## Prérequis
@@ -18,7 +18,12 @@ cd gazette
 
 ## Installation des dépendances
 ```bash
-pnpm install
+pnpm i
+```
+## Installer les DTOs partagés
+```bash
+cd packages/shared
+pnpm build
 ```
 
 ## Lancer le projet en local (hors Docker)
@@ -27,13 +32,13 @@ pnpm install
 ```bash
 cd apps/backend
 pnpm build
-pnpm start:dev
+pnpm start
 ```
 
 ### Frontend
 ```bash
 cd apps/web
-pnpm dev
+pnpm start
 ```
 
 ### Commandes de migration (depuis apps/backend)
@@ -55,10 +60,11 @@ pnpm db:migration:down
 ### 1. Lancer tous les services (backend, frontend, base de données)
 À la racine du projet :
 ```bash
-docker-compose up --build
+Windows : docker-compose up --build 
+Mac : docker compose up --build 
 ```
 - Le backend sera accessible sur [http://localhost:3000](http://localhost:3000)
-- Le frontend sur [http://localhost:5173](http://localhost:5173)
+- Le frontend sur [http://localhost:5173](http://localhost:3002)
 - La base de données Postgres sur le port 5432
 
 ### 2. Arrêter les services
@@ -92,13 +98,33 @@ DB_USER=postgres
 DB_PASSWORD=motdepasse
 ```
 
+Crée un fichier `.env` dans `apps/frontend/` avec :
+```
+NEXT_PUBLIC_API_URL=http://localhost:${BACKEND_PORT}
+NODE_ENV=development
+```
+
+Crée un fichier `.env` dans `apps` avec :
+```
+# Database
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=gazette_db
+
+# Environment
+NODE_ENV=development
+
+# Ports
+FRONTEND_PORT=5173
+BACKEND_PORT=3000
+```
 ---
 
 ## Structure du projet
 ```
 apps/
   backend/    # API NestJS
-  web/        # Frontend React (Vite)
+  frontend/   # Frontend React (NextJS)
 packages/
   shared/     # Code partagé
 ```
