@@ -1,24 +1,41 @@
 {
-	"name": "gazette",
-	"private": true,
-	"scripts": {
-		"build": "pnpm -r build",
-		"dev": "pnpm -r dev",
-		"lint": "eslint .",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\""
-	},
-	"devDependencies": {
-		"@eslint/js": "^8.57.1",
-		"@typescript-eslint/eslint-plugin": "^7.0.1",
-		"@typescript-eslint/parser": "^7.0.1",
-		"eslint": "^8.57.1",
-		"eslint-plugin-prettier": "^5.2.6",
-		"eslint-plugin-react": "^7.33.2",
-		"eslint-plugin-react-hooks": "^4.6.0",
-		"globals": "^14.0.0",
-		"prettier": "^3.5.3",
-		"tsup": "^8.4.0",
-		"typescript-eslint": "^7.18.0"
-	},
-	"packageManager": "pnpm@8.15.6"
+  "name": "gazette",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev": "pnpm --parallel dev",
+    "lint": "eslint apps --ext .ts,.tsx,.js,.jsx",
+    "format": "prettier --write .",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "docker:logs": "docker-compose logs -f",
+    "migration:create": "docker-compose exec backend npx mikro-orm migration:create",
+    "migration:up": "docker-compose exec backend npx mikro-orm migration:up",
+    "migration:down": "docker-compose exec backend npx mikro-orm migration:down",
+    "migration:pending": "docker-compose exec backend npx mikro-orm migration:pending",
+    "schema:fresh": "docker-compose exec backend npx mikro-orm schema:fresh --run"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.13.2",
+    "@eslint/eslintrc": "^2.1.3",
+    "@eslint/js": "^9.18.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "eslint-config-next": "^15.1.8",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-prettier": "^5.2.2",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.4.5"
+  }
 }

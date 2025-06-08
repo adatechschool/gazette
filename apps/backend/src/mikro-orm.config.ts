@@ -1,30 +1,31 @@
-import { join } from 'path';
-import * as dotenv from 'dotenv';
+import { Options } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { Content } from './entities/content.entity';
-import { Media } from './entities/media.entity';
-import { User } from './entities/user.entity';
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+// import dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
-export default {
-	driver: PostgreSqlDriver,
-	entities: [Content, Media, User],
-	dbName: process.env.DB_NAME,
-	host: process.env.DB_HOST,
-	port: Number(process.env.DB_PORT),
-	user: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	debug: true,
-	autoLoadEntities: true,
-	migrations: {
-		path: join(process.cwd(), 'src', 'migrations'),
-		glob: '!(*.d).{js,ts}',
-		transactional: true,
-		allOrNothing: true,
-		emit: 'ts' as const,
-	},
-	discovery: {
-		warnWhenNoEntities: true,
-	},
+const config: Options<PostgreSqlDriver> = {
+  driver: PostgreSqlDriver,
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT || '5432'),
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD,
+  dbName: process.env.DB_NAME || 'gazette_db',
+  debug: process.env.NODE_ENV === 'development',
+  metadataProvider: TsMorphMetadataProvider,
+  entities: ['dist/**/*.entity.js'],
+  entitiesTs: ['src/**/*.entity.ts'],
+  migrations: {
+    path: './dist/migrations',
+    pathTs: './src/migrations',
+    tableName: 'mikro_orm_migrations',
+    transactional: true,
+    allOrNothing: true,
+    dropTables: false,
+    safe: true,
+    emit: 'ts',
+  },
 };
+
+export default config;
