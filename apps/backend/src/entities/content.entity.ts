@@ -1,6 +1,8 @@
 import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core';
 import { Media } from './media.entity';
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
+import { ContentType } from '@gazette/shared';
+
 
 @Entity()
 export class Content {
@@ -24,10 +26,4 @@ export class Content {
 
   @Property()
   createdAt = new Date();
-}
-
-export enum ContentType {
-  Article = 'article',
-  Video = 'video',
-  Podcast = 'podcast',
 }

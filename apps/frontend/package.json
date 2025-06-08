@@ -1,0 +1,38 @@
+{
+  "name": "gazette_frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/next-js": "^2.2.0",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@gazette/shared": "workspace:*",
+    "@hookform/resolvers": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "framer-motion": "^11.0.3",
+    "i18next": "^23.7.16",
+    "ky": "^1.1.0",
+    "lucide-react": "^0.330.0",
+    "next": "14.1.0",
+    "next-themes": "^0.4.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.50.0",
+    "react-i18next": "^14.0.0",
+    "react-icons": "^5.0.1",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "typescript": "^5.3.3"
+  }
+}
