@@ -11,7 +11,7 @@ export async function getAllUsers(): Promise<CreateUserDto[]> {
 		.get('users').json();
 }
 
-export async function login(
+export async function loginUser(
 	email: string,
 	password: string,
 ): Promise<{ message: string }> {

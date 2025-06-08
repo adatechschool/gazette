@@ -25,3 +25,14 @@ export const CreateUserSchema = z
 	});
 
     export type CreateUserDto = z.infer<typeof CreateUserSchema>;
+
+	export const LogUserSchema = z
+	.object({
+		email: z.string().email(),
+		password: z
+			.string()
+			.min(8, { message: 'must contains at least 8 characters' })
+			.regex(passwordValidation),
+	});
+
+    export type LoginUserDto = z.infer<typeof LogUserSchema>;

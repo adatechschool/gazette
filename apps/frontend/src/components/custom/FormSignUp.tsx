@@ -21,13 +21,13 @@ const FormSignUp = () => {
 	const toast = useToast();
 	const [isLoading, setIsLoading] = useState(false);
 
-	type FormValues = Omit<CreateUserDto, 'role'>;
+	type FormValuesSignUp = Omit<CreateUserDto, 'role'>;
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<FormValues>({
+	} = useForm<FormValuesSignUp>({
 		resolver: zodResolver(CreateUserSchema),
 		defaultValues: {
 			pseudo: '',
@@ -37,7 +37,7 @@ const FormSignUp = () => {
 		},
 	});
 
-	const onSubmit = async (data: FormValues) => {
+	const onSubmit = async (data: FormValuesSignUp) => {
 		setIsLoading(true);
 		try {
 			const response = await createUser({ ...data, role: UserRole.USER });
@@ -138,7 +138,7 @@ const FormSignUp = () => {
 							<li>une majuscule</li>
 							<li>une minuscule</li>
 							<li>un chiffre</li>
-							<li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li>
+							<li>un caractère spécial ( - [ ] ( ) * ~ _ # : ?)</li>
 						</ul>
 
 						<Button
