@@ -1,5 +1,5 @@
-import { FormControl, FormLabel, FormHelperText, FormErrorMessage } from "@chakra-ui/react"
-import * as React from "react"
+import { FormControl, FormErrorMessage, FormHelperText, FormLabel } from '@chakra-ui/react'
+import * as React from 'react'
 
 export interface FieldProps {
   label?: React.ReactNode
@@ -11,13 +11,13 @@ export interface FieldProps {
 }
 
 export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
-  function Field(props, ref) {
+  (props, ref) => {
     const { label, children, helperText, errorText, isRequired, isInvalid, ...rest } = props
     return (
-      <FormControl 
-        isRequired={isRequired} 
-        isInvalid={isInvalid ? true : undefined} 
-        ref={ref} 
+      <FormControl
+        isRequired={isRequired}
+        isInvalid={isInvalid ? true : undefined}
+        ref={ref}
         {...rest}
       >
         {label && <FormLabel>{label}</FormLabel>}

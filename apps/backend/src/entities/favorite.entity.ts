@@ -1,19 +1,19 @@
-import { PrimaryKeyUuid } from "src/utils/PrimaryKeyUuid.decorator";
-import { Entity, ManyToOne, Property } from '@mikro-orm/core';
-import { User } from "./user.entity";
-import { Media } from "./media.entity";
+import { Entity, ManyToOne, Property } from '@mikro-orm/core'
+import { PrimaryKeyUuid } from 'src/utils/PrimaryKeyUuid.decorator'
+import { Media } from './media.entity'
+import { User } from './user.entity'
 
 @Entity()
 export class Favorite {
-    @PrimaryKeyUuid()
-    id!: string;
+  @PrimaryKeyUuid()
+  id!: string
 
-    @ManyToOne(() => User)
-    user!: User;
+  @ManyToOne(() => User)
+  user!: User
 
-    @ManyToOne(() => Media)
-    mediaType!: Media;
+  @ManyToOne(() => Media)
+  mediaType!: Media
 
-    @Property()
-    createdAt = new Date()
+  @Property()
+  createdAt = new Date()
 }
