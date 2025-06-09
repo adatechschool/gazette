@@ -1,25 +1,24 @@
-import { Entity, Enum, Property } from '@mikro-orm/core';
-import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator';
-import { MediaType } from '@gazette/shared';
-
+import { MediaType } from '@gazette/shared'
+import { Entity, Enum, Property } from '@mikro-orm/core'
+import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
 
 @Entity()
 export class Media {
   @PrimaryKeyUuid()
-  id!: string;
+  id!: string
 
   @Property()
-  name!: string;
+  name!: string
 
   @Enum(() => MediaType)
-  type!: MediaType;
+  type!: MediaType
 
   @Property({ nullable: true })
-  description!: string;
+  description!: string
 
   @Property({ nullable: true })
-  picture!: Blob;
+  picture!: Blob
 
   @Property()
-  createdAt = new Date();
+  createdAt = new Date()
 }
