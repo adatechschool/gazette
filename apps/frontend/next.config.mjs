@@ -4,11 +4,16 @@ const nextConfig = {
   output: 'standalone',
   transpilePackages: ['@gazette/shared'],
   experimental: {
-    optimizePackageImports: ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion']
+    optimizePackageImports: [
+      '@chakra-ui/react',
+      '@emotion/react',
+      '@emotion/styled',
+      'framer-motion',
+    ],
   },
   compiler: {
-    emotion: true
-  }
-};
+    emotion: true,
+  },
+}
 
-export default nextConfig;
+export default nextConfig
