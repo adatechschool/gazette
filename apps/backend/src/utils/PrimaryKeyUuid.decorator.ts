@@ -1,4 +1,5 @@
-import { PrimaryKey } from '@mikro-orm/core';
+import { PrimaryKey } from '@mikro-orm/core'
 
-export const PrimaryKeyUuid = () =>
-  PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' });
+export function PrimaryKeyUuid() {
+  return PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
+}
