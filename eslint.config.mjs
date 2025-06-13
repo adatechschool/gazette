@@ -1,84 +1,28 @@
-// eslint.config.mjs
-// @ts-check
+// eslint.config.js
 import antfu from '@antfu/eslint-config'
-
-export default await antfu(
+export default antfu(
+  // Configures for antfu's config and global rules
   {
-    typescript: true,
     react: true,
-    formatters: {
-      css: true,
-      html: true,
-      markdown: true,
-    },
+    css: true,
+    html: true,
     ignores: [
-      '**/dist',
-      '**/node_modules',
-      'apps/**/build',
-      '**/.next',
-      '**/coverage',
+      '**/dist/',
+      '**/temp/',
+      'ai-research/',
+      'apps/backoffice/src/routeTree.gen.ts',
+      'apps/api/yaak/',
+      'apps/backoffice/src/components/ui/',
+      'packages/nest-crud-helpers',
     ],
   },
-
+  // Starting from the second arguments they are ESLint Flat Configs
+  // Careful, antfu renames some plugins for consistency https://github.com/antfu/eslint-config?tab=readme-ov-file#plugins-renaming
   {
-    files: ['**/*.md'],
-    rules: {
-      'no-irregular-whitespace': 'off',
-    },
-  },
-
-  {
-    files: ['apps/backend/**/*.ts'],
+    files: ['apps/api/**/*.ts', 'apps/api/**/*.json'],
     rules: {
       'ts/consistent-type-imports': 'off',
-      'node/prefer-global/process': 'off',
-      'no-console': 'warn',
-      'ts/no-explicit-any': 'off',
-      'ts/no-non-null-assertion': 'off',
-    },
-  },
-
-  {
-    files: ['apps/frontend/**/*.{ts,tsx}'],
-    rules: {
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      'node/prefer-global/process': 'off',
-      'unused-imports/no-unused-vars': ['error', {
-        vars: 'all',
-        args: 'after-used',
-        ignoreRestSiblings: true,
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      }],
-      'ts/no-use-before-define': ['error', {
-        functions: false,
-        classes: false,
-        variables: true,
-        typedefs: false,
-      }],
-    },
-  },
-
-  {
-    files: ['packages/shared/**/*.ts'],
-    rules: {
-      'ts/consistent-type-imports': 'off',
-      'no-console': 'warn',
-    },
-  },
-
-  {
-    files: ['**/*.json', '**/*.jsonc'],
-    rules: {
-      'jsonc/sort-keys': 'off',
-    },
-  },
-
-  {
-    rules: {
-      'no-console': 'warn',
-      'no-unused-vars': 'warn',
+      'node/prefer-global/process': ['error', 'always'],
     },
   },
 )

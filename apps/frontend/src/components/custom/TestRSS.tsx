@@ -50,27 +50,27 @@ function RSSFeed() {
       <h1>Articles du Flux RSS</h1>
       {articles.length === 0
         ? (
-          <p>Aucun article trouvé.</p>
-        )
+            <p>Aucun article trouvé.</p>
+          )
         : (
-          <ul>
-            {articles.map((article, index) => (
-              <li key={index}>
-                <h2>
-                  <a
-                    href={article.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {article.title}
-                  </a>
-                </h2>
-                <p>{article.description}</p>
-                <small>{new Date(article.pubDate).toLocaleDateString()}</small>
-              </li>
-            ))}
-          </ul>
-        )}
+            <ul>
+              {articles.map((article, index) => (
+                <li key={index}>
+                  <h2>
+                    <a
+                      href={article.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {article.title}
+                    </a>
+                  </h2>
+                  <p>{article.description}</p>
+                  <small>{new Date(article.pubDate).toLocaleDateString()}</small>
+                </li>
+              ))}
+            </ul>
+          )}
     </div>
   )
 }
