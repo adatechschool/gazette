@@ -1,9 +1,9 @@
-import type { AppProps } from "next/app";
-import { Provider } from "@/components/ui/provider";
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../i18n/config';
-import Layout from '../components/custom/Layout';
-import Head from 'next/head';
+import type { AppProps } from 'next/app'
+import Head from 'next/head'
+import { I18nextProvider } from 'react-i18next'
+import { Provider } from '@/components/ui/provider'
+import Layout from '../components/custom/Layout'
+import i18n from '../i18n/config'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -19,5 +19,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </Provider>
       </I18nextProvider>
     </>
-  );
+  )
 }

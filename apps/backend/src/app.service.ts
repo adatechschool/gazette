@@ -1,6 +1,6 @@
-import { MikroORM } from '@mikro-orm/core';
-import { EntityManager } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import type { MikroORM } from '@mikro-orm/core'
+import type { EntityManager } from '@mikro-orm/postgresql'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class AppService {

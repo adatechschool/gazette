@@ -1,18 +1,18 @@
 import {
-  HStack,
   Button,
+  HStack,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
-} from "@chakra-ui/react";
+  useDisclosure,
+} from '@chakra-ui/react'
 
-const WelcomeDialogDesktop = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+function WelcomeDialogDesktop() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <HStack wrap="wrap" gap="4" margin={4}>
@@ -25,7 +25,7 @@ const WelcomeDialogDesktop = () => {
         fontSize="22px"
         borderRadius="md"
         color="white"
-        _hover={{ bgColor: "#4a5228" }}
+        _hover={{ bgColor: '#4a5228' }}
         onClick={onOpen}
       >
         S'inscrire
@@ -41,11 +41,11 @@ const WelcomeDialogDesktop = () => {
               Pour personnaliser ton fil d'actualités, abonne-toi aux médias qui
               t'intéressent depuis la page Explorer.
             </Text>
-            
+
             <Text mb={4}>
               Leurs contenus apparaîtront automatiquement sur ta page d'Accueil.
             </Text>
-            
+
             <Text>
               Sans abonnement, ta page d'Accueil restera vide. Tu peux choisir
               de t'abonner maintenant ou plus tard - c'est toi qui décides !
@@ -54,7 +54,7 @@ const WelcomeDialogDesktop = () => {
         </ModalContent>
       </Modal>
     </HStack>
-  );
-};
+  )
+}
 
-export default WelcomeDialogDesktop;
+export default WelcomeDialogDesktop
