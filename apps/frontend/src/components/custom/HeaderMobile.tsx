@@ -1,18 +1,18 @@
-import { Flex } from '@chakra-ui/react';
-import LogoHeaderMobile from './LogoHeaderMobile';
-import PageTitle from './PageTitle';
+import { Flex } from '@chakra-ui/react'
+import LogoHeaderMobile from './LogoHeaderMobile'
+import PageTitle from './PageTitle'
 
-export type HeaderMobileCCProps = {
-	text: string;
-};
+export interface HeaderMobileCCProps {
+  text: string
+}
 
-const HeaderMobileCC = ({ text }: HeaderMobileCCProps) => {
-	return (
-		<Flex flexDirection="column" gap="6" marginLeft="1rem" marginTop="2rem">
-			<LogoHeaderMobile />
-			<PageTitle fontColor="color.black" text={text} />
-		</Flex>
-	);
-};
+function HeaderMobileCC({ text }: HeaderMobileCCProps) {
+  return (
+    <Flex flexDirection="column" gap="6" marginLeft="1rem" marginTop="2rem">
+      <LogoHeaderMobile />
+      <PageTitle fontColor="color.black" text={text} />
+    </Flex>
+  )
+}
 
-export default HeaderMobileCC;
+export default HeaderMobileCC
