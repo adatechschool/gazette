@@ -10,7 +10,7 @@ export interface TooltipProps {
 }
 
 export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
-  (props, ref) => {
+  (props, _ref) => {
     const {
       label,
       children,

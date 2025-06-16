@@ -1,6 +1,6 @@
 #Documentation Gazette
 
-Ce projet est un monorepo TypeScript comprenant :
+Ce projet est un monorepo TypeScript comprenant :
 
 - **Backend** : API NestJS (CommonJS) avec MikroORM et PostgreSQL
 - **Frontend** : Application React (Next)
@@ -68,7 +68,7 @@ pnpm db:migration:down
 
 ### 1. Lancer tous les services (backend, frontend, base de données)
 
-À la racine du projet :
+À la racine du projet :
 
 ```bash
 Windows : docker-compose up --build
@@ -93,11 +93,11 @@ docker-compose logs backend
 
 ### 4. Appliquer les migrations dans le conteneur backend
 
-Ouvre un shell dans le conteneur backend :
+Ouvre un shell dans le conteneur backend :
 
 ```bash
 docker-compose exec backend sh
-# Puis dans le shell :
+# Puis dans le shell :
 pnpm db:migration:up
 ```
 
@@ -105,7 +105,7 @@ pnpm db:migration:up
 
 ## Variables d'environnement
 
-Crée un fichier `.env` dans `apps/backend/` avec :
+Crée un fichier `.env` dans `apps/backend/` avec :
 
 ```
 DB_NAME=gazette_db
@@ -115,14 +115,14 @@ DB_USER=postgres
 DB_PASSWORD=motdepasse
 ```
 
-Crée un fichier `.env` dans `apps/frontend/` avec :
+Crée un fichier `.env` dans `apps/frontend/` avec :
 
 ```
 NEXT_PUBLIC_API_URL=http://localhost:${BACKEND_PORT}
 NODE_ENV=development
 ```
 
-Crée un fichier `.env` dans `apps` avec :
+Crée un fichier `.env` dans `apps` avec :
 
 ```
 # Database
@@ -159,4 +159,4 @@ packages/
 
 ---
 
-**Pour toute question, ouvre une issue ou contacte l'équipe !**
+**Pour toute question, ouvre une issue ou contacte l'équipe !**

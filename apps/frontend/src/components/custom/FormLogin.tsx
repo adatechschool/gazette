@@ -37,9 +37,7 @@ function FormLogin() {
   const onSubmit = async (data: FormValuesLog) => {
     setIsLoading(true)
     try {
-      const response = await loginUser(data.email, data.password)
-      console.log('user created', response)
-
+      const _response = await loginUser(data.email, data.password)
       toast({
         title: t('success'),
         description: t('confirmCreation'),
@@ -48,7 +46,6 @@ function FormLogin() {
         isClosable: true,
       })
 
-      // Attendre un court instant avant la redirection
       setTimeout(() => {
         router.push('/explore')
       }, 1000)

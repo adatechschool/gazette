@@ -1,4 +1,4 @@
-import type { EntityManager } from '@mikro-orm/postgresql'
+import { EntityManager } from '@mikro-orm/core'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import * as bcrypt from 'bcryptjs'
 import { User } from 'src/entities/user.entity'

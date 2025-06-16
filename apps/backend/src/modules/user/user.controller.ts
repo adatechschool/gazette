@@ -1,8 +1,8 @@
-import type { UsersService } from './user.service'
 import { UserRole } from '@gazette/shared'
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common'
 import { Roles } from 'src/modules/roles/roles.decorator'
 import { AuthGuard } from '../auth/auth.guard'
+import { UsersService } from './user.service'
 
 @Controller('users')
 export class UsersController {
