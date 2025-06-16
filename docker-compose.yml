@@ -57,21 +57,10 @@ services:
       NODE_OPTIONS: --max-old-space-size=2048
     ports:
       - '3002:3002'
-    volumes:
-      - ./apps/frontend:/app/apps/frontend
-      - /app/apps/frontend/node_modules
-      - /app/apps/frontend/.next
-      - /app/node_modules
     depends_on:
       - backend
     networks:
       - gazette-network
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
 
 networks:
   gazette-network:
