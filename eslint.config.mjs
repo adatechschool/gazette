@@ -33,6 +33,9 @@ export default antfu(
       'ts/consistent-type-imports': 'off',
       '@typescript-eslint/consistent-type-imports': 'off',
       'node/prefer-global/process': ['error', 'always'],
+      'react-hooks-extra/no-unnecessary-use-prefix': 'off',
+      'react/no-unstable-default-props': 'off',
+      'react/no-array-index-key': 'off',
     },
   },
 )

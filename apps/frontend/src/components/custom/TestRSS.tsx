@@ -54,8 +54,8 @@ function RSSFeed() {
           )
         : (
             <ul>
-              {articles.map((article, index) => (
-                <li key={index}>
+              {articles.map(article => (
+                <li key={`${article.title}-${article.pubDate}`}>
                   <h2>
                     <a
                       href={article.link}
