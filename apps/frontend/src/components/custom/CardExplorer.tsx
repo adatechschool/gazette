@@ -1,13 +1,13 @@
-import { Card, CardBody, Image, Flex, Heading, Text } from "@chakra-ui/react";
-import Button from "./Button";
-import { useState } from "react";
+import { Card, CardBody, Flex, Heading, Image, Text } from '@chakra-ui/react'
+import { useState } from 'react'
+import Button from './Button'
 
-const CardExplorer = () => {
-  const [isSubscribed, setIsSubscribed] = useState(false);
+function CardExplorer() {
+  const [isSubscribed, setIsSubscribed] = useState(false)
 
   const handleSubscribe = () => {
-    setIsSubscribed((prev) => !prev); //inverse la valeur de isSubscribed.
-  };
+    setIsSubscribed(prev => !prev) // inverse la valeur de isSubscribed.
+  }
 
   return (
     <Card maxW="sm" overflow="hidden">
@@ -21,20 +21,20 @@ const CardExplorer = () => {
         <Flex align="center" justify="space-between">
           <Text color="gray.600">Genre</Text>
           <Button
-            fontColor={isSubscribed ? "#606c38" : "#ffffff"} // si abonné, 1ere couleur, sinon 2eme
-            backgroundColor={isSubscribed ? "#ffffff" : "#606c38"} // si abonné, 1ere couleur, sinon 2eme
-            text={isSubscribed ? "Abonné.e" : "S'abonner"} // si abonné, 1er texte, sinon 2eme
-            height="19px" 
+            fontColor={isSubscribed ? '#606c38' : '#ffffff'} // si abonné, 1ere couleur, sinon 2eme
+            backgroundColor={isSubscribed ? '#ffffff' : '#606c38'} // si abonné, 1ere couleur, sinon 2eme
+            text={isSubscribed ? 'Abonné.e' : 'S\'abonner'} // si abonné, 1er texte, sinon 2eme
+            height="19px"
             width="67px"
             fontSize="11px"
-            fontWeight={"semibold"}
+            fontWeight="semibold"
             capitalizeText={true}
             onClick={handleSubscribe}
           />
         </Flex>
       </CardBody>
     </Card>
-  );
-};
+  )
+}
 
-export default CardExplorer;
+export default CardExplorer

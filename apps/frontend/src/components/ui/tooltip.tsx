@@ -1,5 +1,5 @@
-import { Tooltip as ChakraTooltip } from "@chakra-ui/react"
-import * as React from "react"
+import { Tooltip as ChakraTooltip } from '@chakra-ui/react'
+import * as React from 'react'
 
 export interface TooltipProps {
   label: React.ReactNode
@@ -10,7 +10,7 @@ export interface TooltipProps {
 }
 
 export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
-  function Tooltip(props, ref) {
+  (props, _ref) => {
     const {
       label,
       children,
@@ -20,7 +20,8 @@ export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       ...rest
     } = props
 
-    if (isDisabled) return children
+    if (isDisabled)
+      return children
 
     return (
       <ChakraTooltip

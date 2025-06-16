@@ -1,48 +1,41 @@
-// eslint.config.mjs
-// @ts-check
-import { fileURLToPath } from 'url';
+// eslint.config.js
 import antfu from '@antfu/eslint-config'
 
-const __filename = fileURLToPath(import.meta.url);
-
-export default await antfu(
-  // Configuration globale d'antfu
+export default antfu(
+  // Configures for antfu's config and global rules
   {
-    typescript: true,
     react: true,
-    formatters: true,
+    css: true,
+    html: true,
     ignores: [
-      '**/dist',
-      '**/node_modules',
-      'apps/**/build',
+      '**/dist/',
+      '**/temp/',
+      'ai-research/',
+      'apps/backoffice/src/routeTree.gen.ts',
+      'apps/api/yaak/',
+      'apps/backoffice/src/components/ui/',
+      'packages/nest-crud-helpers',
     ],
   },
-
-  // Configurations spécifiques (ESLint Flat Configs)
+  // Starting from the second arguments they are ESLint Flat Configs
+  // Careful, antfu renames some plugins for consistency https://github.com/antfu/eslint-config?tab=readme-ov-file#plugins-renaming
   {
-    // Configuration commune pour le backend
-    files: ['apps/backend/**/*.ts'],
+    files: ['apps/api/**/*.ts', 'apps/api/**/*.json'],
     rules: {
       'ts/consistent-type-imports': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
       'node/prefer-global/process': ['error', 'always'],
     },
   },
-
   {
-    // Configuration spécifique pour le frontend
-    files: ['apps/frontend/**/*.{ts,tsx}'],
+    files: ['apps/backend/**/*.ts'],
     rules: {
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-    },
-  },
-
-  {
-    // Configuration commune
-    rules: {
-      'no-console': 'warn',
-      'no-unused-vars': 'warn',
-      'style/brace-style': ['error', '1tbs'],
+      'ts/consistent-type-imports': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
+      'node/prefer-global/process': ['error', 'always'],
+      'react-hooks-extra/no-unnecessary-use-prefix': 'off',
+      'react/no-unstable-default-props': 'off',
+      'react/no-array-index-key': 'off',
     },
   },
 )

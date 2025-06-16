@@ -1,4 +1,3 @@
-# Étape 1: Build
 FROM node:20-alpine AS builder
 
 RUN apk add --no-cache postgresql-client netcat-openbsd

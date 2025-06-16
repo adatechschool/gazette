@@ -1,16 +1,16 @@
-import { Button } from "@chakra-ui/react";
+import { Button } from '@chakra-ui/react'
 
-const Medias = () => {
-    return (
-        <div>
-            <button>Podcast</button>
-            <Button colorScheme='teal' size='xs'>
-    Button
-  </Button>
-            <button>Video</button>
-            <button>Presse</button>
-        </div>
-    )
+function Medias() {
+  return (
+    <div>
+      <button type="button">Podcast</button>
+      <Button colorScheme="teal" size="xs">
+        Button
+      </Button>
+      <button type="button">Video</button>
+      <button type="button">Presse</button>
+    </div>
+  )
 }
 
-export default Medias;
+export default Medias
