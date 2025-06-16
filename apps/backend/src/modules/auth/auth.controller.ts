@@ -1,7 +1,5 @@
 import type { LoginDto } from '@gazette/shared'
-import type { ConfigService } from '@nestjs/config'
 import type { Request, Response } from 'express'
-import type { AuthService } from './auth.service'
 import {
   Body,
   Controller,
@@ -13,7 +11,9 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { AuthGuard } from './auth.guard'
+import { AuthService } from './auth.service'
 
 interface RequestWithUser extends Request {
   user: {

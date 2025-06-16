@@ -1,9 +1,9 @@
 import type { LoginDto } from '@gazette/shared'
-import type { ConfigService } from '@nestjs/config'
-import type { JwtService } from '@nestjs/jwt'
 import type { Response } from 'express'
-import type { UsersService } from '../user/user.service'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { JwtService } from '@nestjs/jwt'
+import { UsersService } from '../user/user.service'
 import { verifyPassword } from '../user/user.service'
 
 @Injectable()
