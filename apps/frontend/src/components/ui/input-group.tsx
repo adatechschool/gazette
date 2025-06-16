@@ -17,7 +17,11 @@ export const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
       ...rest
     } = props
 
-    const child = React.Children.only<React.ReactElement>(children)
+    const childProps = {
+      ...(startElement && { pl: '10' }),
+      ...(endElement && { pr: '10' }),
+      ...children.props,
+    }
 
     return (
       <ChakraInputGroup ref={ref} {...rest}>
@@ -26,11 +30,7 @@ export const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
             {startElement}
           </InputLeftElement>
         )}
-        {React.cloneElement(child, {
-          ...(startElement && { pl: '10' }),
-          ...(endElement && { pr: '10' }),
-          ...(child.props as Record<string, unknown>),
-        })}
+        {React.createElement(children.type, childProps)}
         {endElement && (
           <InputRightElement>
             {endElement}

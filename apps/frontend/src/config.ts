@@ -1,3 +1,4 @@
+import process from 'node:process'
 import ky from 'ky'
 
 // Utilisation de la variable d'environnement définie dans docker-compose
