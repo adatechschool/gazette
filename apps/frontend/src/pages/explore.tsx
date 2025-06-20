@@ -7,7 +7,10 @@ import FormTitle from '@/components/custom/FormTitle'
 import HeaderMobile from '@/components/custom/HeaderMobile'
 import Layout from '@/components/custom/Layout'
 import Navbar from '@/components/custom/Navbar'
+import CardHorizontal from '@/components/custom/CardHorizontal'
 import { getUserProfile } from '@/services/api'
+import { getMockRSSData } from '@/data/mockRSSData'
+import type { RSSItem } from '@gazette/shared'
 
 function Explore() {
   const { t: tAccount } = useTranslation('common', {
@@ -21,6 +24,10 @@ function Explore() {
   const [user, setUser] = useState<UserProfileDto['user'] | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const [rssItems, setRssItems] = useState<RSSItem[]>([])
+  const [isLoadingRSS, setIsLoadingRSS] = useState(true)
+  const [rssError, setRssError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -39,7 +46,22 @@ function Explore() {
       }
     }
 
+    const fetchRSSData = async () => {
+      try {
+        setIsLoadingRSS(true)
+        const data = await getMockRSSData()
+        setRssItems(data)
+        setRssError(null)
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données RSS:', error)
+        setRssError('Impossible de récupérer les articles')
+      } finally {
+        setIsLoadingRSS(false)
+      }
+    }
+
     fetchUserProfile()
+    fetchRSSData()
   }, [])
 
   const isMobile = useBreakpointValue({ base: true, lg: false })
@@ -64,53 +86,129 @@ function Explore() {
   }
 
   return (
-    <Layout>
-      {isMobile
-        ? (
-            <div>
-              <HeaderMobile text={tNav('explore')} />
-              <Navbar />
-            </div>
-          )
-        : (
-            <Flex
-              width="100%"
-              height="100%"
-              gap={10}
-              padding={10}
-              flexDirection="column"
-            >
-              <Flex width="100%" height="10%" gap={10} flexDirection="row">
-                <AppTitle />
-                <Navbar />
-              </Flex>
-              <Flex
-                width="100%"
-                height="90%"
-                gap={10}
-                justifyContent="center"
-                padding={10}
-              >
-                <FormTitle text={tNav('explore')} fontColor="color.chaletGreen" />
-              </Flex>
-              {user && (
-                <div>
-                  <h1>
-                    Bienvenue
-                    {user.pseudo || user.email || 'Utilisateur'}
-                  </h1>
-                </div>
-              )}
-              <Link
-                href="/"
-                fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-                fontSize={{ base: '1rem', lg: '2rem' }}
-              >
-                {tAccount('logout')}
-              </Link>
+<Layout>
+      {isMobile ? (
+        <div>
+          <HeaderMobile text={tNav('explore')} />
+          <Navbar />
+          
+          {/* Section d'accueil utilisateur */}
+          {user && (
+            <Flex padding={4} justify="center">
+              <ChakraText fontSize="lg" fontWeight="medium">
+                Bienvenue {user.pseudo || user.email || 'Utilisateur'} !
+              </ChakraText>
             </Flex>
           )}
 
+          {/* Articles RSS */}
+          <Flex padding={4} flexDirection="column" gap={4}>
+            <ChakraText fontSize="xl" fontWeight="bold" color="color.chaletGreen">
+              Articles du jour
+            </ChakraText>
+            
+            {isLoadingRSS ? (
+              <ChakraText>Chargement des articles...</ChakraText>
+            ) : rssError ? (
+              <ChakraText color="red.500">Erreur: {rssError}</ChakraText>
+            ) : rssItems.length > 0 ? (
+              <Flex flexDirection="column" gap={4}>
+                {rssItems.map((item) => (
+                  <CardHorizontal 
+                    key={item.id}
+                    photo={item.imageUrl || ''}
+                    date={item.date}
+                    cardTitle={item.title}
+                    cardDescription={item.description}
+                    media={item.media}
+                    medium={item.medium}
+                    sourceUrl={item.sourceUrl}
+                  />
+                ))}
+              </Flex>
+            ) : (
+              <ChakraText>Aucun article disponible</ChakraText>
+            )}
+          </Flex>
+
+          {/* Lien de déconnexion */}
+          <Flex padding={4} justify="center">
+            <Link
+              href="/"
+              fontFamily="Poppins"
+              fontSize="1rem"
+              color="red.500"
+            >
+              {tAccount('logout')}
+            </Link>
+          </Flex>
+        </div>
+      ) : (
+        <Flex
+          width="100%"
+          height="100%"
+          gap={10}
+          padding={10}
+          flexDirection="column"
+        >
+          <Flex width="100%" height="10%" gap={10} flexDirection="row">
+            <AppTitle />
+            <Navbar />
+          </Flex>
+          
+          <Flex
+            width="100%"
+            height="90%"
+            gap={10}
+            justifyContent="flex-start"
+            padding={10}
+            flexDirection="column"
+          >
+            <FormTitle text={tNav('explore')} fontColor="color.chaletGreen" />
+            
+            {user && (
+              <ChakraText fontSize="xl" fontWeight="medium">
+                Bienvenue {user.pseudo || user.email || 'Utilisateur'} !
+              </ChakraText>
+            )}
+
+            {/* Articles RSS en grille */}
+            {isLoadingRSS ? (
+              <ChakraText>Chargement des articles...</ChakraText>
+            ) : rssError ? (
+              <ChakraText color="red.500">Erreur: {rssError}</ChakraText>
+            ) : rssItems.length > 0 ? (
+              <Flex flexDirection="column" gap={6} maxW="4xl">
+                {rssItems.map((item) => (
+                  <CardHorizontal 
+                    key={item.id}
+                    photo={item.imageUrl || ''}
+                    date={item.date}
+                    cardTitle={item.title}
+                    cardDescription={item.description}
+                    media={item.media}
+                    medium={item.medium}
+                    sourceUrl={item.sourceUrl}
+                  />
+                ))}
+              </Flex>
+            ) : (
+              <ChakraText>Aucun article disponible</ChakraText>
+            )}
+
+            <Link
+              href="/"
+              fontFamily="Staatliches"
+              fontSize="2rem"
+              color="red.500"
+              alignSelf="center"
+              mt="auto"
+            >
+              {tAccount('logout')}
+            </Link>
+          </Flex>
+        </Flex>
+      )}
     </Layout>
   )
 }

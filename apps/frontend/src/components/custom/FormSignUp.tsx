@@ -88,7 +88,7 @@ function FormSignUp() {
                 rounded="md"
                 shadow="md"
                 variant="flushed"
-                {...register('pseudo', { required: t('requiredField') })}
+                {...register('pseudo')}
               />
             </Field>
             <Field
@@ -100,7 +100,7 @@ function FormSignUp() {
                 rounded="md"
                 shadow="md"
                 variant="flushed"
-                {...register('email', { required: t('requiredField') })}
+                {...register('email')}
               />
             </Field>
 
@@ -114,7 +114,7 @@ function FormSignUp() {
                 rounded="md"
                 shadow="md"
                 variant="flushed"
-                {...register('password', { required: t('requiredField') })}
+                {...register('password')}
               />
             </Field>
 
@@ -128,9 +128,7 @@ function FormSignUp() {
                 rounded="md"
                 shadow="md"
                 variant="flushed"
-                {...register('confirmPassword', {
-                  required: t('requiredField'),
-                })}
+                {...register('confirmPassword')}
               />
             </Field>
 

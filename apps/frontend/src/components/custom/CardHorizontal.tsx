@@ -1,14 +1,6 @@
 import { Box, Card, CardBody, CardFooter, Heading, HStack, Image, Text } from '@chakra-ui/react'
 import { LockKeyhole } from 'lucide-react'
-
-interface CardHorizontalCCProps {
-  photo: string
-  date: string
-  cardTitle: string
-  cardDescription: string
-  media: string
-  medium: string
-}
+import type { CardHorizontalProps } from '@gazette/shared'
 
 function CardHorizontal({
   photo,
@@ -17,34 +9,47 @@ function CardHorizontal({
   cardDescription,
   media,
   medium,
-}: CardHorizontalCCProps) {
+  sourceUrl
+}: CardHorizontalProps) {
+  const handleCardClick = () => {
+    if (sourceUrl) {
+      window.open(sourceUrl, '_blank')
+    }
+  }
+  
   return (
-    <Card flexDirection="row" overflow="hidden" maxW="xl" position="relative">
+    <Card 
+      flexDirection="row" 
+      overflow="hidden" 
+      maxW="xl" 
+      position="relative"
+      cursor={sourceUrl ? "pointer" : "default"}
+      onClick={handleCardClick}
+      _hover={sourceUrl ? { shadow: "lg", transform: "translateY(-1px)"  } : {}}
+      transition="all 0.2s"
+      >
       <Image
         shadow="sm"
         objectFit="cover"
         maxW="200px"
         src={photo}
         alt="image article"
+        fallbackSrc="https://via.placeholder.com/200x150?text=Image+non+disponible"
       />
       <Box flex="1">
         <CardBody>
-          <Heading size="md" mb="2">{cardTitle}</Heading>
+          <Heading size="md" mb="2" noOfLines={2}>{cardTitle}</Heading>
 
           <Text position="absolute" top="2" right="2" fontSize="sm">
             {date}
           </Text>
 
-          <Text color="gray.600">{cardDescription}</Text>
+          <Text color="gray.600" noOfLines={3}>{cardDescription}</Text>
         </CardBody>
         <CardFooter>
           <HStack mt="12">
             <Text>
-              {medium}
-              {' '}
-              -
-              {' '}
-              {media}
+              {medium} - {media}
             </Text>
             <LockKeyhole />
           </HStack>
