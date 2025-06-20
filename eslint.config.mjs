@@ -1,5 +1,6 @@
 // eslint.config.js
 import antfu from '@antfu/eslint-config'
+
 export default antfu(
   // Configures for antfu's config and global rules
   {
@@ -22,7 +23,19 @@ export default antfu(
     files: ['apps/api/**/*.ts', 'apps/api/**/*.json'],
     rules: {
       'ts/consistent-type-imports': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
       'node/prefer-global/process': ['error', 'always'],
+    },
+  },
+  {
+    files: ['apps/backend/**/*.ts'],
+    rules: {
+      'ts/consistent-type-imports': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
+      'node/prefer-global/process': ['error', 'always'],
+      'react-hooks-extra/no-unnecessary-use-prefix': 'off',
+      'react/no-unstable-default-props': 'off',
+      'react/no-array-index-key': 'off',
     },
   },
 )

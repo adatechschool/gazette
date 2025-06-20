@@ -7,6 +7,7 @@ import { LoggerModule } from 'nestjs-pino'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './modules/auth/auth.module'
+import { FavoritesModule } from './modules/favorite/favorite.module'
 import { JwtConfigModule } from './modules/jwt/jwt.config.module'
 import { UsersModule } from './modules/user/user.module'
 
@@ -14,6 +15,9 @@ import { UsersModule } from './modules/user/user.module'
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validate: (config: Record<string, any>) => {
+        return config
+      },
     }),
     LoggerModule.forRoot({
       pinoHttp: {
@@ -27,6 +31,7 @@ import { UsersModule } from './modules/user/user.module'
       },
     }),
     MikroOrmModule.forRootAsync({
+      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         driver: PostgreSqlDriver,
@@ -49,11 +54,13 @@ import { UsersModule } from './modules/user/user.module'
           safe: true,
           emit: 'ts',
         },
+        validateRequired: true,
       }),
     }),
     UsersModule,
     AuthModule,
     JwtConfigModule,
+    FavoritesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

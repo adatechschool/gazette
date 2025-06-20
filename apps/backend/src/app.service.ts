@@ -1,5 +1,5 @@
-import type { MikroORM } from '@mikro-orm/core'
-import type { EntityManager } from '@mikro-orm/postgresql'
+import { MikroORM } from '@mikro-orm/core'
+import { EntityManager } from '@mikro-orm/core'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
