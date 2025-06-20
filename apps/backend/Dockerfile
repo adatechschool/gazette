@@ -43,8 +43,8 @@ COPY --from=builder /app/apps/backend/node_modules ./apps/backend/node_modules
 
 WORKDIR /app/apps/backend
 
-# S'assurer que le fichier entrypoint.sh existe et est exécutable
-RUN ls -la && chmod +x entrypoint.sh
+# S'assurer que le fichier entrypoint.sh est exécutable
+RUN chmod +x entrypoint.sh
 
 EXPOSE 3000
 
