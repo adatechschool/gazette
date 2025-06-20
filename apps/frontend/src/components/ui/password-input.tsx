@@ -3,15 +3,16 @@
 import type { BoxProps, ButtonProps, InputProps } from '@chakra-ui/react'
 import {
   Box,
+  InputGroup as ChakraInputGroup,
   HStack,
   IconButton,
   Input,
+  InputRightElement,
   Stack,
   useControllableState,
 } from '@chakra-ui/react'
 import * as React from 'react'
 import { LuEye, LuEyeOff } from 'react-icons/lu'
-import { InputGroup } from '@/components/ui/input-group'
 
 const DEFAULT_VISIBILITY_ICON = {
   on: <LuEye />,
@@ -64,8 +65,13 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
     })
 
     return (
-      <InputGroup
-        endElement={(
+      <ChakraInputGroup {...rootProps}>
+        <Input
+          {...rest}
+          ref={ref}
+          type={visible ? 'text' : 'password'}
+        />
+        <InputRightElement>
           <VisibilityTrigger
             isDisabled={rest.isDisabled}
             onClick={() => {
@@ -76,15 +82,8 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
           >
             {visible ? visibilityIcon.off : visibilityIcon.on}
           </VisibilityTrigger>
-        )}
-        {...rootProps}
-      >
-        <Input
-          {...rest}
-          ref={ref}
-          type={visible ? 'text' : 'password'}
-        />
-      </InputGroup>
+        </InputRightElement>
+      </ChakraInputGroup>
     )
   },
 )
