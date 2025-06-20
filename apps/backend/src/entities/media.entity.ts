@@ -1,10 +1,10 @@
 import { MediaType } from '@gazette/shared'
 import { Entity, Enum, Property } from '@mikro-orm/core'
-import { PrimaryKey } from '@mikro-orm/core'
+import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
 
 @Entity()
 export class Media {
-  @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
+  @PrimaryKeyUuid()
   id!: string
 
   @Property()
