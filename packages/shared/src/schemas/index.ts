@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { UserRole } from '../enums'
 
-const passwordValidation = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$%^&*()-]).{8,}$/
+const passwordValidation = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[-[\]()*~_#:?]).{8,}$/
 
 export const CreateUserSchema = z
   .object({
@@ -10,11 +10,11 @@ export const CreateUserSchema = z
     password: z
       .string()
       .min(8, { message: 'must contains at least 8 characters' })
-      .regex(passwordValidation),
+      .regex(passwordValidation, { message: 'Password must contain at least one uppercase, one lowercase, one number, and one special character (- [ ] ( ) * ~ _ # : ?)' }),
     confirmPassword: z
       .string()
       .min(8, { message: 'must contains at least 8 characters' })
-      .regex(passwordValidation),
+      .regex(passwordValidation, { message: 'Password must contain at least one uppercase, one lowercase, one number, and one special character (- [ ] ( ) * ~ _ # : ?)' }),
     role: z.nativeEnum(UserRole).default(UserRole.USER),
   })
   .refine(values => values.password === values.confirmPassword, {
