@@ -1,13 +1,13 @@
 import { ContentType } from '@gazette/shared'
 import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core'
-import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { PrimaryKey } from '@mikro-orm/core';
 import { Media } from './media.entity'
 
 @Entity()
 export class Content {
-  @PrimaryKeyUuid()
-  id!: string
-
+  @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
+  id!: string;
+  
   @Property()
   title!: string
 

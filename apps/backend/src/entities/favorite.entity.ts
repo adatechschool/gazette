@@ -5,8 +5,8 @@ import { User } from './user.entity'
 
 @Entity()
 export class Favorite {
-  @PrimaryKeyUuid()
-  id!: string
+  @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
+  id!: string;
 
   @ManyToOne(() => User)
   user!: User

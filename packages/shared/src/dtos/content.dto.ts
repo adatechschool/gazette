@@ -1,3 +1,5 @@
+
+// Interface pour définir la structure normalisée
 export interface ContentParsed {
     id: string ;
     title: string;

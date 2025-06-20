@@ -59,6 +59,16 @@
           "nullable": true,
           "mappedType": "blob"
         },
+        "url_rss": {
+          "name": "url_rss",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamptz",
