@@ -1,9 +1,7 @@
 import { z } from 'zod'
 import { UserRole } from '../enums'
 
-const passwordValidation = new RegExp(
-  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$%^&*()-]).{8,}$/,
-)
+const passwordValidation = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$%^&*()-]).{8,}$/
 
 export const CreateUserSchema = z
   .object({

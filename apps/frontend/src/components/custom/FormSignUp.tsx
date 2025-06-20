@@ -41,9 +41,7 @@ function FormSignUp() {
   const onSubmit = async (data: FormValuesSignUp) => {
     setIsLoading(true)
     try {
-      const response = await createUser({ ...data, role: UserRole.USER })
-      console.log('user created', response)
-
+      const _response = await createUser({ ...data, role: UserRole.USER })
       toast({
         title: t('success'),
         description: t('confirmCreation'),

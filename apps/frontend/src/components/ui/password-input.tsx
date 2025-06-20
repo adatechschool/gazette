@@ -13,6 +13,11 @@ import * as React from 'react'
 import { LuEye, LuEyeOff } from 'react-icons/lu'
 import { InputGroup } from '@/components/ui/input-group'
 
+const DEFAULT_VISIBILITY_ICON = {
+  on: <LuEye />,
+  off: <LuEyeOff />,
+}
+
 export interface PasswordVisibilityProps {
   defaultVisible?: boolean
   visible?: boolean
@@ -24,6 +29,23 @@ export interface PasswordInputProps extends InputProps, PasswordVisibilityProps 
   rootProps?: BoxProps
 }
 
+const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => {
+    return (
+      <IconButton
+        tabIndex={-1}
+        ref={ref}
+        mr="-2"
+        size="sm"
+        variant="ghost"
+        height="calc(100% - 8px)"
+        aria-label="Toggle password visibility"
+        {...props}
+      />
+    )
+  },
+)
+
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
   (props, ref) => {
     const {
@@ -31,7 +53,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       defaultVisible,
       visible: visibleProp,
       onVisibleChange,
-      visibilityIcon = { on: <LuEye />, off: <LuEyeOff /> },
+      visibilityIcon = DEFAULT_VISIBILITY_ICON,
       ...rest
     } = props
 
@@ -67,23 +89,6 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
   },
 )
 
-const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (props, ref) => {
-    return (
-      <IconButton
-        tabIndex={-1}
-        ref={ref}
-        mr="-2"
-        size="sm"
-        variant="ghost"
-        height="calc(100% - 8px)"
-        aria-label="Toggle password visibility"
-        {...props}
-      />
-    )
-  },
-)
-
 interface PasswordStrengthMeterProps extends BoxProps {
   max?: number
   value: number
@@ -96,16 +101,23 @@ export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordSt
     const percent = (value / max) * 100
     const { label, color } = getColor(percent)
 
+    const strengthBars = React.useMemo(() => {
+      return Array.from({ length: max }).map((_, i) => ({
+        id: `strength-bar-${i + 1}`,
+        isActive: i < value,
+      }))
+    }, [max, value])
+
     return (
       <Stack align="flex-end" spacing="1" ref={ref} {...rest}>
         <HStack width="full">
-          {Array.from({ length: max }).map((_, index) => (
+          {strengthBars.map(({ id, isActive }) => (
             <Box
-              key={index}
+              key={id}
               height="1"
               flex="1"
               rounded="sm"
-              bg={index < value ? color : 'gray.200'}
+              bg={isActive ? color : 'gray.200'}
             />
           ))}
         </HStack>
