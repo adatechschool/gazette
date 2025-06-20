@@ -1,11 +1,11 @@
 import { MediaType } from '@gazette/shared'
 import { Entity, Enum, Property } from '@mikro-orm/core'
-import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { PrimaryKey } from '@mikro-orm/core';
 
 @Entity()
 export class Media {
-  @PrimaryKeyUuid()
-  id!: string
+  @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
+  id!: string;
 
   @Property()
   name!: string
@@ -18,6 +18,9 @@ export class Media {
 
   @Property({ nullable: true })
   picture!: Blob
+
+  @Property()
+  urlRss: string
 
   @Property()
   createdAt = new Date()

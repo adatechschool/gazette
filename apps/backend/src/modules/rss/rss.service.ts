@@ -3,7 +3,7 @@
 import { Injectable } from '@nestjs/common';
 import Parser from 'rss-parser';
 import { ContentParsed, NormalizedItem } from '@gazette/shared';
-import { raw } from '@mikro-orm/core';
+
 
 
 @Injectable()
@@ -13,10 +13,10 @@ export class RssService {
     const feed = await parser.parseURL(url);
     return this.normalizedFeed(feed);
   }
-  private normalizedFeed(rawFeed: any): ContentParsed {
+  private normalizedFeed(rawFeed: any): ContentParsed { //rawFeed --> objet qui contient les données du flux/RSS pasées (au format "natif")
     return {
       id: rawFeed.id,
-      title: rawFeed.title,
+      title: rawFeed.title, 
       date: rawFeed.date,
       description: rawFeed.description,
       type: rawFeed.type,

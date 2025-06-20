@@ -1,11 +1,11 @@
 import { UserRole } from '@gazette/shared'
 import { Entity, Enum, Property } from '@mikro-orm/core'
-import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { PrimaryKey } from '@mikro-orm/core';
 
 @Entity()
 export class User {
-  @PrimaryKeyUuid()
-  id!: string
+  @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
+  id!: string;
 
   @Property()
   pseudo!: string
