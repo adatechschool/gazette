@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
     cors: {
-      origin: true, // Permet toutes les origines en développement
+      origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3002'],
       credentials: true,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
       allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With, Origin',
@@ -17,6 +17,7 @@ async function bootstrap() {
 
   app.useLogger(app.get(Logger))
   app.use(cookieParser())
+
   await app.listen(process.env.PORT ?? 3000)
 }
 bootstrap()

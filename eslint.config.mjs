@@ -38,4 +38,12 @@ export default antfu(
       'react/no-array-index-key': 'off',
     },
   },
+  {
+    files: ['apps/frontend/**/*.ts', 'apps/frontend/**/*.tsx'],
+    rules: {
+      'ts/consistent-type-imports': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
+      'node/prefer-global/process': 'off', // Next.js utilise process.env globalement
+    },
+  },
 )
