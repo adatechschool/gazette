@@ -100,7 +100,11 @@ docker-compose exec backend sh
 # Puis dans le shell :
 pnpm db:migration:up
 ```
+# Pour mettre à jour les BDD dans docker
+docker exec gazette-backend-1 pnpm exec mikro-orm migration:up
 
+# Pour accèder à la BDD
+docker exec -it gazette-postgres-1 psql -U postgres -d gazette_db
 ---
 
 ## Variables d'environnement

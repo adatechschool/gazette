@@ -21,7 +21,7 @@ export class Content {
   type!: ContentType
 
   @ManyToOne(() => Media)
-  mediaId!: Media
+  media!: Media
 
   @Property()
   createdAt = new Date()

@@ -1,6 +1,7 @@
 import { MediaType } from '@gazette/shared'
-import { Entity, Enum, Property } from '@mikro-orm/core'
+import { Collection, Entity, Enum, OneToMany, Property } from '@mikro-orm/core'
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { Content } from './content.entity'
 
 @Entity()
 export class Media {
@@ -20,8 +21,11 @@ export class Media {
   picture!: Blob
 
   @Property()
-  urlRss: string
+  urlRss!: string
 
   @Property()
   createdAt = new Date()
+
+  @OneToMany({ entity: () => Content, mappedBy: 'media' })
+  contents = new Collection<Content>(this)
 }

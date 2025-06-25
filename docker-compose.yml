@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   postgres:
     image: postgres:15-alpine
@@ -12,7 +11,7 @@ services:
     networks:
       - gazette-network
     healthcheck:
-      test: [CMD-SHELL, 'pg_isready -U ${DB_USER} -d ${DB_NAME}']
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -21,6 +20,9 @@ services:
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
+    volumes:
+      - ./apps/backend/src:/app/src # Synchronise le code source
+      - ./apps/backend/package.json:/app/package.json
     env_file:
       - .env # Charge le .env racine
     environment:
