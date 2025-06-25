@@ -67,22 +67,26 @@ function Explore() {
   const isMobile = useBreakpointValue({ base: true, lg: false })
 
   if (isLoading) {
-    <Layout>
-      <Flex justify="center" align="center" height="100vh">
-        <ChakraText>Chargement...</ChakraText>
-      </Flex>
-    </Layout>
+    return (
+      <Layout>
+        <Flex justify="center" align="center" height="100vh">
+          <ChakraText>Chargement...</ChakraText>
+        </Flex>
+      </Layout>
+    )
   }
 
   if (error) {
-    <Layout>
-      <Flex justify="center" align="center" height="100vh">
-        <ChakraText color="red.500">
-          Erreur:
-          {error}
-        </ChakraText>
-      </Flex>
-    </Layout>
+    return(
+      <Layout>
+        <Flex justify="center" align="center" minHeight="100vh">
+          <ChakraText color="red.500">
+            Erreur:
+            {error}
+          </ChakraText>
+        </Flex>
+      </Layout>
+    )
   }
 
   return (
@@ -146,19 +150,19 @@ function Explore() {
       ) : (
         <Flex
           width="100%"
-          height="100%"
+          minHeight="100vh"
           gap={10}
           padding={10}
           flexDirection="column"
         >
-          <Flex width="100%" height="10%" gap={10} flexDirection="row">
+          <Flex width="100%" gap={10} flexDirection="row" flex="0 0 auto">
             <AppTitle />
             <Navbar />
           </Flex>
           
           <Flex
             width="100%"
-            height="90%"
+            flex="1"
             gap={10}
             justifyContent="flex-start"
             padding={10}
