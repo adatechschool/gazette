@@ -2,8 +2,8 @@
 
 import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
-import FormTitle from './Title'
 import Navbar from './Navbar'
+import FormTitle from './Title'
 
 interface ResponsiveLayoutProps {
   children: React.ReactNode
