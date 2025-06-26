@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { PasswordInput } from '@/components/ui/password-input'
-import { createUser } from '@/services/api'
+import { createUser } from '@/services/api/user'
 import { Field } from '../ui/field'
 import Button from './Button'
 

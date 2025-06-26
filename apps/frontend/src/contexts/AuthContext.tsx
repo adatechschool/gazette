@@ -1,3 +1,5 @@
+'use client'
+
 import { UserDto } from '@gazette/shared'
 import { createContext, useEffect, useMemo, useState } from 'react'
 import { getUserProfile, loginUser, logoutUser } from '@/services/api/user'

@@ -24,7 +24,6 @@ export async function getAllUsers(): Promise<CreateUserDto[]> {
     .get('users')
     .json()
 }
-
 export async function loginUser(
   email: string,
   password: string,
