@@ -32,28 +32,11 @@ cd packages/shared
 pnpm build
 ```
 
-## Lancer le projet en local (hors Docker)
-
-### Backend
-
-```bash
-cd apps/backend
-pnpm build
-pnpm start
-```
-
-### Frontend
-
-```bash
-cd apps/web
-pnpm start
-```
-
 ### Commandes de migration (depuis apps/backend)
 
 ```bash
 # Créer une migration
-pnpm db:migration:create
+pnpm migration:create
 
 # Appliquer les migrations
 pnpm db:migration:up
