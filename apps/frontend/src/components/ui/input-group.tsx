@@ -30,7 +30,7 @@ export const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
             {startElement}
           </InputLeftElement>
         )}
-        {React.createElement(children.type, childProps)}
+        {React.cloneElement(children, childProps)}
         {endElement && (
           <InputRightElement>
             {endElement}

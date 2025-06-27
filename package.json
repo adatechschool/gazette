@@ -16,11 +16,7 @@
     "docker:down": "docker-compose down",
     "docker:build": "docker-compose build",
     "docker:logs": "docker-compose logs -f",
-    "migration:create": "docker-compose exec backend npx mikro-orm migration:create",
-    "migration:up": "docker-compose exec backend npx mikro-orm migration:up",
-    "migration:down": "docker-compose exec backend npx mikro-orm migration:down",
-    "migration:pending": "docker-compose exec backend npx mikro-orm migration:pending",
-    "schema:fresh": "docker-compose exec backend npx mikro-orm schema:fresh --run"
+    "schema:fresh": "docker-compose exec backend pnpx mikro-orm schema:fresh --run"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.14.1",
