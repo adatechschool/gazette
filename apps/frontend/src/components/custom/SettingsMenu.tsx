@@ -1,16 +1,29 @@
 import { Box, Icon, Link, List, ListItem } from '@chakra-ui/react'
 import { FileBadge, HelpCircle, LogOut, Trash } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { deleteUserAccount } from '@/services/api'
+import { useAuth } from '@/hooks/useAuth'
 
 function SettingsMenu() {
   const { t } = useTranslation('common', {
     keyPrefix: 'accountManagement',
   })
 
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      // La redirection sera gérée par le contexte ou le routeur
+    }
+    catch (error) {
+      console.error('Erreur lors de la déconnexion:', error)
+    }
+  }
+
   const handleDeleteAccount = async () => {
     try {
-      await deleteUserAccount()
+      // TODO: Implémenter la suppression de compte
+      console.warn('Suppression de compte à implémenter')
     }
     catch (error) {
       console.error(error)
@@ -23,7 +36,8 @@ function SettingsMenu() {
         <ListItem>
           <Icon as={LogOut} mr={2} />
           <Link
-            href="/"
+            onClick={handleLogout}
+            cursor="pointer"
             fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
             fontSize={{ base: '1rem', lg: '2rem' }}
           >
@@ -33,8 +47,8 @@ function SettingsMenu() {
         <ListItem>
           <Icon as={Trash} mr={2} />
           <Link
-            onClick={() => handleDeleteAccount()}
-            href="/"
+            onClick={handleDeleteAccount}
+            cursor="pointer"
             fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
             fontSize={{ base: '1rem', lg: '2rem' }}
           >

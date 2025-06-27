@@ -1,5 +1,5 @@
 import type { CreateUserDto, UserProfileDto } from '@gazette/shared'
-import { api } from '../config'
+import { api } from '../../config'
 
 export async function createUser(user: CreateUserDto): Promise<CreateUserDto> {
   console.warn('Données envoyées à l’API :', user)
@@ -24,7 +24,6 @@ export async function getAllUsers(): Promise<CreateUserDto[]> {
     .get('users')
     .json()
 }
-
 export async function loginUser(
   email: string,
   password: string,
@@ -33,6 +32,12 @@ export async function loginUser(
     .post('auth/login', {
       json: { email, password },
     })
+    .json()
+}
+
+export async function logoutUser(): Promise<void> {
+  return await api
+    .post('auth/logout')
     .json()
 }
 

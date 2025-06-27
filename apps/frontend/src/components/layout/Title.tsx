@@ -1,11 +1,14 @@
 import { Heading } from '@chakra-ui/react'
+import { useResponsiveTokens } from '../../theme/responsive'
 
-export interface PageTitleProps {
+export interface TitleProps {
   fontColor: string
   text: string
 }
 
-function PageTitle({ fontColor, text }: PageTitleProps) {
+function Title({ fontColor, text }: TitleProps) {
+  const { titleFontSize } = useResponsiveTokens()
+
   return (
     <Heading
       fontFamily={{
@@ -13,14 +16,11 @@ function PageTitle({ fontColor, text }: PageTitleProps) {
         lg: 'Staatliches',
       }}
       color={fontColor}
-      fontSize={{
-        base: '1.125rem',
-        lg: '6.25rem',
-      }}
+      fontSize={titleFontSize}
     >
       {text}
     </Heading>
   )
 }
 
-export default PageTitle
+export default Title

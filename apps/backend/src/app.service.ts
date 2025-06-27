@@ -1,5 +1,4 @@
-import { MikroORM } from '@mikro-orm/core'
-import { EntityManager } from '@mikro-orm/core'
+import { EntityManager, MikroORM } from '@mikro-orm/core'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
