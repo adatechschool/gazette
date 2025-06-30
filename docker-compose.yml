@@ -37,6 +37,12 @@ services:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:${FRONTEND_PORT:-3002},http://frontend:${FRONTEND_PORT:-3002}}
     ports:
       - '${BACKEND_PORT}:${BACKEND_PORT}'
+    volumes:
+      # Synchroniser le code source pour le développement
+      - ./apps/backend:/app/apps/backend
+      - ./packages:/app/packages
+      - ./package.json:/app/package.json
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
     depends_on:
       postgres:
         condition: service_healthy
@@ -57,6 +63,12 @@ services:
       NODE_OPTIONS: --max-old-space-size=2048
     ports:
       - '${FRONTEND_PORT:-3002}:${FRONTEND_PORT:-3002}'
+    volumes:
+      # Synchroniser le code source pour le développement
+      - ./apps/frontend:/app/apps/frontend
+      - ./packages:/app/packages
+      - ./package.json:/app/package.json
+      - ./pnpm-workspace.yaml:/app/pnpm-workspace.yaml
     depends_on:
       - backend
     networks:
