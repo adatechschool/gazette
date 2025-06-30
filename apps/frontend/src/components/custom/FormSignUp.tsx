@@ -10,7 +10,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { PasswordInput } from '@/components/ui/password-input'
-import { createUser } from '@/services/api'
+import { useAuth } from '@/hooks/useAuth'
+import { createUser } from '@/services/api/user'
 import { Field } from '../ui/field'
 import Button from './Button'
 
@@ -20,6 +21,7 @@ function FormSignUp() {
   })
   const router = useRouter()
   const toast = useToast()
+  const { login } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   type FormValuesSignUp = Omit<CreateUserDto, 'role'>
@@ -41,7 +43,12 @@ function FormSignUp() {
   const onSubmit = async (data: FormValuesSignUp) => {
     setIsLoading(true)
     try {
-      const _response = await createUser({ ...data, role: UserRole.USER })
+      // Créer le compte
+      await createUser({ ...data, role: UserRole.USER })
+
+      // Connecter automatiquement l'utilisateur après l'inscription
+      await login(data.email, data.password)
+
       toast({
         title: t('success'),
         description: t('confirmCreation'),

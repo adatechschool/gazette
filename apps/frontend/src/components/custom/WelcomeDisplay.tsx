@@ -1,3 +1,5 @@
+'use client'
+
 import { Flex, Heading, Link } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 

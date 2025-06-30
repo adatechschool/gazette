@@ -24,8 +24,17 @@ export const config: InitOptions = {
   },
 }
 
-i18n.use(initReactI18next).init(config)
+// Ne pas initialiser automatiquement
+// i18n.use(initReactI18next).init(config)
 
 export const locales = [{ locale: Locales.FR, name: 'Français' }]
+
+// Fonction d'initialisation à appeler côté client
+export async function initI18n() {
+  if (!i18n.isInitialized) {
+    await i18n.use(initReactI18next).init(config)
+  }
+  return i18n
+}
 
 export default i18n
