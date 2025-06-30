@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { loginUser } from '@/services/api'
+import { useAuth } from '@/hooks/useAuth'
 import { Field } from '../ui/field'
 import { PasswordInput } from '../ui/password-input'
 import Button from './Button'
@@ -19,6 +19,7 @@ function FormLogin() {
   const router = useRouter()
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(false)
+  const { login } = useAuth()
 
   type FormValuesLog = Omit<LoginUserDto, 'role'>
 
@@ -37,24 +38,14 @@ function FormLogin() {
   const onSubmit = async (data: FormValuesLog) => {
     setIsLoading(true)
     try {
-      const _response = await loginUser(data.email, data.password)
-      toast({
-        title: t('success'),
-        description: t('confirmCreation'),
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-
-      setTimeout(() => {
-        router.push('/explore')
-      }, 1000)
+      await login(data.email, data.password)
+      router.push('/explore')
     }
     catch (error) {
       console.error(error)
       toast({
         title: t('error'),
-        description: t('errorCreation'),
+        description: t('errorCreation'), // a renommer,
         status: 'error',
         duration: 4000,
         isClosable: true,

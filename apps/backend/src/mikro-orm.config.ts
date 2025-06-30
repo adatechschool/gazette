@@ -1,4 +1,5 @@
 import type { Options } from '@mikro-orm/core'
+import * as path from 'node:path'
 import { PostgreSqlDriver } from '@mikro-orm/postgresql'
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
 import { ConfigService } from '@nestjs/config'
@@ -16,8 +17,8 @@ function config(configService: ConfigService): Options<PostgreSqlDriver> {
     dbName: configService.get('DB_NAME') || 'gazette_db',
     debug: configService.get('NODE_ENV') === 'development',
     metadataProvider: TsMorphMetadataProvider,
-    entities: ['dist/**/*.entity.js'],
-    entitiesTs: ['src/**/*.entity.ts'],
+    entities: [path.join(__dirname, 'entities', '*.entity.js')],
+    entitiesTs: [path.join(__dirname, 'entities', '*.entity.ts')],
     migrations: {
       path: './dist/migrations',
       pathTs: './src/migrations',

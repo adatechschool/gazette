@@ -1,3 +1,4 @@
+import * as path from 'node:path'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { PostgreSqlDriver } from '@mikro-orm/postgresql'
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
@@ -42,8 +43,8 @@ import { UsersModule } from './modules/user/user.module'
         dbName: configService.get<string>('DB_NAME'),
         debug: configService.get<string>('NODE_ENV') === 'development',
         metadataProvider: TsMorphMetadataProvider,
-        entities: ['dist/**/*.entity.js'],
-        entitiesTs: ['src/**/*.entity.ts'],
+        entities: [path.join(__dirname, 'entities', '*.entity.js')],
+        entitiesTs: [path.join(__dirname, 'entities', '*.entity.ts')],
         migrations: {
           path: './dist/migrations',
           pathTs: './src/migrations',
