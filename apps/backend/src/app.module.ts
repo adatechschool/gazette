@@ -4,12 +4,17 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql'
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ScheduleModule } from '@nestjs/schedule'
 import { LoggerModule } from 'nestjs-pino'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './modules/auth/auth.module'
+import { ContentModule } from './modules/content/content.module'
 import { FavoritesModule } from './modules/favorite/favorite.module'
+import { JobService } from './modules/job/job.service'
 import { JwtConfigModule } from './modules/jwt/jwt.config.module'
+import { MediaModule } from './modules/media/media.module'
+import { RssModule } from './modules/rss/rss.module'
 import { UsersModule } from './modules/user/user.module'
 
 @Module({
@@ -58,12 +63,16 @@ import { UsersModule } from './modules/user/user.module'
         validateRequired: true,
       }),
     }),
+    ScheduleModule.forRoot(),
     UsersModule,
     AuthModule,
+    ContentModule,
     JwtConfigModule,
     FavoritesModule,
+    RssModule,
+    MediaModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JobService],
 })
 export class AppModule { }
