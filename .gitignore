@@ -99,6 +99,11 @@ packages/*/dist/
 .eslintcache
 .stylelintcache
 
+# MikroORM cache files
+**/temp/
+apps/*/temp/
+apps/backend/temp/
+
 # Temporary files
 *.swp
 *.swo
