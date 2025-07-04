@@ -1,5 +1,4 @@
-import { ContentType } from '@gazette/shared'
-import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core'
+import { Entity, ManyToOne, Property } from '@mikro-orm/core'
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
 import { Media } from './media.entity'
 
@@ -17,11 +16,11 @@ export class Content {
   @Property({ nullable: true })
   description!: string
 
-  @Enum(() => ContentType)
-  type!: ContentType
+  @Property({ nullable: true })
+  link!: string
 
-  @ManyToOne(() => Media)
-  mediaId!: Media
+  @ManyToOne(() => Media, { nullable: true })
+  mediaId?: Media
 
   @Property()
   createdAt = new Date()
