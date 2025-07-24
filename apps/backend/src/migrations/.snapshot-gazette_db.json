@@ -26,20 +26,6 @@
           "length": 255,
           "mappedType": "string"
         },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "enumItems": [
-            "article",
-            "video",
-            "podcast"
-          ],
-          "mappedType": "enum"
-        },
         "description": {
           "name": "description",
           "type": "varchar(255)",
@@ -52,12 +38,23 @@
         },
         "picture": {
           "name": "picture",
-          "type": "bytea",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "blob"
+          "length": 255,
+          "mappedType": "string"
+        },
+        "url_rss": {
+          "name": "url_rss",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -122,6 +119,16 @@
         },
         "description": {
           "name": "description",
+          "type": "varchar(2000)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 2000,
+          "mappedType": "string"
+        },
+        "link": {
+          "name": "link",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -129,29 +136,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "enumItems": [
-            "article",
-            "video",
-            "podcast"
-          ],
-          "mappedType": "enum"
-        },
-        "media_id_id": {
-          "name": "media_id_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "uuid"
         },
         "created_at": {
           "name": "created_at",
@@ -162,6 +146,15 @@
           "nullable": false,
           "length": 6,
           "mappedType": "datetime"
+        },
+        "media_id": {
+          "name": "media_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
         }
       },
       "name": "content",
@@ -180,16 +173,17 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "content_media_id_id_foreign": {
-          "constraintName": "content_media_id_id_foreign",
+        "content_media_id_foreign": {
+          "constraintName": "content_media_id_foreign",
           "columnNames": [
-            "media_id_id"
+            "media_id"
           ],
           "localTableName": "public.content",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "public.media",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         }
       },
@@ -312,8 +306,8 @@
           "nullable": false,
           "mappedType": "uuid"
         },
-        "media_type_id": {
-          "name": "media_type_id",
+        "media_id": {
+          "name": "media_id",
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
@@ -332,11 +326,11 @@
           "mappedType": "datetime"
         }
       },
-      "name": "favorite",
+      "name": "subscription",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "favorite_pkey",
+          "keyName": "subscription_pkey",
           "columnNames": [
             "id"
           ],
@@ -348,28 +342,112 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "favorite_user_id_foreign": {
-          "constraintName": "favorite_user_id_foreign",
+        "subscription_user_id_foreign": {
+          "constraintName": "subscription_user_id_foreign",
           "columnNames": [
             "user_id"
           ],
-          "localTableName": "public.favorite",
+          "localTableName": "public.subscription",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "public.user",
           "updateRule": "cascade"
         },
-        "favorite_media_type_id_foreign": {
-          "constraintName": "favorite_media_type_id_foreign",
+        "subscription_media_id_foreign": {
+          "constraintName": "subscription_media_id_foreign",
           "columnNames": [
-            "media_type_id"
+            "media_id"
           ],
-          "localTableName": "public.favorite",
+          "localTableName": "public.subscription",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "public.media",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "gen_random_uuid()",
+          "mappedType": "uuid"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "content_id": {
+          "name": "content_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "like",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "like_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "like_user_id_foreign": {
+          "constraintName": "like_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.like",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        },
+        "like_content_id_foreign": {
+          "constraintName": "like_content_id_foreign",
+          "columnNames": [
+            "content_id"
+          ],
+          "localTableName": "public.like",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.content",
           "updateRule": "cascade"
         }
       },

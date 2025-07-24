@@ -1,6 +1,6 @@
-import { UserRole } from '@gazette/shared'
-import { Entity, Enum, Property } from '@mikro-orm/core'
+import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { Subscription } from './subscription.entity'
 
 @Entity()
 export class User {
@@ -22,9 +22,6 @@ export class User {
   @Property({ onUpdate: () => new Date() })
   lastConnection = new Date()
 
-  @Enum(() => UserRole)
-  role: UserRole = UserRole.USER // Valeur user par défault
-
-  // @OneToMany(() => Media, media => media.id)
-  // mediaId!: number[]
+  @OneToMany(() => Subscription, subscription => subscription.user)
+  subscriptions = new Collection<Subscription>(this)
 }

@@ -1,18 +1,25 @@
+import { FeedSource, RssItemDto } from '@gazette/shared'
 import { Injectable } from '@nestjs/common'
-import { XMLParser } from 'fast-xml-parser'
+import { RSS_FEEDS } from './feeds'
 
 @Injectable()
 export class RssService {
-  async fetchRssFeed(url: string) {
-    const res = await fetch(url)
-    const xml = await res.text()
+  private readonly sources: FeedSource[] = Object.values(RSS_FEEDS)
 
-    const parser = new XMLParser({
-      ignoreAttributes: false,
-      attributeNamePrefix: '@_',
-    })
+  async fetchAllFeeds(): Promise<RssItemDto[]> {
+    const results = await Promise.all(this.sources.map(src => src.fetch()))
+    return results.flat()
+  }
 
-    const parsed = parser.parse(xml)
-    return parsed
+  async fetchBondyBlogFeed(): Promise<RssItemDto[]> {
+    return RSS_FEEDS.bondyblog.fetch()
+  }
+
+  async fetchArretSurImageFeed(): Promise<RssItemDto[]> {
+    return RSS_FEEDS.arretsurimage.fetch()
+  }
+
+  async fetchBlastFeed(): Promise<RssItemDto[]> {
+    return RSS_FEEDS.blast.fetch()
   }
 }
