@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react'
 import { CreateLikeDto, LikeDto } from '@gazette/shared'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useContext, useMemo } from 'react'
@@ -9,6 +10,7 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient()
   const context = useContext(AuthContext)
   const userId = context?.user?.id || ''
+  const toast = useToast()
 
   const { data: likes = [], isLoading, isError } = useQuery({
     queryKey: ['likes', userId],
@@ -19,22 +21,46 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
   const createMutation = useMutation({
     mutationFn: (dto: CreateLikeDto) => createLike(dto),
     onSuccess: () => {
-      console.warn('Like created successfully')
       queryClient.invalidateQueries({ queryKey: ['likes', userId] })
+      toast({
+        title: 'Contenu liké !',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      })
     },
     onError: (error) => {
-      console.warn('Error creating like:', error)
+      console.error('Erreur lors du like:', error)
+      toast({
+        title: 'Erreur',
+        description: 'Impossible de liker ce contenu. Veuillez réessayer.',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
     },
   })
 
   const deleteMutation = useMutation({
     mutationFn: (likeId: string) => deleteLike(likeId),
     onSuccess: () => {
-      console.warn('Like deleted successfully')
       queryClient.invalidateQueries({ queryKey: ['likes', userId] })
+      toast({
+        title: 'Like supprimé',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      })
     },
     onError: (error) => {
-      console.warn('Error deleting like:', error)
+      console.error('Erreur lors de la suppression du like:', error)
+      toast({
+        title: 'Erreur',
+        description: 'Impossible de supprimer le like. Veuillez réessayer.',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
     },
   })
 
