@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core'
 import * as cookieParser from 'cookie-parser'
 import { Logger } from 'nestjs-pino'
-import { AppModule } from './app.module'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
