@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import * as cookieParser from 'cookie-parser'
 import { Logger } from 'nestjs-pino'
 import { AppModule } from './app.module'
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,15 +14,15 @@ async function bootstrap() {
       allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With, Origin',
       exposedHeaders: 'Set-Cookie',
     },
-  });
+  })
   const config = new DocumentBuilder()
     .setTitle('Gazette API')
     .setDescription('API pour l\'application Gazette')
     .setVersion('1.0')
     .addTag('gazette')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+    .build()
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('api-docs', app, document)
 
   app.useLogger(app.get(Logger))
   app.use(cookieParser())
