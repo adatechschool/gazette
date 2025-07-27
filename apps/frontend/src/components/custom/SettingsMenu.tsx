@@ -1,6 +1,8 @@
 import { Box, Icon, Link, List, ListItem } from '@chakra-ui/react'
 import { FileBadge, HelpCircle, LogOut, Trash } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
+import { useToaster } from '@/components/ui/toaster'
 import { useAuth } from '@/hooks/useAuth'
 
 function SettingsMenu() {
@@ -8,12 +10,14 @@ function SettingsMenu() {
     keyPrefix: 'accountManagement',
   })
 
-  const { logout } = useAuth()
+  const { logout, deleteAccount } = useAuth()
+  const toaster = useToaster()
+  const router = useRouter()
 
   const handleLogout = async () => {
     try {
       await logout()
-      // La redirection sera gérée par le contexte ou le routeur
+      router.push('/')
     }
     catch (error) {
       console.error('Erreur lors de la déconnexion:', error)
@@ -22,24 +26,33 @@ function SettingsMenu() {
 
   const handleDeleteAccount = async () => {
     try {
-      // TODO: Implémenter la suppression de compte
-      console.warn('Suppression de compte à implémenter')
+      await deleteAccount()
+      toaster.create({
+        description: t('accountDeleted'),
+        type: 'success',
+        duration: 5000,
+      })
+      router.push('/')
     }
     catch (error) {
-      console.error(error)
+      console.error('Erreur lors de la suppression du compte:', error)
+      toaster.create({
+        description: t('errorDeletingAccount'),
+        type: 'error',
+        duration: 5000,
+      })
     }
   }
 
   return (
-    <Box textAlign="center">
+    <Box textAlign="left">
       <List spacing={2} variant="plain">
         <ListItem>
           <Icon as={LogOut} mr={2} />
           <Link
             onClick={handleLogout}
             cursor="pointer"
-            fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-            fontSize={{ base: '1rem', lg: '2rem' }}
+            textStyle="nav"
           >
             {t('logout')}
           </Link>
@@ -49,8 +62,7 @@ function SettingsMenu() {
           <Link
             onClick={handleDeleteAccount}
             cursor="pointer"
-            fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-            fontSize={{ base: '1rem', lg: '2rem' }}
+            textStyle="nav"
           >
             {t('delete')}
           </Link>
@@ -59,8 +71,7 @@ function SettingsMenu() {
           <Icon as={HelpCircle} mr={2} />
           <Link
             href="/about"
-            fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-            fontSize={{ base: '1rem', lg: '2rem' }}
+            textStyle="nav"
           >
             {t('about')}
           </Link>
@@ -68,13 +79,13 @@ function SettingsMenu() {
         <ListItem>
           <Icon as={FileBadge} mr={2} />
           <Link
-            fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-            fontSize={{ base: '1rem', lg: '2rem' }}
+            textStyle="nav"
           >
             {t('policy')}
           </Link>
         </ListItem>
       </List>
+
     </Box>
   )
 }

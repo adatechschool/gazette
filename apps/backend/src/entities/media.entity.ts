@@ -1,6 +1,6 @@
-import { MediaType } from '@gazette/shared'
-import { Entity, Enum, Property } from '@mikro-orm/core'
+import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { Subscription } from './subscription.entity'
 
 @Entity()
 export class Media {
@@ -10,15 +10,18 @@ export class Media {
   @Property()
   name!: string
 
-  @Enum(() => MediaType)
-  type!: MediaType
-
   @Property({ nullable: true })
   description!: string
 
   @Property({ nullable: true })
-  picture!: Blob
+  picture!: string
+
+  @Property()
+  urlRss!: string
 
   @Property()
   createdAt = new Date()
+
+  @OneToMany(() => Subscription, subscription => subscription.media)
+  subscribers = new Collection<Subscription>(this)
 }

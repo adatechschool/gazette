@@ -1,67 +1,61 @@
 'use client'
 
-import { Text as ChakraText, Flex, Link } from '@chakra-ui/react'
-import { useTranslation } from 'react-i18next'
+import { Flex, Heading, VStack } from '@chakra-ui/react'
+import RssCard from '@/components/custom/RssCard'
+import { AuthGuard } from '@/components/guards/AuthGuard'
 import { ResponsiveLayout } from '@/components/layout/ResponsiveLayout'
-import { useAuth } from '@/hooks/useAuth'
+import { CardGrid } from '@/components/ui/responsive-grid'
+import { useContents } from '@/hooks/useContents'
+import { useLikes } from '@/hooks/useLikes'
 
-export default function ExplorePage() {
-  const { t: tAccount } = useTranslation('common', {
-    keyPrefix: 'accountManagement',
-  })
+function ExplorePageContent() {
+  const { contents } = useContents()
+  const { like, dislike, isLiked } = useLikes()
 
-  const { t: tNav } = useTranslation('common', {
-    keyPrefix: 'navigateApp',
-  })
-
-  const { user, loading, logout } = useAuth()
-
-  if (loading) {
-    return (
-      <ResponsiveLayout>
-        <Flex justify="center" align="center" height="100vh">
-          <ChakraText>Chargement...</ChakraText>
-        </Flex>
-      </ResponsiveLayout>
-    )
+  const handleLike = (contentId: string) => {
+    like(contentId)
   }
 
-  if (!user) {
-    return (
-      <ResponsiveLayout>
-        <Flex justify="center" align="center" height="100vh">
-          <ChakraText color="red.500">
-            Utilisateur non connecté
-          </ChakraText>
-        </Flex>
-      </ResponsiveLayout>
-    )
+  const handleDislike = (contentId: string) => {
+    dislike(contentId)
   }
 
   return (
-    <ResponsiveLayout
-      title={tNav('explore')}
-      showFormTitle={true}
-    >
-      {/* Contenu spécifique à la page */}
-      <Flex direction="column" align="center" gap={4}>
-        <ChakraText
-          fontSize={{ base: 'xl', lg: '2xl' }}
-          fontWeight="bold"
-        >
-          {`Bienvenue ${user.pseudo || user.email || 'Utilisateur'}`}
-        </ChakraText>
+    <ResponsiveLayout>
+      <Flex
+        flexDirection="column"
+        gap={{ base: '24px', md: '32px', lg: '40px' }}
+        width="100%"
+      >
 
-        <Link
-          href="/"
-          fontFamily={{ base: 'Poppins', lg: 'Staatliches' }}
-          fontSize={{ base: '1rem', lg: '2rem' }}
-          onClick={logout}
-          _hover={{ textDecoration: 'underline' }}
-        >
-          {tAccount('logout')}
-        </Link>
+        <VStack spacing={{ base: '16px', md: '24px', lg: '32px' }} align="stretch">
+          <Heading
+            fontSize={{ base: 'xl', md: '2rem', lg: '3rem' }}
+            color="color.chaletGreen"
+          >
+            Articles qui pourraient vous intéresser
+          </Heading>
+          <CardGrid>
+            {contents.map(content => (
+              <RssCard
+                key={content.id}
+                content={content}
+                like={handleLike}
+                dislike={handleDislike}
+                isLiked={isLiked}
+              />
+            ))}
+          </CardGrid>
+        </VStack>
       </Flex>
     </ResponsiveLayout>
+  )
+}
+
+export default function ExplorePage() {
+  return (
+    <AuthGuard>
+      <ExplorePageContent />
+    </AuthGuard>
   )
 }
