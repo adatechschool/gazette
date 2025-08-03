@@ -1,20 +1,29 @@
 /** @type {import('next').NextConfig} */
+import process from 'node:process'
+
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
 
-  // Transpile le package shared car il contient des types/DTOs utilisés côté client
   transpilePackages: ['@gazette/shared'],
 
   experimental: {
     optimizePackageImports: ['@chakra-ui/react', 'lucide-react'],
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
 
   compiler: {
     emotion: true,
+    removeConsole: process.env.NODE_ENV === 'production',
   },
 
-  // Optimisations d'images
   images: {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -22,16 +31,12 @@ const nextConfig = {
     minimumCacheTTL: 31536000, // 1 an
   },
 
-  // Optimisations de compression
   compress: true,
 
-  // Optimisations de build
   swcMinify: true,
 
-  // Optimisations de bundle
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
-      // Optimisations de production
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
@@ -58,7 +63,6 @@ const nextConfig = {
             minSize: 20000,
             maxSize: 244000,
           },
-          // Nouveau: Séparer React
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
             name: 'react',
@@ -67,26 +71,40 @@ const nextConfig = {
             minSize: 20000,
             maxSize: 244000,
           },
+          utils: {
+            test: /[\\/]node_modules[\\/](lodash|lodash-es|date-fns)[\\/]/,
+            name: 'utils',
+            chunks: 'all',
+            priority: 5,
+            minSize: 20000,
+            maxSize: 244000,
+          },
         },
       }
 
-      // Tree shaking plus agressif
       config.optimization.usedExports = true
       config.optimization.sideEffects = false
 
-      // Nouveau: Compression plus agressive
       config.optimization.minimize = true
+
+      config.optimization.moduleIds = 'deterministic'
+      config.optimization.chunkIds = 'deterministic'
     }
+
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    }
+
     return config
   },
 
-  // Optimisations de cache
   generateEtags: true,
 
-  // Optimisations de compression
   poweredByHeader: false,
 
-  // Headers de sécurité
   async headers() {
     return [
       {
@@ -120,7 +138,6 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
-          // Nouveau: Headers de performance
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
