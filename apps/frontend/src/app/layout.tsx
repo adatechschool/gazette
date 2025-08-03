@@ -73,6 +73,12 @@ export default function RootLayout({
             /* Critical Chakra UI styles */
             .chakra-ui-light { color-scheme: light; }
             .chakra-ui-dark { color-scheme: dark; }
+            /* Performance optimizations */
+            * { box-sizing: border-box; }
+            img { max-width: 100%; height: auto; }
+            /* Accessibility improvements */
+            [role="heading"] { outline: none; }
+            [role="heading"]:focus { outline: 2px solid #606c38; outline-offset: 2px; }
           `,
         }}
         />

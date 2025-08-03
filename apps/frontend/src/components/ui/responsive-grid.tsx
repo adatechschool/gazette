@@ -1,73 +1,51 @@
 'use client'
 
-import { Flex, FlexProps } from '@chakra-ui/react'
-import React from 'react'
+import { Box, SimpleGrid } from '@chakra-ui/react'
+import { memo } from 'react'
 
-interface ResponsiveGridProps extends FlexProps {
+interface ResponsiveGridProps {
   children: React.ReactNode
-  gap?: {
-    base?: string | number
-    sm?: string | number
-    md?: string | number
-    lg?: string | number
-    xl?: string | number
-  }
-  justify?: {
-    base?: string
-    sm?: string
-    md?: string
-    lg?: string
-    xl?: string
-  }
-  align?: {
-    base?: string
-    sm?: string
-    md?: string
-    lg?: string
-    xl?: string
-  }
+  columns?: { base: number, md: number, lg: number }
+  spacing?: number
+  minChildWidth?: string
 }
 
-// Constantes pour les props par défaut
-const DEFAULT_GAP = { base: 4, md: 6, lg: 8 }
-const DEFAULT_JUSTIFY = { base: 'center', md: 'space-between' }
-const DEFAULT_ALIGN = { base: 'stretch', md: 'stretch' }
-
-export function ResponsiveGrid({
+export const ResponsiveGrid = memo(({
   children,
-  gap = DEFAULT_GAP,
-  justify = DEFAULT_JUSTIFY,
-  align = DEFAULT_ALIGN,
-  ...flexProps
-}: ResponsiveGridProps) {
+  columns = { base: 1, md: 2, lg: 3 },
+  spacing = 6,
+  minChildWidth = '300px',
+}: ResponsiveGridProps) => {
   return (
-    <Flex
-      flexWrap="wrap"
-      gap={gap}
-      justify={justify}
-      align={align}
-      {...flexProps}
-    >
-      {children}
-    </Flex>
+    <Box>
+      <SimpleGrid
+        columns={columns}
+        spacing={spacing}
+        minChildWidth={minChildWidth}
+        width="100%"
+      >
+        {children}
+      </SimpleGrid>
+    </Box>
   )
-}
+})
 
-// Composant spécialisé pour les cartes
-export function CardGrid({
-  children,
-  ...props
-}: ResponsiveGridProps) {
+ResponsiveGrid.displayName = 'ResponsiveGrid'
+
+// Composant CardGrid optimisé
+export const CardGrid = memo(({ children }: { children: React.ReactNode }) => {
   return (
     <ResponsiveGrid
-      gap={{ base: '16px', md: '24px', lg: '32px' }}
-      justify={{ base: 'center', md: 'flex-start' }}
-      {...props}
+      columns={{ base: 1, md: 2, lg: 3 }}
+      spacing={6}
+      minChildWidth="300px"
     >
       {children}
     </ResponsiveGrid>
   )
-}
+})
+
+CardGrid.displayName = 'CardGrid'
 
 // Composant pour les grilles de navigation
 export function NavigationGrid({

@@ -1,5 +1,6 @@
 import { Image, ImageProps } from '@chakra-ui/react'
 import NextImage from 'next/image'
+import { memo } from 'react'
 
 interface OptimizedImageProps extends Omit<ImageProps, 'as'> {
   src: string
@@ -7,16 +8,34 @@ interface OptimizedImageProps extends Omit<ImageProps, 'as'> {
   width?: number
   height?: number
   priority?: boolean
+  quality?: number
 }
 
-export function OptimizedImage({
+// Optimisation : générer un placeholder SVG plus efficace
+function generatePlaceholder(width: number, height: number) {
+  const svg = `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100%" height="100%" fill="#f0f0f0"/>
+      <text x="50%" y="50%" font-family="Arial" font-size="14" fill="#999" text-anchor="middle" dy=".3em">
+        Chargement...
+      </text>
+    </svg>
+  `
+  return `data:image/svg+xml;base64,${btoa(svg)}`
+}
+
+export const OptimizedImage = memo(({
   src,
   alt,
   width = 400,
   height = 300,
   priority = false,
+  quality = 75,
   ...props
-}: OptimizedImageProps) {
+}: OptimizedImageProps) => {
+  // Optimisation : générer le placeholder une seule fois
+  const placeholder = generatePlaceholder(width, height)
+
   return (
     <Image
       as={NextImage}
@@ -25,10 +44,14 @@ export function OptimizedImage({
       width={width}
       height={height}
       priority={priority}
+      quality={quality}
       placeholder="blur"
-      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+      blurDataURL={placeholder}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      loading={priority ? 'eager' : 'lazy'}
       {...props}
     />
   )
-}
+})
+
+OptimizedImage.displayName = 'OptimizedImage'

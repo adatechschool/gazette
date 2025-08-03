@@ -1,19 +1,42 @@
-import { ContentWithMediaDto } from '@gazette/shared'
 import { useQuery } from '@tanstack/react-query'
-import { getUserContent } from '@/services/api/content'
-import { useAuth } from './useAuth'
+import { useMemo } from 'react'
+import { getContents } from '@/services/api/content'
 
 export function useContents() {
-  const { user } = useAuth()
-  const { data: contents = [], isLoading, isError } = useQuery<ContentWithMediaDto[]>({
+  const { data: contents = [], isLoading, isError, error } = useQuery({
     queryKey: ['contents'],
-    queryFn: () => getUserContent(),
-    enabled: !!user,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    gcTime: 1000 * 60 * 10, // 10 minutes
+    queryFn: getContents,
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    gcTime: 1000 * 60 * 5, // 5 minutes
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   })
 
-  return { contents, isLoading, isError }
+  // Optimisation : mémoriser les contenus triés
+  const sortedContents = useMemo(() => {
+    return [...contents].sort((a, b) => {
+      // Trier par date de publication (plus récent en premier)
+      const dateA = new Date(a.publishedAt || a.createdAt).getTime()
+      const dateB = new Date(b.publishedAt || b.createdAt).getTime()
+      return dateB - dateA
+    })
+  }, [contents])
+
+  // Optimisation : mémoriser les statistiques
+  const stats = useMemo(() => {
+    return {
+      total: contents.length,
+      withImages: contents.filter(c => c.imageUrl).length,
+      withDescription: contents.filter(c => c.description).length,
+    }
+  }, [contents])
+
+  return {
+    contents: sortedContents,
+    originalContents: contents,
+    isLoading,
+    isError,
+    error,
+    stats,
+  }
 }

@@ -34,7 +34,9 @@ const ClientProviders = memo(({ children }: { children: React.ReactNode }) => {
           <AuthProvider>
             <SubscriptionProvider>
               <LikeProvider>
-                {children}
+                <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+                  {children}
+                </div>
               </LikeProvider>
             </SubscriptionProvider>
           </AuthProvider>

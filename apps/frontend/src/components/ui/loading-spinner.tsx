@@ -22,13 +22,21 @@ const LoadingSpinner = memo(({
         alignItems="center"
         height="100vh"
         width="100vw"
-        position="fixed"
+        position="absolute"
         top={0}
         left={0}
         zIndex={9999}
-        backgroundColor="rgba(255, 255, 255, 0.8)"
+        backgroundColor="rgba(255, 255, 255, 0.9)"
+        backdropFilter="blur(2px)"
+        transform="translateZ(0)"
+        willChange="transform"
       >
-        <Spinner size={size} color={color} thickness="3px" />
+        <Spinner
+          size={size}
+          color={color}
+          thickness="3px"
+          speed="0.8s"
+        />
       </Box>
     )
   }
@@ -40,10 +48,18 @@ const LoadingSpinner = memo(({
       alignItems="center"
       height="100%"
       width="100%"
+      minHeight="100px"
     >
-      <Spinner size={size} color={color} thickness="3px" />
+      <Spinner
+        size={size}
+        color={color}
+        thickness="3px"
+        speed="0.8s"
+      />
     </Box>
   )
 })
+
+LoadingSpinner.displayName = 'LoadingSpinner'
 
 export default LoadingSpinner

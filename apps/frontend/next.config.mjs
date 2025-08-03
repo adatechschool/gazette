@@ -9,6 +9,17 @@ const nextConfig = {
 
   experimental: {
     optimizePackageImports: ['@chakra-ui/react', 'lucide-react', 'react-i18next'],
+    // Optimisations avancées
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+    // Optimisations pour les navigateurs modernes
+    forceSwcTransforms: true,
   },
 
   compiler: {
@@ -39,6 +50,31 @@ const nextConfig = {
       config.optimization.minimize = true
       config.optimization.usedExports = true
       config.optimization.sideEffects = false
+
+      // Optimisations de bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+            priority: 10,
+          },
+          chakra: {
+            test: /[\\/]node_modules[\\/]@chakra-ui[\\/]/,
+            name: 'chakra',
+            chunks: 'all',
+            priority: 20,
+          },
+          react: {
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'react',
+            chunks: 'all',
+            priority: 30,
+          },
+        },
+      }
     }
 
     return config
@@ -54,18 +90,6 @@ const nextConfig = {
         source: '/(.*)',
         headers: [
           {
-            key: 'Content-Security-Policy',
-            value: [
-              'default-src \'self\'',
-              'script-src \'self\' \'unsafe-eval\' \'unsafe-inline\'',
-              'style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com',
-              'font-src \'self\' https://fonts.gstatic.com',
-              'img-src \'self\' data: https:',
-              'connect-src \'self\' http://localhost:3000',
-              'frame-ancestors \'none\'',
-            ].join('; '),
-          },
-          {
             key: 'X-Frame-Options',
             value: 'DENY',
           },
@@ -75,19 +99,20 @@ const nextConfig = {
           },
           {
             key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
+            value: 'origin-when-cross-origin',
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable, must-revalidate',
+            value: 'public, max-age=31536000, immutable',
           },
+        ],
+      },
+      {
+        source: '/api/(.*)',
+        headers: [
           {
-            key: 'Vary',
-            value: 'Accept-Encoding',
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
           },
         ],
       },

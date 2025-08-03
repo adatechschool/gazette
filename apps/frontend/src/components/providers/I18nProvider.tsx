@@ -48,7 +48,12 @@ export default function I18nProvider({ children }: I18nProviderProps) {
 
   // Rendu immédiat sans spinner pour éviter le blocage
   if (isLoading || !providerValue) {
-    return <div style={{ minHeight: '100vh' }}>{children}</div>
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontSize: '1.5rem', color: '#606c38' }}>Chargement...</div>
+        {children}
+      </div>
+    )
   }
 
   return <I18nextProvider i18n={providerValue}>{children}</I18nextProvider>

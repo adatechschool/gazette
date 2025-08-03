@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 interface UseScrollOptions {
   threshold?: number
@@ -11,6 +11,9 @@ export function useScroll({ threshold = 100, throttleMs = 16 }: UseScrollOptions
   const [isScrolled, setIsScrolled] = useState(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const lastScrollTop = useRef(0)
+
+  // Optimisation : mémoriser les options pour éviter les recalculs
+  const options = useMemo(() => ({ threshold, throttleMs }), [threshold, throttleMs])
 
   const handleScroll = useCallback(() => {
     if (timeoutRef.current)
@@ -26,10 +29,18 @@ export function useScroll({ threshold = 100, throttleMs = 16 }: UseScrollOptions
       }
 
       lastScrollTop.current = scrollTop
-      setIsScrolled(scrollTop > threshold)
+      setIsScrolled(scrollTop > options.threshold)
       timeoutRef.current = null
-    }, throttleMs)
-  }, [threshold, throttleMs])
+    }, options.throttleMs)
+  }, [options])
+
+  // Optimisation : mémoriser la fonction de nettoyage
+  const cleanup = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }, [])
 
   useEffect(() => {
     // Set initial state
@@ -38,11 +49,10 @@ export function useScroll({ threshold = 100, throttleMs = 16 }: UseScrollOptions
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
+      cleanup()
     }
-  }, [handleScroll])
+  }, [handleScroll, cleanup])
 
-  return { isScrolled }
+  // Optimisation : mémoriser le résultat pour éviter les re-renders inutiles
+  return useMemo(() => ({ isScrolled }), [isScrolled])
 }
