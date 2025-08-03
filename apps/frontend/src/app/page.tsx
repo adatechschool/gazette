@@ -2,24 +2,15 @@
 
 // Import critical components directly to avoid render blocking
 import { Flex } from '@chakra-ui/react'
-import dynamic from 'next/dynamic'
 import { memo } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
+// Import critical components directly
+import FormLogin from '@/components/custom/FormLogin'
+
+import GazetteIllu from '@/components/custom/GazetteIllu'
 // Load Title immediately to avoid render blocking
-import Title from '@/components/layout/Title'
-
-// Lazy load non-critical components
-const FormLogin = dynamic(() => import('@/components/custom/FormLogin'), {
-  ssr: true,
-  loading: () => <div>Loading form...</div>,
-})
-
-const GazetteIllu = dynamic(() => import('@/components/custom/GazetteIllu'), {
-  ssr: true,
-  loading: () => <div>Loading...</div>,
-})
 
 const LoginPage = memo(() => {
   const { t } = useTranslation('common', {
@@ -52,7 +43,18 @@ const LoginPage = memo(() => {
         minWidth="50%"
         gap={6}
       >
-        <Title text={loginText} fontColor="chaletGreen" />
+        <h1
+          style={{
+            fontFamily: 'var(--font-bebas-neue), Bebas Neue, sans-serif',
+            fontSize: '6rem',
+            color: '#606c38',
+            margin: 0,
+            padding: 0,
+            textAlign: 'center',
+          }}
+        >
+          {loginText}
+        </h1>
         <FormLogin />
       </Flex>
     </Flex>

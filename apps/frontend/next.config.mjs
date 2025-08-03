@@ -9,19 +9,6 @@ const nextConfig = {
 
   experimental: {
     optimizePackageImports: ['@chakra-ui/react', 'lucide-react', 'react-i18next'],
-    optimizeCss: false, // Disabled to avoid conflicts with CSS-in-JS
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-    // Optimisations SWC avancées
-    swcTraceProfiling: true,
-    // Optimisations pour navigateurs modernes
-    forceSwcTransforms: true,
   },
 
   compiler: {
@@ -47,126 +34,12 @@ const nextConfig = {
   swcMinify: true,
 
   webpack: (config, { dev, isServer }) => {
+    // Optimisations simples et efficaces
     if (!dev && !isServer) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-            minSize: 20000,
-            maxSize: 150000,
-          },
-          chakra: {
-            test: /[\\/]node_modules[\\/]@chakra-ui[\\/]/,
-            name: 'chakra',
-            chunks: 'all',
-            priority: 10,
-            minSize: 20000,
-            maxSize: 200000,
-          },
-          lucide: {
-            test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
-            name: 'lucide',
-            chunks: 'all',
-            priority: 5,
-            minSize: 20000,
-            maxSize: 100000,
-          },
-          react: {
-            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-            name: 'react',
-            chunks: 'all',
-            priority: 15,
-            minSize: 20000,
-            maxSize: 150000,
-          },
-          utils: {
-            test: /[\\/]node_modules[\\/](lodash|lodash-es|date-fns)[\\/]/,
-            name: 'utils',
-            chunks: 'all',
-            priority: 5,
-            minSize: 20000,
-            maxSize: 100000,
-          },
-        },
-      }
-
+      config.optimization.minimize = true
       config.optimization.usedExports = true
       config.optimization.sideEffects = false
-
-      config.optimization.minimize = true
-      config.optimization.concatenateModules = true
-
-      config.optimization.moduleIds = 'deterministic'
-      config.optimization.chunkIds = 'deterministic'
-
-      // Optimisations supplémentaires pour réduire le temps d'exécution
-      config.optimization.runtimeChunk = 'single'
-      config.optimization.splitChunks.cacheGroups.common = {
-        name: 'common',
-        minChunks: 2,
-        chunks: 'all',
-        priority: 1,
-        reuseExistingChunk: true,
-      }
-
-      // Optimisations pour les modules externes
-      config.externals = {
-        ...config.externals,
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-      }
-
-      // SWC minification est déjà activée avec swcMinify: true
-      // Pas besoin de Terser car SWC est plus rapide et intégré
     }
-
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      net: false,
-      tls: false,
-    }
-
-    // Optimisations pour navigateurs modernes
-    if (!isServer) {
-      config.target = 'web'
-    }
-
-    // Éviter les polyfills inutiles
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      // Utiliser les versions modernes des modules
-      'core-js': false,
-      'regenerator-runtime': false,
-    }
-
-    // Optimisations pour réduire la taille des bundles
-    if (config.optimization.splitChunks && config.optimization.splitChunks.cacheGroups) {
-      config.optimization.splitChunks.cacheGroups.framework = {
-        name: 'framework',
-        test: /[\\/]node_modules[\\/](react|react-dom|next)[\\/]/,
-        priority: 20,
-        chunks: 'all',
-        enforce: true,
-      }
-    }
-
-    // Optimisations de compression
-    config.optimization.minimize = true
-
-    // Alternative avec import() dynamique (si compression-webpack-plugin est installé)
-    // const CompressionPlugin = await import('compression-webpack-plugin')
-    // config.optimization.minimizer.push(
-    //   new CompressionPlugin.default({
-    //     algorithm: 'gzip',
-    //     test: /\.(js|css|html|svg)$/,
-    //     threshold: 10240,
-    //     minRatio: 0.8,
-    //   })
-    // )
 
     return config
   },
