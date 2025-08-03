@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
+import LoadingSpinner from '@/components/ui/loading-spinner'
 import { initI18n } from '@/i18n/config'
 
 interface I18nProviderProps {
@@ -13,25 +14,42 @@ export default function I18nProvider({ children }: I18nProviderProps) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    let isMounted = true
+
     const init = async () => {
       try {
         const instance = await initI18n()
-        setI18nInstance(instance)
+        if (isMounted) {
+          setI18nInstance(instance)
+        }
       }
       catch (error) {
         console.error('Failed to initialize i18n:', error)
       }
       finally {
-        setIsLoading(false)
+        if (isMounted) {
+          setIsLoading(false)
+        }
       }
     }
 
     init()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
-  if (isLoading || !i18nInstance) {
-    return <div>Loading...</div>
+  const providerValue = useMemo(() => {
+    if (isLoading || !i18nInstance) {
+      return null
+    }
+    return i18nInstance
+  }, [isLoading, i18nInstance])
+
+  if (isLoading || !providerValue) {
+    return <LoadingSpinner fullScreen size="lg" />
   }
 
-  return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
+  return <I18nextProvider i18n={providerValue}>{children}</I18nextProvider>
 }
