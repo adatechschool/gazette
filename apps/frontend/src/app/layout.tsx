@@ -79,6 +79,25 @@ export default function RootLayout({
             /* Accessibility improvements */
             [role="heading"] { outline: none; }
             [role="heading"]:focus { outline: 2px solid #606c38; outline-offset: 2px; }
+            /* Focus styles for accessibility */
+            button:focus, input:focus, a:focus { 
+              outline: 2px solid #606c38; 
+              outline-offset: 2px; 
+            }
+            /* Skip link for keyboard navigation */
+            .skip-link {
+              position: absolute;
+              top: -40px;
+              left: 6px;
+              background: #606c38;
+              color: white;
+              padding: 8px;
+              text-decoration: none;
+              z-index: 10000;
+            }
+            .skip-link:focus {
+              top: 6px;
+            }
           `,
         }}
         />
@@ -86,6 +105,9 @@ export default function RootLayout({
       <body style={{ height: '100%' }}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <ClientProviders>
+          <a href="#main-heading" className="skip-link">
+            Aller au contenu principal
+          </a>
           {children}
         </ClientProviders>
       </body>

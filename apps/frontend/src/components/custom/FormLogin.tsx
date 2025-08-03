@@ -62,6 +62,10 @@ function FormLogin() {
             errorText={errors.email?.message}
           >
             <Input
+              id="email-input"
+              type="email"
+              aria-describedby={errors.email ? 'email-error' : undefined}
+              aria-invalid={!!errors.email}
               rounded="md"
               shadow="none"
               border="1px solid"
@@ -80,6 +84,9 @@ function FormLogin() {
             errorText={errors.password?.message}
           >
             <PasswordInput
+              id="password-input"
+              aria-describedby={errors.password ? 'password-error' : undefined}
+              aria-invalid={!!errors.password}
               minW="md"
               rounded="md"
               shadow="md"
@@ -96,10 +103,11 @@ function FormLogin() {
             text={t('login')}
             py="1.5rem"
             mt="1rem"
+            aria-describedby="login-description"
           />
           <Text align="center">
             {`${t('noAccount')} `}
-            <Link href="/signin">
+            <Link href="/signin" aria-label={`${t('create')} - ${t('noAccount')}`}>
               <b>{t('create')}</b>
             </Link>
           </Text>

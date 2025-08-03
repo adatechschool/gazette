@@ -30,12 +30,15 @@ const LoadingSpinner = memo(({
         backdropFilter="blur(2px)"
         transform="translateZ(0)"
         willChange="transform"
+        role="status"
+        aria-label="Chargement en cours"
       >
         <Spinner
           size={size}
           color={color}
           thickness="3px"
           speed="0.8s"
+          aria-label="Indicateur de chargement"
         />
       </Box>
     )

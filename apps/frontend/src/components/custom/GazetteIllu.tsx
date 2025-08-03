@@ -36,6 +36,7 @@ const GazetteIllu = memo(() => {
         <Text
           key={`${text}-${index}`}
           {...textStyles}
+          aria-label={`${text} - illustration ${index + 1}`}
         >
           {text}
         </Text>

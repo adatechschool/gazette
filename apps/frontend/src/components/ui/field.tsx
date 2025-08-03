@@ -11,11 +11,18 @@ interface FieldProps {
 }
 
 export const Field = memo(({ label, children, isInvalid, errorText }: FieldProps) => {
+  const fieldId = label?.toLowerCase().replace(/\s+/g, '-') || 'field'
+  const errorId = `${fieldId}-error`
+
   return (
     <FormControl isInvalid={isInvalid}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel htmlFor={fieldId}>{label}</FormLabel>
       {children}
-      {errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
+      {errorText && (
+        <FormErrorMessage id={errorId} role="alert">
+          {errorText}
+        </FormErrorMessage>
+      )}
     </FormControl>
   )
 })

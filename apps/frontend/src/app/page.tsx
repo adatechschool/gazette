@@ -47,8 +47,7 @@ const LoginPage = memo(() => {
             textAlign: 'center',
             lineHeight: 1,
           }}
-          aria-label={loginText}
-          role="heading"
+          id="main-heading"
           tabIndex={0}
         >
           {loginText}

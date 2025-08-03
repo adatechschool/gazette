@@ -17,7 +17,7 @@ export const ResponsiveGrid = memo(({
   minChildWidth = '300px',
 }: ResponsiveGridProps) => {
   return (
-    <Box>
+    <Box role="grid" aria-label="Grille de contenu">
       <SimpleGrid
         columns={columns}
         spacing={spacing}

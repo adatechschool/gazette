@@ -4,6 +4,7 @@ import { extendTheme } from '@chakra-ui/react'
 const config: ThemeConfig = {
   initialColorMode: 'light',
   useSystemColorMode: false,
+  disableTransitionOnChange: false,
 }
 
 const breakpoints = {
@@ -20,6 +21,11 @@ const colors = {
   mineShaft: '#1F1F1F',
   black: '#000000',
   lightGray: '#F5F5F5',
+  // Couleurs d'accessibilité avec meilleur contraste
+  error: '#E53E3E',
+  success: '#38A169',
+  warning: '#D69E2E',
+  info: '#3182CE',
 }
 
 const fonts = {
