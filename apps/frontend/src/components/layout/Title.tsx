@@ -9,8 +9,8 @@ function Title({ fontColor, text, ...props }: TitleProps) {
   return (
     <Heading
       fontFamily={{
-        base: 'Poppins',
-        lg: 'Staatliches',
+        base: 'var(--font-poppins), Poppins',
+        lg: 'var(--font-bebas-neue), Bebas Neue',
       }}
       color={fontColor}
       fontSize="6rem"

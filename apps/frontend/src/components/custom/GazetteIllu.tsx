@@ -1,14 +1,21 @@
 'use client'
 
 import { Box, Text } from '@chakra-ui/react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function GazetteIllu() {
+const GazetteIllu = memo(() => {
   const { t } = useTranslation()
-  const myArray = Array.from({ length: 3 })
+
+  // Optimisation : pré-calculer le tableau une seule fois
+  const textArray = useMemo(() => {
+    const appTitle = t('navigateApp.appTitle')
+    return Array.from({ length: 3 }, () => appTitle)
+  }, [t])
+
   return (
     <Box
-      width="50%"
+      width="100%"
       height="100%"
       bgColor="chaletGreen"
       display="flex"
@@ -18,14 +25,18 @@ function GazetteIllu() {
       alignItems="center"
       py="8rem"
     >
-      {myArray.map((_, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <Text key={index} fontSize="10rem" lineHeight="10rem" fontFamily="Staatliches">
-          {t('navigateApp.appTitle')}
+      {textArray.map((text, index) => (
+        <Text
+          key={`${text}-${index}`}
+          fontSize="10rem"
+          lineHeight="10rem"
+          fontFamily="var(--font-bebas-neue), Bebas Neue"
+        >
+          {text}
         </Text>
       ))}
     </Box>
   )
-}
+})
 
 export default GazetteIllu

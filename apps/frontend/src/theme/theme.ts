@@ -23,16 +23,16 @@ const colors = {
 }
 
 const fonts = {
-  heading: `'Staatliches', sans-serif`,
-  body: `'Poppins', sans-serif`,
+  heading: `var(--font-bebas-neue), 'Bebas Neue', sans-serif`,
+  body: `var(--font-poppins), 'Poppins', sans-serif`,
 }
 
 const textStyles = {
   body: {
-    fontFamily: '\'Poppins\', sans-serif',
+    fontFamily: 'var(--font-poppins), \'Poppins\', sans-serif',
   },
   heading: {
-    fontFamily: '\'Staatliches\', sans-serif',
+    fontFamily: 'var(--font-bebas-neue), \'Bebas Neue\', sans-serif',
   },
 }
 
