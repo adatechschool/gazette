@@ -1,0 +1,20 @@
+# Target modern browsers only
+# This reduces bundle size by avoiding unnecessary polyfills
+
+# Modern browsers (last 2 versions)
+last 2 versions
+
+# Modern browsers with good ES6+ support
+> 0.5%
+
+# Exclude IE and older browsers
+not dead
+not ie 11
+not ie 10
+not ie 9
+
+# Focus on browsers with good ES2022 support
+chrome >= 90
+firefox >= 88
+safari >= 14
+edge >= 90 

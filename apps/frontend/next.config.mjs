@@ -8,7 +8,8 @@ const nextConfig = {
   transpilePackages: ['@gazette/shared'],
 
   experimental: {
-    optimizePackageImports: ['@chakra-ui/react', 'lucide-react'],
+    optimizePackageImports: ['@chakra-ui/react', 'lucide-react', 'react-i18next'],
+    optimizeCss: false, // Disabled to avoid conflicts with CSS-in-JS
     turbo: {
       rules: {
         '*.svg': {
@@ -17,6 +18,10 @@ const nextConfig = {
         },
       },
     },
+    // Optimisations SWC avancées
+    swcTraceProfiling: true,
+    // Optimisations pour navigateurs modernes
+    forceSwcTransforms: true,
   },
 
   compiler: {
@@ -24,11 +29,17 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
+  // Optimisations de production
+  productionBrowserSourceMaps: false,
+
   images: {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 an
+    // Optimisations pour réduire la taille
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: 'default-src \'self\'; script-src \'none\'; sandbox;',
   },
 
   compress: true,
@@ -45,7 +56,7 @@ const nextConfig = {
             name: 'vendors',
             chunks: 'all',
             minSize: 20000,
-            maxSize: 244000,
+            maxSize: 150000,
           },
           chakra: {
             test: /[\\/]node_modules[\\/]@chakra-ui[\\/]/,
@@ -53,7 +64,7 @@ const nextConfig = {
             chunks: 'all',
             priority: 10,
             minSize: 20000,
-            maxSize: 244000,
+            maxSize: 200000,
           },
           lucide: {
             test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
@@ -61,7 +72,7 @@ const nextConfig = {
             chunks: 'all',
             priority: 5,
             minSize: 20000,
-            maxSize: 244000,
+            maxSize: 100000,
           },
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
@@ -69,7 +80,7 @@ const nextConfig = {
             chunks: 'all',
             priority: 15,
             minSize: 20000,
-            maxSize: 244000,
+            maxSize: 150000,
           },
           utils: {
             test: /[\\/]node_modules[\\/](lodash|lodash-es|date-fns)[\\/]/,
@@ -77,7 +88,7 @@ const nextConfig = {
             chunks: 'all',
             priority: 5,
             minSize: 20000,
-            maxSize: 244000,
+            maxSize: 100000,
           },
         },
       }
@@ -86,9 +97,30 @@ const nextConfig = {
       config.optimization.sideEffects = false
 
       config.optimization.minimize = true
+      config.optimization.concatenateModules = true
 
       config.optimization.moduleIds = 'deterministic'
       config.optimization.chunkIds = 'deterministic'
+
+      // Optimisations supplémentaires pour réduire le temps d'exécution
+      config.optimization.runtimeChunk = 'single'
+      config.optimization.splitChunks.cacheGroups.common = {
+        name: 'common',
+        minChunks: 2,
+        chunks: 'all',
+        priority: 1,
+        reuseExistingChunk: true,
+      }
+
+      // Optimisations pour les modules externes
+      config.externals = {
+        ...config.externals,
+        'react': 'React',
+        'react-dom': 'ReactDOM',
+      }
+
+      // SWC minification est déjà activée avec swcMinify: true
+      // Pas besoin de Terser car SWC est plus rapide et intégré
     }
 
     config.resolve.fallback = {
@@ -97,6 +129,44 @@ const nextConfig = {
       net: false,
       tls: false,
     }
+
+    // Optimisations pour navigateurs modernes
+    if (!isServer) {
+      config.target = 'web'
+    }
+
+    // Éviter les polyfills inutiles
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      // Utiliser les versions modernes des modules
+      'core-js': false,
+      'regenerator-runtime': false,
+    }
+
+    // Optimisations pour réduire la taille des bundles
+    if (config.optimization.splitChunks && config.optimization.splitChunks.cacheGroups) {
+      config.optimization.splitChunks.cacheGroups.framework = {
+        name: 'framework',
+        test: /[\\/]node_modules[\\/](react|react-dom|next)[\\/]/,
+        priority: 20,
+        chunks: 'all',
+        enforce: true,
+      }
+    }
+
+    // Optimisations de compression
+    config.optimization.minimize = true
+
+    // Alternative avec import() dynamique (si compression-webpack-plugin est installé)
+    // const CompressionPlugin = await import('compression-webpack-plugin')
+    // config.optimization.minimizer.push(
+    //   new CompressionPlugin.default({
+    //     algorithm: 'gzip',
+    //     test: /\.(js|css|html|svg)$/,
+    //     threshold: 10240,
+    //     minRatio: 0.8,
+    //   })
+    // )
 
     return config
   },
@@ -140,7 +210,11 @@ const nextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=31536000, immutable, must-revalidate',
+          },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding',
           },
         ],
       },

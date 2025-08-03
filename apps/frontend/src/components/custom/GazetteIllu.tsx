@@ -7,11 +7,18 @@ import { useTranslation } from 'react-i18next'
 const GazetteIllu = memo(() => {
   const { t } = useTranslation()
 
-  // Optimisation : pré-calculer le tableau une seule fois
+  // Optimisation : pré-calculer le tableau une seule fois et éviter les re-renders
   const textArray = useMemo(() => {
     const appTitle = t('navigateApp.appTitle')
     return Array.from({ length: 3 }, () => appTitle)
   }, [t])
+
+  // Optimisation : pré-calculer les styles pour éviter les recalculs
+  const textStyles = useMemo(() => ({
+    fontSize: '10rem',
+    lineHeight: '10rem',
+    fontFamily: 'var(--font-bebas-neue), Bebas Neue',
+  }), [])
 
   return (
     <Box
@@ -28,9 +35,7 @@ const GazetteIllu = memo(() => {
       {textArray.map((text, index) => (
         <Text
           key={`${text}-${index}`}
-          fontSize="10rem"
-          lineHeight="10rem"
-          fontFamily="var(--font-bebas-neue), Bebas Neue"
+          {...textStyles}
         >
           {text}
         </Text>

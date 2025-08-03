@@ -1,11 +1,12 @@
 import { Heading, HeadingProps } from '@chakra-ui/react'
+import { memo } from 'react'
 
 export interface TitleProps extends HeadingProps {
   fontColor: string
   text: string
 }
 
-function Title({ fontColor, text, ...props }: TitleProps) {
+const Title = memo(({ fontColor, text, ...props }: TitleProps) => {
   return (
     <Heading
       fontFamily={{
@@ -20,6 +21,6 @@ function Title({ fontColor, text, ...props }: TitleProps) {
       {text}
     </Heading>
   )
-}
+})
 
 export default Title

@@ -4,6 +4,8 @@ export const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '600'],
   display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
   variable: '--font-poppins',
 })
 
@@ -11,6 +13,8 @@ export const bebasNeue = Bebas_Neue({
   subsets: ['latin'],
   weight: ['400'],
   display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
   variable: '--font-bebas-neue',
 })
 
