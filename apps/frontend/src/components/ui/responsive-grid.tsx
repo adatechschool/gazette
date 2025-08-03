@@ -51,17 +51,16 @@ CardGrid.displayName = 'CardGrid'
 export default ResponsiveGrid
 
 // Composant pour les grilles de navigation
-export function NavigationGrid({
-  children,
-  ...props
-}: ResponsiveGridProps) {
+export const NavigationGrid = memo(({ children }: { children: React.ReactNode }) => {
   return (
     <ResponsiveGrid
-      gap={{ base: '8px', md: '12px', lg: '16px' }}
-      justify={{ base: 'space-around', md: 'space-around', lg: 'space-around' }}
-      {...props}
+      columns={{ base: 2, md: 3, lg: 4 }}
+      spacing={4}
+      minChildWidth="200px"
     >
       {children}
     </ResponsiveGrid>
   )
-}
+})
+
+NavigationGrid.displayName = 'NavigationGrid'

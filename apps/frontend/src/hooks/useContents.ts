@@ -26,8 +26,8 @@ export function useContents() {
   const stats = useMemo(() => {
     return {
       total: contents.length,
-      withImages: contents.filter(c => c.imageUrl).length,
-      withDescription: contents.filter(c => c.description).length,
+      withImages: contents.filter((c: any) => c.imageUrl).length,
+      withDescription: contents.filter((c: any) => c.description).length,
     }
   }, [contents])
 

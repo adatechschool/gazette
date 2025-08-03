@@ -47,7 +47,7 @@ export function LikeProvider({ children }: { children: React.ReactNode }) {
     if (!userId) {
       return
     }
-    createMutation.mutate({ contentId })
+    createMutation.mutate({ userId, contentId })
   }, [userId, createMutation])
 
   const dislike = useCallback((contentId: string) => {
