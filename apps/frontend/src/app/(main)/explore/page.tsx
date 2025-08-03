@@ -2,7 +2,6 @@
 
 import { Box, Center, Spinner } from '@chakra-ui/react'
 import { lazy, Suspense } from 'react'
-import { CardGrid } from '@/components/ui/responsive-grid'
 
 // Lazy load des composants non critiques
 const ExploreContent = lazy(() => import('@/components/custom/ExploreContent'))
