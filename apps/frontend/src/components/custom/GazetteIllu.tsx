@@ -44,4 +44,6 @@ const GazetteIllu = memo(() => {
   )
 })
 
+GazetteIllu.displayName = 'GazetteIllu'
+
 export default GazetteIllu

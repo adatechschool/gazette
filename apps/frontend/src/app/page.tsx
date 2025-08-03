@@ -1,23 +1,17 @@
 'use client'
 
-// Import critical components directly to avoid render blocking
 import { Flex } from '@chakra-ui/react'
 import { memo } from 'react'
-
 import { useTranslation } from 'react-i18next'
 
 // Import critical components directly
 import FormLogin from '@/components/custom/FormLogin'
-
 import GazetteIllu from '@/components/custom/GazetteIllu'
-// Load Title immediately to avoid render blocking
 
 const LoginPage = memo(() => {
   const { t } = useTranslation('common', {
     keyPrefix: 'accountManagement',
   })
-
-  // Pre-calculate text to avoid re-renders
   const loginText = t('login')
 
   return (
@@ -51,6 +45,7 @@ const LoginPage = memo(() => {
             margin: 0,
             padding: 0,
             textAlign: 'center',
+            lineHeight: 1,
           }}
         >
           {loginText}
@@ -60,5 +55,7 @@ const LoginPage = memo(() => {
     </Flex>
   )
 })
+
+LoginPage.displayName = 'LoginPage'
 
 export default LoginPage

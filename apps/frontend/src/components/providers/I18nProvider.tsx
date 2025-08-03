@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
-import LoadingSpinner from '@/components/ui/loading-spinner'
 import { initI18n } from '@/i18n/config'
 
 interface I18nProviderProps {
@@ -47,8 +46,9 @@ export default function I18nProvider({ children }: I18nProviderProps) {
     return i18nInstance
   }, [isLoading, i18nInstance])
 
+  // Rendu immédiat sans spinner pour éviter le blocage
   if (isLoading || !providerValue) {
-    return <LoadingSpinner fullScreen size="lg" />
+    return <div style={{ minHeight: '100vh' }}>{children}</div>
   }
 
   return <I18nextProvider i18n={providerValue}>{children}</I18nextProvider>
