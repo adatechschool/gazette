@@ -47,6 +47,9 @@ export const CardGrid = memo(({ children }: { children: React.ReactNode }) => {
 
 CardGrid.displayName = 'CardGrid'
 
+// Export par défaut pour le lazy loading
+export default ResponsiveGrid
+
 // Composant pour les grilles de navigation
 export function NavigationGrid({
   children,
