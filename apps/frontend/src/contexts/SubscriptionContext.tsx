@@ -1,4 +1,4 @@
-import { CreateSubscriptionDto, SubscriptionDto } from '@gazette/shared'
+import { CreateSubscriptionDto } from '@gazette/shared'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useContext, useMemo } from 'react'
 import { createSubscription, deleteSubscription, getUserSubscriptions } from '@/services/api/subscriptions'
@@ -15,6 +15,7 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
     queryFn: () => getUserSubscriptions(),
     enabled: !!userId,
     staleTime: 1000 * 60,
+    gcTime: 1000 * 60 * 5, // 5 minutes
   })
 
   const createMutation = useMutation({
@@ -37,6 +38,11 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
     },
   })
 
+  // Optimisation : créer un Map pour les recherches O(1) au lieu de O(n)
+  const subscriptionsMap = useMemo(() => {
+    return new Map(subscriptions.map(sub => [sub.mediaId, sub]))
+  }, [subscriptions])
+
   const subscribe = useCallback((mediaId: string) => {
     if (!userId) {
       return
@@ -47,17 +53,25 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
   const unsubscribe = useCallback((mediaId: string) => {
     if (!userId)
       return
-    const sub = subscriptions.find((s: SubscriptionDto) => s.mediaId === mediaId)
-    if (sub)
+
+    const sub = subscriptionsMap.get(mediaId)
+    if (sub) {
       deleteMutation.mutate(sub.id)
-  }, [userId, subscriptions, deleteMutation])
+    }
+  }, [userId, subscriptionsMap, deleteMutation])
 
   const isSubscribed = useCallback((mediaId: string): boolean => {
-    const subscribed = subscriptions.some((s: SubscriptionDto) => s.mediaId === mediaId)
-    return subscribed
-  }, [subscriptions])
+    return subscriptionsMap.has(mediaId)
+  }, [subscriptionsMap])
 
-  const value = useMemo(() => ({ subscriptions, isLoading, isError, subscribe, unsubscribe, isSubscribed }), [subscriptions, isLoading, isError, subscribe, unsubscribe, isSubscribed])
+  const value = useMemo(() => ({
+    subscriptions,
+    isLoading,
+    isError,
+    subscribe,
+    unsubscribe,
+    isSubscribed,
+  }), [subscriptions, isLoading, isError, subscribe, unsubscribe, isSubscribed])
 
   return (
     <SubscriptionContext.Provider value={value}>
