@@ -1,8 +1,9 @@
 'use client'
 
-import { VStack } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 import FormSignUp from '@/components/custom/FormSignUp'
+import GazetteIllu from '@/components/custom/GazetteIllu'
 import Title from '@/components/layout/Title'
 
 export default function SigninPage() {
@@ -11,16 +12,31 @@ export default function SigninPage() {
   })
 
   return (
-    <VStack
-      spacing={{ base: '24px', md: '32px', lg: '40px' }}
+    <Flex
       alignItems="center"
-      justifyContent="center"
       width="100%"
-      height="100%"
-      padding={{ base: '16px', md: '24px', lg: '32px' }}
+      height="100vh"
+      minHeight="100vh"
     >
-      <Title text={t('signIn')} fontColor="chaletGreen" />
-      <FormSignUp />
-    </VStack>
+      <Flex
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        minWidth="50%"
+      >
+        <GazetteIllu />
+      </Flex>
+      <Flex
+        flex="1"
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        minWidth="50%"
+        gap={6}
+      >
+        <Title text={t('signIn')} fontColor="chaletGreen" />
+        <FormSignUp />
+      </Flex>
+    </Flex>
   )
 }
