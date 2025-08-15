@@ -1,8 +1,8 @@
 'use client'
 
 import { Text, VStack } from '@chakra-ui/react'
-import { ResponsiveLayout } from '@/components/layout/ResponsiveLayout'
 import { useTranslation } from 'react-i18next'
+import { ResponsiveLayout } from '@/components/layout/ResponsiveLayout'
 
 function AboutPageContent() {
   const { t } = useTranslation('common', {
