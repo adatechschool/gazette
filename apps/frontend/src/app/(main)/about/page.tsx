@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import { ResponsiveLayout } from "@/components/layout/ResponsiveLayout";
-import { VStack, Text } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { Text, VStack } from '@chakra-ui/react'
+import { ResponsiveLayout } from '@/components/layout/ResponsiveLayout'
+import { useTranslation } from 'react-i18next'
 
 function AboutPageContent() {
   const { t } = useTranslation('common', {
     keyPrefix: 'about',
-  });
-  
+  })
+
   return (
     <ResponsiveLayout>
       <VStack
@@ -35,9 +35,9 @@ function AboutPageContent() {
         </Text>
       </VStack>
     </ResponsiveLayout>
-  );
+  )
 }
 
 export default function AboutPage() {
-  return <AboutPageContent />;
+  return <AboutPageContent />
 }
