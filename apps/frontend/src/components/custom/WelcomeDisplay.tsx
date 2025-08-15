@@ -25,7 +25,13 @@ function WelcomeDisplay() {
           lg: '20',
         }}
       >
-        <Heading>Gazette, c'est quoi ?</Heading>
+        <Link
+          href="/about"
+          textStyle="welcomeLink"
+          color="color.white"
+        >
+          {t('aboutGazette')}
+        </Link>
         <Heading
           width="100%"
           fontSize="12rem"

@@ -110,9 +110,9 @@ function FormLogin() {
             disabled={isLoading}
           />
           <Text>
-            {`${t('alreadyConnected')} `}
-            <Link href="/login">
-              <b>{t('login')}</b>
+            {`${t('noAccount')} `}
+            <Link href="/signin">
+              <b>{t('signIn')}</b>
             </Link>
           </Text>
         </Stack>
