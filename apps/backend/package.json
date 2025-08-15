@@ -22,7 +22,8 @@
     "migration:list": "mikro-orm migration:list",
     "migration:pending": "mikro-orm migration:pending",
     "seeder:run": "mikro-orm seeder:run",
-    "seeder:create": "mikro-orm seeder:create"
+    "seeder:create": "mikro-orm seeder:create",
+    "seed:test": "ts-node apps/backend/test-data/seed.ts"
   },
   "dependencies": {
     "@gazette/shared": "workspace:*",

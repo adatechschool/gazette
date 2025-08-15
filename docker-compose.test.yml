@@ -1,0 +1,55 @@
+version: '3.9'
+
+
+
+services:
+  test-postgres:
+    image: postgres:15-alpine
+    container_name: gazette_test_postgres
+    ports:
+      - '5433:5432'  # Port différent de la prod/dev
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+    networks:
+      - gazette-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-test_user} -d ${DB_NAME:-gazette_test}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: gazette_test
+
+  test-runner:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile # ou un Dockerfile.test si tu veux un conteneur séparé
+    container_name: gazette_test_runner
+    depends_on:
+      test-postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: test-postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-test_user}
+      DB_PASSWORD: ${DB_PASSWORD:-test_password}
+      DB_NAME: ${DB_NAME:-gazette_test}
+      NODE_ENV: test
+    networks:
+      - gazette-network
+    command: >
+      sh -c "
+        pnpm install &&
+        pnpm --filter backend run seed:test && 
+        pnpm test
+      "
+
+networks:
+  gazette-network:
+    driver: bridge
+
+volumes:
+  test_postgres_data:
+
