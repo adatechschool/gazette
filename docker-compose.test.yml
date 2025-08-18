@@ -1,17 +1,18 @@
 version: '3.9'
 
 services:
+  # Base de données PostgreSQL pour les tests
   test-postgres:
     image: postgres:15-alpine
-    container_name: gazette_test_postgres
+    container_name: test_postgres
     ports:
-      - '5433:5432'  # Port différent de la prod/dev
+      - '5433:5432'
     volumes:
       - test_postgres_data:/var/lib/postgresql/data
     networks:
-      - gazette-network
+      - gazette-test-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-test_user} -d ${DB_NAME:-gazette_test}" ]
+      test: ["CMD-SHELL", "pg_isready -U test_user -d gazette_test"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -20,34 +21,104 @@ services:
       POSTGRES_PASSWORD: test_password
       POSTGRES_DB: gazette_test
 
-  test-runner:
+  # Backend - Tests
+  test-backend:
     build:
       context: .
-      dockerfile: apps/backend/Dockerfile # ou un Dockerfile.test si tu veux un conteneur séparé
-    container_name: gazette_test_runner
+      dockerfile: apps/backend/Dockerfile.test
+    container_name: test_backend
     depends_on:
       test-postgres:
         condition: service_healthy
     environment:
+      NODE_ENV: test
       DB_HOST: test-postgres
       DB_PORT: 5432
-      DB_USER: ${DB_USER:-test_user}
-      DB_PASSWORD: ${DB_PASSWORD:-test_password}
-      DB_NAME: ${DB_NAME:-gazette_test}
-      NODE_ENV: test
+      DB_USER: test_user
+      DB_PASSWORD: test_password
+      DB_NAME: gazette_test
+      JWT_SECRET: test_secret_key_very_long_and_secure
+      CORS_ORIGIN: http://localhost:3002
     networks:
-      - gazette-network
+      - gazette-test-network
+    ports:
+      - '3001:3001'
+    volumes:
+      # Montage pour les tests en mode watch si besoin
+      - ./apps/backend/src:/gazette/apps/backend/src:ro
+      - ./apps/backend/test:/gazette/apps/backend/test:ro
+      - ./packages/shared:/gazette/packages/shared:ro
     command: >
       sh -c "
-        pnpm install &&
-        pnpm --filter backend run seed:test && 
-        pnpm test
+        echo 'Waiting for database...' &&
+        while ! nc -z test-postgres 5432; do sleep 1; done &&
+        echo 'Database is ready!' &&
+        echo 'Setting up database schema...' &&
+        pnpm run schema:fresh &&
+        echo 'Running backend tests...' &&
+        pnpm test --watchAll=false --ci --coverage
       "
 
+  # Frontend - Tests
+  test-frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile.test
+    container_name: test_frontend
+    depends_on:
+      - test-backend
+    environment:
+      NODE_ENV: test
+      NEXT_TELEMETRY_DISABLED: 1
+      NEXT_PUBLIC_API_URL: http://test-backend:3001
+    networks:
+      - gazette-test-network
+    ports:
+      - '3003:3000'
+    volumes:
+      # Montage pour les tests en mode watch si besoin
+      - ./apps/frontend/src:/gazette/apps/frontend/src:ro
+      - ./apps/frontend/__tests__:/gazette/apps/frontend/__tests__:ro
+      - ./apps/frontend/cypress:/gazette/apps/frontend/cypress:ro
+      - ./packages/shared:/gazette/packages/shared:ro
+    command: >
+      sh -c "
+        echo 'Running frontend tests...' &&
+        pnpm jest --watchAll=false --ci --coverage
+      "
+
+  # Service pour les tests E2E (optionnel)
+  test-e2e:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile.test
+    container_name: test_e2e
+    depends_on:
+      - test-backend
+      - test-frontend
+    environment:
+      NODE_ENV: test
+      CYPRESS_BASE_URL: http://test-frontend:3000
+      CYPRESS_API_URL: http://test-backend:3001
+    networks:
+      - gazette-test-network
+    volumes:
+      - ./apps/frontend/cypress:/gazette/apps/frontend/cypress:ro
+      - ./cypress-results:/gazette/apps/frontend/cypress/results
+    command: >
+      sh -c "
+        echo 'Waiting for services...' &&
+        sleep 10 &&
+        echo 'Running E2E tests...' &&
+        pnpm run cypress:run
+      "
+    profiles:
+      - e2e
+
 networks:
-  gazette-network:
+  gazette-test-network:
     driver: bridge
 
 volumes:
   test_postgres_data:
-
+    driver: local

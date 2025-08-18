@@ -44,3 +44,6 @@ apps/frontend/node_modules
 
 # Ignorer les scripts locaux non nécessaires dans l'image
 scripts
+
+.nyc_output
+.cache

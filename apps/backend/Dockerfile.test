@@ -1,0 +1,42 @@
+# Dockerfile.test - Backend simplifié
+FROM node:20-alpine
+
+# Outils nécessaires pour PostgreSQL et tests
+RUN apk add --no-cache postgresql-client netcat-openbsd
+
+WORKDIR /gazette
+
+# Activer corepack et pnpm
+RUN corepack enable && corepack prepare pnpm@9.12.3 --activate
+
+# Copier les fichiers de configuration du workspace
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
+
+# Copier les package.json pour optimiser le cache
+COPY packages/shared/package.json ./packages/shared/
+COPY apps/backend/package.json ./apps/backend/
+COPY apps/frontend/package.json ./apps/frontend/
+
+# Installer toutes les dépendances (dev incluses pour les tests)
+RUN pnpm install --frozen-lockfile
+
+# Copier tout le code source
+COPY packages/shared ./packages/shared
+COPY apps/backend ./apps/backend
+
+# Build le package partagé
+RUN pnpm --filter @gazette/shared build
+
+# Se placer dans le répertoire backend
+WORKDIR /gazette/apps/backend
+
+# Rendre le script entrypoint exécutable s'il existe
+RUN if [ -f entrypoint.sh ]; then chmod +x entrypoint.sh; fi
+
+# Variables d'environnement pour les tests
+ENV NODE_ENV=test
+
+EXPOSE 3001
+
+# Commande par défaut pour les tests
+CMD ["pnpm", "test"]

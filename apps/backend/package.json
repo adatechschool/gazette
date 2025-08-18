@@ -17,13 +17,14 @@
     "schema:update": "mikro-orm schema:update --run",
     "schema:fresh": "pnpm schema:drop && pnpm schema:update",
     "migration:create": "mikro-orm migration:create",
+    "migration:run": "mikro-orm migration:run",
     "migration:up": "mikro-orm migration:up",
     "migration:down": "mikro-orm migration:down",
     "migration:list": "mikro-orm migration:list",
     "migration:pending": "mikro-orm migration:pending",
-    "seeder:run": "mikro-orm seeder:run",
-    "seeder:create": "mikro-orm seeder:create",
-    "seed:test": "mikro-orm seed --seed=TestSeeder"
+    "seed:run": "mikro-orm seeder:run",
+    "seed:create": "mikro-orm seeder:create",
+    "seed:test": "node src/seeds/TestSeeder.ts"
   },
   "dependencies": {
     "@gazette/shared": "workspace:*",
