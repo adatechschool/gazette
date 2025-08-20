@@ -1,9 +1,6 @@
 # Dockerfile.test - Backend simplifié
 FROM node:20-alpine
 
-# Outils nécessaires pour PostgreSQL et tests
-RUN apk add --no-cache postgresql-client netcat-openbsd
-
 WORKDIR /gazette
 
 # Activer corepack et pnpm
@@ -11,6 +8,9 @@ RUN corepack enable && corepack prepare pnpm@9.12.3 --activate
 
 # Copier les fichiers de configuration du workspace
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
+
+# Outils nécessaires pour PostgreSQL et tests
+RUN apk add --no-cache postgresql-client netcat-openbsd
 
 # Copier les package.json pour optimiser le cache
 COPY packages/shared/package.json ./packages/shared/

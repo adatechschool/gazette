@@ -7,7 +7,7 @@ export class UserFactory extends Factory<User> {
 
   definition(): Partial<User> {
     return {
-      pseudo: faker.person.firstName(), // ou faker.internet.userName()
+      pseudo: faker.person.firstName(),
       email: faker.internet.email(),
       password: faker.internet.password({ length: 10 }),
     }
