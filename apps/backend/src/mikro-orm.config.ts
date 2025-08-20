@@ -29,6 +29,11 @@ function config(configService: ConfigService): Options<PostgreSqlDriver> {
       safe: true,
       emit: 'ts',
     },
+    seeder: {
+      path: './src/seeders', // chemin des seeders
+      pathTs: './src/seeders',
+      defaultSeeder: 'DatabaseSeeder', // nom de la classe attendue
+    },
   }
 }
 

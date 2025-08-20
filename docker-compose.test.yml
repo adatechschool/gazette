@@ -59,6 +59,31 @@ services:
         pnpm test --watchAll=false --ci --coverage
       "
 
+        # Backend CLI pour lancer migrations/seeds à la main
+  test-backend-cli:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile.test
+    container_name: test_backend_cli
+    depends_on:
+      test-postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: test
+      DB_HOST: test-postgres
+      DB_PORT: 5432
+      DB_USER: test_user
+      DB_PASSWORD: test_password
+      DB_NAME: gazette_test
+    networks:
+      - gazette-test-network
+    volumes:
+      - ./apps/backend/src:/gazette/apps/backend/src
+      - ./apps/backend/test:/gazette/apps/backend/test
+      - ./packages/shared:/gazette/packages/shared
+    command: sh -c "tail -f /dev/null" # reste actif pour que tu puisses exec dedans
+
+
   # Frontend - Tests
   test-frontend:
     build:

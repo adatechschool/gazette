@@ -240,11 +240,33 @@ The application uses multi-stage Docker builds for optimized production images:
 ## 🧪 Testing
 
 ```bash
+
+# Launch docker test
+docker compose -f docker-compose.test.yml up --build -d
+
+# Populate de tables from the database
+docker compose -f docker-compose.test.yml exec test-backend-cli sh
+pnpm mikro-orm migration:up
+pnpm mikro-orm seeder:run
+
+# Run frontend tests
+docker-compose -f docker-compose.test.yml run --rm test-frontend
+
 # Run backend tests
-docker compose exec backend pnpm test
+docker-compose -f docker-compose.test.yml run --rm test-backend
 
 # Run frontend tests
 cd apps/frontend && pnpm test
+
+# Delete the tables
+pnpm mikro-orm schema:drop --run
+
+#Access to the tables test
+docker exec -it test-backend-cli sh
+psql -h test-postgres -U test_user -d gazette_test
+# list the tables test
+\dt;
+
 ```
 
 ## 📊 CI/CD
