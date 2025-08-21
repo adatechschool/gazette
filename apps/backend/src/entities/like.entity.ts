@@ -8,7 +8,7 @@ export class Like {
   @PrimaryKeyUuid()
   id!: string
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { deleteRule: 'cascade' })
   user!: User
 
   @ManyToOne(() => Content)

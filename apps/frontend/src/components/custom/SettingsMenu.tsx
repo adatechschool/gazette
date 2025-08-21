@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { Box, Icon, Link, List, ListItem } from '@chakra-ui/react'
 import { FileBadge, HelpCircle, LogOut, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { useToaster } from '@/components/ui/toaster'
 import { useAuth } from '@/hooks/useAuth'
+import { DeleteAccountModal } from './DeleteAccountModal'
 
 function SettingsMenu() {
   const { t } = useTranslation('common', {
@@ -11,6 +13,7 @@ function SettingsMenu() {
   })
 
   const { logout, deleteAccount } = useAuth()
+  const [ deleteModalOpen, setDeleteModalOpen ] = useState(false)
   const toaster = useToaster()
   const router = useRouter()
 
@@ -24,7 +27,15 @@ function SettingsMenu() {
     }
   }
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
+    setDeleteModalOpen(true)
+  }
+
+  const handleCancelDelete = () => {
+    setDeleteModalOpen(false)
+  }
+
+  const handleConfirmDeleteAccount = async () => {
     try {
       await deleteAccount()
       toaster.create({
@@ -32,6 +43,7 @@ function SettingsMenu() {
         type: 'success',
         duration: 5000,
       })
+      setDeleteModalOpen(false)
       router.push('/')
     }
     catch (error) {
@@ -41,6 +53,7 @@ function SettingsMenu() {
         type: 'error',
         duration: 5000,
       })
+      setDeleteModalOpen(false)
     }
   }
 
@@ -85,7 +98,12 @@ function SettingsMenu() {
           </Link>
         </ListItem>
       </List>
-
+      <DeleteAccountModal
+        isOpen={deleteModalOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDeleteAccount}
+        onCancel={handleCancelDelete}
+      />
     </Box>
   )
 }
