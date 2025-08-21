@@ -2,7 +2,6 @@ import type { CreateUserDto, UserProfileDto } from '@gazette/shared'
 import { api } from '../../config'
 
 export async function createUser(user: CreateUserDto): Promise<CreateUserDto> {
-  console.warn('Données envoyées à l’API :', user)
   try {
     const response = await api.post('users', { json: user })
     const data = await response.json()

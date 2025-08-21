@@ -1,8 +1,10 @@
 import { SubscriptionDto } from '@gazette/shared'
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, Req, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '../auth/auth.guard'
 import { SubscriptionsService } from '../subscription/subscription.service'
 import { UsersService } from './user.service'
+import { clearAuthCookie } from '../auth/auth.utils'
+import { Response } from 'express'
 
 interface RequestWithUser extends Request {
   user: {
@@ -41,9 +43,9 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Delete('me')
-  async deleteCurrentUser(@Req() req: RequestWithUser) {
+  async deleteCurrentUser(@Req() req: RequestWithUser, @Res({ passthrough: true }) res: Response) {
     await this.usersService.delete(req.user.id)
-    return { message: 'User deleted successfully' }
+    clearAuthCookie(res)
   }
 
   @UseGuards(AuthGuard)
