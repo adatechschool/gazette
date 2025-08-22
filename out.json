@@ -1,0 +1,4012 @@
+{
+	"schemaVersion": "2.0",
+	"id": 0,
+	"name": "Gazette - Documentation complète",
+	"variant": "project",
+	"kind": 1,
+	"flags": {},
+	"children": [
+		{
+			"id": 1,
+			"name": "apps/backend/src/main",
+			"variant": "declaration",
+			"kind": 2,
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "apps/backend/src/main.ts",
+					"line": 1,
+					"character": 0,
+					"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/apps/backend/src/main.ts#L1"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"name": "apps/frontend/src/app/layout",
+			"variant": "declaration",
+			"kind": 2,
+			"flags": {},
+			"children": [
+				{
+					"id": 4,
+					"name": "default",
+					"variant": "declaration",
+					"kind": 64,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "apps/frontend/src/app/layout.tsx",
+							"line": 3,
+							"character": 24,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/apps/frontend/src/app/layout.tsx#L3"
+						}
+					],
+					"signatures": [
+						{
+							"id": 5,
+							"name": "default",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "apps/frontend/src/app/layout.tsx",
+									"line": 3,
+									"character": 24,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/apps/frontend/src/app/layout.tsx#L3"
+								}
+							],
+							"parameters": [
+								{
+									"id": 6,
+									"name": "__namedParameters",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 7,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 8,
+													"name": "children",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "apps/frontend/src/app/layout.tsx",
+															"line": 6,
+															"character": 2,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/apps/frontend/src/app/layout.tsx#L6"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"packageName": "@types/react",
+															"packagePath": "index.d.ts",
+															"qualifiedName": "React.ReactNode"
+														},
+														"name": "ReactNode",
+														"package": "@types/react",
+														"qualifiedName": "React.ReactNode"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														8
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "apps/frontend/src/app/layout.tsx",
+													"line": 5,
+													"character": 3,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/apps/frontend/src/app/layout.tsx#L5"
+												}
+											]
+										}
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"packageName": "@types/react",
+									"packagePath": "jsx-runtime.d.ts",
+									"qualifiedName": "JSX.Element"
+								},
+								"name": "Element",
+								"package": "@types/react",
+								"qualifiedName": "JSX.Element"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Functions",
+					"children": [
+						4
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "apps/frontend/src/app/layout.tsx",
+					"line": 1,
+					"character": 0,
+					"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/apps/frontend/src/app/layout.tsx#L1"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"name": "packages/shared/src",
+			"variant": "declaration",
+			"kind": 2,
+			"flags": {},
+			"children": [
+				{
+					"id": 75,
+					"name": "ContentType",
+					"variant": "declaration",
+					"kind": 8,
+					"flags": {},
+					"children": [
+						{
+							"id": 76,
+							"name": "Article",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 14,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L14"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "article"
+							}
+						},
+						{
+							"id": 78,
+							"name": "Podcast",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 16,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L16"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "podcast"
+							}
+						},
+						{
+							"id": 77,
+							"name": "Video",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 15,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L15"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "video"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Enumeration Members",
+							"children": [
+								76,
+								78,
+								77
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/enums/index.ts",
+							"line": 13,
+							"character": 12,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L13"
+						}
+					]
+				},
+				{
+					"id": 79,
+					"name": "MediaType",
+					"variant": "declaration",
+					"kind": 8,
+					"flags": {},
+					"children": [
+						{
+							"id": 80,
+							"name": "Article",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 20,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L20"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "article"
+							}
+						},
+						{
+							"id": 82,
+							"name": "Podcast",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 22,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L22"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "podcast"
+							}
+						},
+						{
+							"id": 81,
+							"name": "Video",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 21,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L21"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "video"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Enumeration Members",
+							"children": [
+								80,
+								82,
+								81
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/enums/index.ts",
+							"line": 19,
+							"character": 12,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L19"
+						}
+					]
+				},
+				{
+					"id": 67,
+					"name": "UserRole",
+					"variant": "declaration",
+					"kind": 8,
+					"flags": {},
+					"children": [
+						{
+							"id": 68,
+							"name": "ADMIN",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 2,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L2"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "admin"
+							}
+						},
+						{
+							"id": 70,
+							"name": "MODERATOR",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 4,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L4"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "moderator"
+							}
+						},
+						{
+							"id": 69,
+							"name": "USER",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 3,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L3"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "user"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Enumeration Members",
+							"children": [
+								68,
+								70,
+								69
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/enums/index.ts",
+							"line": 1,
+							"character": 12,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L1"
+						}
+					]
+				},
+				{
+					"id": 71,
+					"name": "UserStatus",
+					"variant": "declaration",
+					"kind": 8,
+					"flags": {},
+					"children": [
+						{
+							"id": 72,
+							"name": "ACTIVE",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 8,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L8"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "active"
+							}
+						},
+						{
+							"id": 73,
+							"name": "INACTIVE",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 9,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L9"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "inactive"
+							}
+						},
+						{
+							"id": 74,
+							"name": "PENDING",
+							"variant": "declaration",
+							"kind": 16,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/enums/index.ts",
+									"line": 10,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L10"
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": "pending"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Enumeration Members",
+							"children": [
+								72,
+								73,
+								74
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/enums/index.ts",
+							"line": 7,
+							"character": 12,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/enums/index.ts#L7"
+						}
+					]
+				},
+				{
+					"id": 54,
+					"name": "ApiUser",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 56,
+							"name": "email",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 19,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L19"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 57,
+							"name": "pseudo",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 20,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L20"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 58,
+							"name": "role",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 21,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L21"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 55,
+							"name": "sub",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 18,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L18"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								56,
+								57,
+								58,
+								55
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/user.dto.ts",
+							"line": 17,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L17"
+						}
+					]
+				},
+				{
+					"id": 51,
+					"name": "LoginDto",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 52,
+							"name": "email",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 12,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L12"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 53,
+							"name": "password",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 13,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L13"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								52,
+								53
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/user.dto.ts",
+							"line": 11,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L11"
+						}
+					]
+				},
+				{
+					"id": 86,
+					"name": "PaginatedResponse",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 87,
+							"name": "items",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/interfaces/index.ts",
+									"line": 7,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L7"
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "reference",
+									"target": 91,
+									"name": "T",
+									"package": "@gazette/shared",
+									"qualifiedName": "PaginatedResponse.T",
+									"refersToTypeParameter": true
+								}
+							}
+						},
+						{
+							"id": 90,
+							"name": "lastPage",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/interfaces/index.ts",
+									"line": 10,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L10"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 89,
+							"name": "page",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/interfaces/index.ts",
+									"line": 9,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L9"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 88,
+							"name": "total",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/interfaces/index.ts",
+									"line": 8,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L8"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								87,
+								90,
+								89,
+								88
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/interfaces/index.ts",
+							"line": 6,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L6"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 91,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {}
+						}
+					]
+				},
+				{
+					"id": 83,
+					"name": "PaginationParams",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 85,
+							"name": "limit",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/interfaces/index.ts",
+									"line": 3,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L3"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 84,
+							"name": "page",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/interfaces/index.ts",
+									"line": 2,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L2"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								85,
+								84
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/interfaces/index.ts",
+							"line": 1,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/interfaces/index.ts#L1"
+						}
+					]
+				},
+				{
+					"id": 37,
+					"name": "RssApiResponse",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 38,
+							"name": "rss",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 40,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L40"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 39,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"children": [
+										{
+											"id": 40,
+											"name": "channel",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/dtos/rss.dto.ts",
+													"line": 41,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L41"
+												}
+											],
+											"type": {
+												"type": "reference",
+												"target": 26,
+												"name": "RssChannel",
+												"package": "@gazette/shared"
+											}
+										}
+									],
+									"groups": [
+										{
+											"title": "Properties",
+											"children": [
+												40
+											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "packages/shared/src/dtos/rss.dto.ts",
+											"line": 40,
+											"character": 7,
+											"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L40"
+										}
+									]
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								38
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/rss.dto.ts",
+							"line": 39,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L39"
+						}
+					]
+				},
+				{
+					"id": 9,
+					"name": "RssArticle",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 14,
+							"name": "author",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 6,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L6"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 15,
+							"name": "category",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 7,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L7"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 13,
+							"name": "description",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 5,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L5"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 11,
+							"name": "link",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 3,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L3"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 12,
+							"name": "pubDate",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 4,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L4"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 10,
+							"name": "title",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 2,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L2"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								14,
+								15,
+								13,
+								11,
+								12,
+								10
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/rss.dto.ts",
+							"line": 1,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L1"
+						}
+					]
+				},
+				{
+					"id": 26,
+					"name": "RssChannel",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 29,
+							"name": "description",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 26,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L26"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 32,
+							"name": "item",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 29,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L29"
+								}
+							],
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"target": 16,
+										"name": "RssItem",
+										"package": "@gazette/shared"
+									},
+									{
+										"type": "array",
+										"elementType": {
+											"type": "reference",
+											"target": 16,
+											"name": "RssItem",
+											"package": "@gazette/shared"
+										}
+									}
+								]
+							}
+						},
+						{
+							"id": 30,
+							"name": "language",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 27,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L27"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 31,
+							"name": "lastBuildDate",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 28,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L28"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 28,
+							"name": "link",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 25,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L25"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 27,
+							"name": "title",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 24,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L24"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								29,
+								32,
+								30,
+								31,
+								28,
+								27
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/rss.dto.ts",
+							"line": 23,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L23"
+						}
+					]
+				},
+				{
+					"id": 33,
+					"name": "RssFeed",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 34,
+							"name": "rss",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 33,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L33"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 35,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"children": [
+										{
+											"id": 36,
+											"name": "channel",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/dtos/rss.dto.ts",
+													"line": 34,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L34"
+												}
+											],
+											"type": {
+												"type": "reference",
+												"target": 26,
+												"name": "RssChannel",
+												"package": "@gazette/shared"
+											}
+										}
+									],
+									"groups": [
+										{
+											"title": "Properties",
+											"children": [
+												36
+											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "packages/shared/src/dtos/rss.dto.ts",
+											"line": 33,
+											"character": 7,
+											"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L33"
+										}
+									]
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								34
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/rss.dto.ts",
+							"line": 32,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L32"
+						}
+					]
+				},
+				{
+					"id": 16,
+					"name": "RssItem",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 24,
+							"name": "author",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 19,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L19"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 21,
+							"name": "category",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 16,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L16"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 19,
+							"name": "comments",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 14,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L14"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 23,
+							"name": "content",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 18,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L18"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 22,
+							"name": "description",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 17,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L17"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 25,
+							"name": "guid",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 20,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L20"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 18,
+							"name": "link",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 13,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L13"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 20,
+							"name": "pubDate",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 15,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L15"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 17,
+							"name": "title",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/rss.dto.ts",
+									"line": 12,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L12"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								24,
+								21,
+								19,
+								23,
+								22,
+								25,
+								18,
+								20,
+								17
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/rss.dto.ts",
+							"line": 11,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/rss.dto.ts#L11"
+						}
+					]
+				},
+				{
+					"id": 62,
+					"name": "UserDto",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 64,
+							"name": "email",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 31,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L31"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 63,
+							"name": "id",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 30,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L30"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 65,
+							"name": "pseudo",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 32,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L32"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 66,
+							"name": "role",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 33,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L33"
+								}
+							],
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "literal",
+										"value": "user"
+									},
+									{
+										"type": "literal",
+										"value": "admin"
+									}
+								]
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								64,
+								63,
+								65,
+								66
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/user.dto.ts",
+							"line": 29,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L29"
+						}
+					]
+				},
+				{
+					"id": 59,
+					"name": "UserProfileDto",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 60,
+							"name": "message",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 25,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L25"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 61,
+							"name": "user",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 26,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L26"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 54,
+								"name": "ApiUser",
+								"package": "@gazette/shared"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								60,
+								61
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/user.dto.ts",
+							"line": 24,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L24"
+						}
+					]
+				},
+				{
+					"id": 44,
+					"name": "UserResponse",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"children": [
+						{
+							"id": 49,
+							"name": "createdAt",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 7,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L7"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"packageName": "typescript",
+									"packagePath": "lib/lib.es5.d.ts",
+									"qualifiedName": "Date"
+								},
+								"name": "Date",
+								"package": "typescript"
+							}
+						},
+						{
+							"id": 48,
+							"name": "email",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 6,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L6"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 46,
+							"name": "firstName",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 4,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L4"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 45,
+							"name": "id",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 3,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L3"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 47,
+							"name": "lastName",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 5,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L5"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 50,
+							"name": "updatedAt",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 8,
+									"character": 2,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L8"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"packageName": "typescript",
+									"packagePath": "lib/lib.es5.d.ts",
+									"qualifiedName": "Date"
+								},
+								"name": "Date",
+								"package": "typescript"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								49,
+								48,
+								46,
+								45,
+								47,
+								50
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/user.dto.ts",
+							"line": 2,
+							"character": 17,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L2"
+						}
+					]
+				},
+				{
+					"id": 123,
+					"name": "CreateUserDto",
+					"variant": "declaration",
+					"kind": 2097152,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "packages/shared/src/schemas/index.ts",
+							"line": 25,
+							"character": 12,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L25"
+						}
+					],
+					"type": {
+						"type": "reference",
+						"target": {
+							"packageName": "zod",
+							"packagePath": "dist/types/v3/types.d.ts",
+							"qualifiedName": "TypeOf"
+						},
+						"typeArguments": [
+							{
+								"type": "query",
+								"queryType": {
+									"type": "reference",
+									"target": 92,
+									"name": "CreateUserSchema",
+									"package": "@gazette/shared"
+								}
+							}
+						],
+						"name": "z.infer",
+						"package": "zod",
+						"qualifiedName": "TypeOf"
+					}
+				},
+				{
+					"id": 134,
+					"name": "LoginUserDto",
+					"variant": "declaration",
+					"kind": 2097152,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "packages/shared/src/schemas/index.ts",
+							"line": 36,
+							"character": 12,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L36"
+						}
+					],
+					"type": {
+						"type": "reference",
+						"target": {
+							"packageName": "zod",
+							"packagePath": "dist/types/v3/types.d.ts",
+							"qualifiedName": "TypeOf"
+						},
+						"typeArguments": [
+							{
+								"type": "query",
+								"queryType": {
+									"type": "reference",
+									"target": 124,
+									"name": "LogUserSchema",
+									"package": "@gazette/shared"
+								}
+							}
+						],
+						"name": "z.infer",
+						"package": "zod",
+						"qualifiedName": "TypeOf"
+					}
+				},
+				{
+					"id": 92,
+					"name": "CreateUserSchema",
+					"variant": "declaration",
+					"kind": 32,
+					"flags": {
+						"isConst": true
+					},
+					"sources": [
+						{
+							"fileName": "packages/shared/src/schemas/index.ts",
+							"line": 6,
+							"character": 13,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L6"
+						}
+					],
+					"type": {
+						"type": "reference",
+						"target": {
+							"packageName": "zod",
+							"packagePath": "dist/types/v3/types.d.ts",
+							"qualifiedName": "ZodEffects"
+						},
+						"typeArguments": [
+							{
+								"type": "reference",
+								"target": {
+									"packageName": "zod",
+									"packagePath": "dist/types/v3/types.d.ts",
+									"qualifiedName": "ZodObject"
+								},
+								"typeArguments": [
+									{
+										"type": "reflection",
+										"declaration": {
+											"id": 93,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 97,
+													"name": "confirmPassword",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 14,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L14"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"packageName": "zod",
+															"packagePath": "dist/types/v3/types.d.ts",
+															"qualifiedName": "ZodString"
+														},
+														"name": "ZodString",
+														"package": "zod"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 95,
+													"name": "email",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 9,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L9"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"packageName": "zod",
+															"packagePath": "dist/types/v3/types.d.ts",
+															"qualifiedName": "ZodString"
+														},
+														"name": "ZodString",
+														"package": "zod"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 96,
+													"name": "password",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 10,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L10"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"packageName": "zod",
+															"packagePath": "dist/types/v3/types.d.ts",
+															"qualifiedName": "ZodString"
+														},
+														"name": "ZodString",
+														"package": "zod"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 94,
+													"name": "pseudo",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 8,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L8"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"packageName": "zod",
+															"packagePath": "dist/types/v3/types.d.ts",
+															"qualifiedName": "ZodString"
+														},
+														"name": "ZodString",
+														"package": "zod"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 98,
+													"name": "role",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 18,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L18"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": {
+															"packageName": "zod",
+															"packagePath": "dist/types/v3/types.d.ts",
+															"qualifiedName": "ZodDefault"
+														},
+														"typeArguments": [
+															{
+																"type": "reference",
+																"target": {
+																	"packageName": "zod",
+																	"packagePath": "dist/types/v3/types.d.ts",
+																	"qualifiedName": "ZodNativeEnum"
+																},
+																"typeArguments": [
+																	{
+																		"type": "query",
+																		"queryType": {
+																			"type": "reference",
+																			"target": 67,
+																			"name": "UserRole",
+																			"package": "@gazette/shared"
+																		}
+																	}
+																],
+																"name": "ZodNativeEnum",
+																"package": "zod"
+															}
+														],
+														"name": "ZodDefault",
+														"package": "zod"
+													},
+													"defaultValue": "..."
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														97,
+														95,
+														96,
+														94,
+														98
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 7,
+													"character": 10,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L7"
+												}
+											]
+										}
+									},
+									{
+										"type": "literal",
+										"value": "strip"
+									},
+									{
+										"type": "reference",
+										"target": {
+											"packageName": "zod",
+											"packagePath": "dist/types/v3/types.d.ts",
+											"qualifiedName": "ZodTypeAny"
+										},
+										"name": "ZodTypeAny",
+										"package": "zod"
+									},
+									{
+										"type": "reflection",
+										"declaration": {
+											"id": 99,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 103,
+													"name": "confirmPassword",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 14,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L14"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 101,
+													"name": "email",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 9,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L9"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 102,
+													"name": "password",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 10,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L10"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 100,
+													"name": "pseudo",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 8,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L8"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 104,
+													"name": "role",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 18,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L18"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": 67,
+														"name": "UserRole",
+														"package": "@gazette/shared"
+													},
+													"defaultValue": "..."
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														103,
+														101,
+														102,
+														100,
+														104
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/types/v3/helpers/util.d.ts",
+													"line": 45,
+													"character": 38
+												}
+											]
+										}
+									},
+									{
+										"type": "reflection",
+										"declaration": {
+											"id": 105,
+											"name": "__type",
+											"variant": "declaration",
+											"kind": 65536,
+											"flags": {},
+											"children": [
+												{
+													"id": 109,
+													"name": "confirmPassword",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 14,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L14"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 107,
+													"name": "email",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 9,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L9"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 108,
+													"name": "password",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 10,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L10"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 106,
+													"name": "pseudo",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 8,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L8"
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													},
+													"defaultValue": "..."
+												},
+												{
+													"id": 110,
+													"name": "role",
+													"variant": "declaration",
+													"kind": 1024,
+													"flags": {
+														"isOptional": true
+													},
+													"sources": [
+														{
+															"fileName": "packages/shared/src/schemas/index.ts",
+															"line": 18,
+															"character": 4,
+															"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L18"
+														}
+													],
+													"type": {
+														"type": "reference",
+														"target": 67,
+														"name": "UserRole",
+														"package": "@gazette/shared"
+													},
+													"defaultValue": "..."
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"children": [
+														109,
+														107,
+														108,
+														106,
+														110
+													]
+												}
+											],
+											"sources": [
+												{
+													"fileName": "node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/types/v3/helpers/util.d.ts",
+													"line": 45,
+													"character": 38
+												}
+											]
+										}
+									}
+								],
+								"name": "ZodObject",
+								"package": "zod"
+							},
+							{
+								"type": "reflection",
+								"declaration": {
+									"id": 111,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"children": [
+										{
+											"id": 115,
+											"name": "confirmPassword",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 14,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L14"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 113,
+											"name": "email",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 9,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L9"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 114,
+											"name": "password",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 10,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L10"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 112,
+											"name": "pseudo",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 8,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L8"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 116,
+											"name": "role",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 18,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L18"
+												}
+											],
+											"type": {
+												"type": "reference",
+												"target": 67,
+												"name": "UserRole",
+												"package": "@gazette/shared"
+											},
+											"defaultValue": "..."
+										}
+									],
+									"groups": [
+										{
+											"title": "Properties",
+											"children": [
+												115,
+												113,
+												114,
+												112,
+												116
+											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/types/v3/helpers/util.d.ts",
+											"line": 45,
+											"character": 38
+										}
+									]
+								}
+							},
+							{
+								"type": "reflection",
+								"declaration": {
+									"id": 117,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"children": [
+										{
+											"id": 121,
+											"name": "confirmPassword",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 14,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L14"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 119,
+											"name": "email",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 9,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L9"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 120,
+											"name": "password",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 10,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L10"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 118,
+											"name": "pseudo",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 8,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L8"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 122,
+											"name": "role",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 18,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L18"
+												}
+											],
+											"type": {
+												"type": "reference",
+												"target": 67,
+												"name": "UserRole",
+												"package": "@gazette/shared"
+											},
+											"defaultValue": "..."
+										}
+									],
+									"groups": [
+										{
+											"title": "Properties",
+											"children": [
+												121,
+												119,
+												120,
+												118,
+												122
+											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/types/v3/helpers/util.d.ts",
+											"line": 45,
+											"character": 38
+										}
+									]
+								}
+							}
+						],
+						"name": "ZodEffects",
+						"package": "zod"
+					},
+					"defaultValue": "..."
+				},
+				{
+					"id": 124,
+					"name": "LogUserSchema",
+					"variant": "declaration",
+					"kind": 32,
+					"flags": {
+						"isConst": true
+					},
+					"sources": [
+						{
+							"fileName": "packages/shared/src/schemas/index.ts",
+							"line": 27,
+							"character": 13,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L27"
+						}
+					],
+					"type": {
+						"type": "reference",
+						"target": {
+							"packageName": "zod",
+							"packagePath": "dist/types/v3/types.d.ts",
+							"qualifiedName": "ZodObject"
+						},
+						"typeArguments": [
+							{
+								"type": "reflection",
+								"declaration": {
+									"id": 125,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"children": [
+										{
+											"id": 126,
+											"name": "email",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 29,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L29"
+												}
+											],
+											"type": {
+												"type": "reference",
+												"target": {
+													"packageName": "zod",
+													"packagePath": "dist/types/v3/types.d.ts",
+													"qualifiedName": "ZodString"
+												},
+												"name": "ZodString",
+												"package": "zod"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 127,
+											"name": "password",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 30,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L30"
+												}
+											],
+											"type": {
+												"type": "reference",
+												"target": {
+													"packageName": "zod",
+													"packagePath": "dist/types/v3/types.d.ts",
+													"qualifiedName": "ZodString"
+												},
+												"name": "ZodString",
+												"package": "zod"
+											},
+											"defaultValue": "..."
+										}
+									],
+									"groups": [
+										{
+											"title": "Properties",
+											"children": [
+												126,
+												127
+											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "packages/shared/src/schemas/index.ts",
+											"line": 28,
+											"character": 10,
+											"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L28"
+										}
+									]
+								}
+							},
+							{
+								"type": "literal",
+								"value": "strip"
+							},
+							{
+								"type": "reference",
+								"target": {
+									"packageName": "zod",
+									"packagePath": "dist/types/v3/types.d.ts",
+									"qualifiedName": "ZodTypeAny"
+								},
+								"name": "ZodTypeAny",
+								"package": "zod"
+							},
+							{
+								"type": "reflection",
+								"declaration": {
+									"id": 128,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"children": [
+										{
+											"id": 129,
+											"name": "email",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 29,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L29"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 130,
+											"name": "password",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 30,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L30"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										}
+									],
+									"groups": [
+										{
+											"title": "Properties",
+											"children": [
+												129,
+												130
+											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/types/v3/helpers/util.d.ts",
+											"line": 45,
+											"character": 38
+										}
+									]
+								}
+							},
+							{
+								"type": "reflection",
+								"declaration": {
+									"id": 131,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"children": [
+										{
+											"id": 132,
+											"name": "email",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 29,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L29"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										},
+										{
+											"id": 133,
+											"name": "password",
+											"variant": "declaration",
+											"kind": 1024,
+											"flags": {
+												"isOptional": true
+											},
+											"sources": [
+												{
+													"fileName": "packages/shared/src/schemas/index.ts",
+													"line": 30,
+													"character": 4,
+													"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/schemas/index.ts#L30"
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "string"
+											},
+											"defaultValue": "..."
+										}
+									],
+									"groups": [
+										{
+											"title": "Properties",
+											"children": [
+												132,
+												133
+											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/types/v3/helpers/util.d.ts",
+											"line": 45,
+											"character": 38
+										}
+									]
+								}
+							}
+						],
+						"name": "ZodObject",
+						"package": "zod"
+					},
+					"defaultValue": "..."
+				},
+				{
+					"id": 41,
+					"name": "transformApiUserToUserDto",
+					"variant": "declaration",
+					"kind": 64,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "packages/shared/src/dtos/user.dto.ts",
+							"line": 37,
+							"character": 16,
+							"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L37"
+						}
+					],
+					"signatures": [
+						{
+							"id": 42,
+							"name": "transformApiUserToUserDto",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "packages/shared/src/dtos/user.dto.ts",
+									"line": 37,
+									"character": 16,
+									"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/dtos/user.dto.ts#L37"
+								}
+							],
+							"parameters": [
+								{
+									"id": 43,
+									"name": "apiUser",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"target": 54,
+										"name": "ApiUser",
+										"package": "@gazette/shared"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 62,
+								"name": "UserDto",
+								"package": "@gazette/shared"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Enumerations",
+					"children": [
+						75,
+						79,
+						67,
+						71
+					]
+				},
+				{
+					"title": "Interfaces",
+					"children": [
+						54,
+						51,
+						86,
+						83,
+						37,
+						9,
+						26,
+						33,
+						16,
+						62,
+						59,
+						44
+					]
+				},
+				{
+					"title": "Type Aliases",
+					"children": [
+						123,
+						134
+					]
+				},
+				{
+					"title": "Variables",
+					"children": [
+						92,
+						124
+					]
+				},
+				{
+					"title": "Functions",
+					"children": [
+						41
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "packages/shared/src/index.ts",
+					"line": 1,
+					"character": 0,
+					"url": "https://github.com/adatechschool/gazette/blob/e37b8e7672b3037bbf368456cf968acfdd0c2a05/packages/shared/src/index.ts#L1"
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Modules",
+			"children": [
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"packageName": "gazette",
+	"readme": [
+		{
+			"kind": "text",
+			"text": "#Documentation Gazette\n\nCe projet est un monorepo TypeScript comprenant :\n\n- **Backend** : API NestJS (CommonJS) avec MikroORM et PostgreSQL\n- **Frontend** : Application React (Next)\n- **Shared** : Code partagé entre le front et le back\n\n## Prérequis\n\n- [Node.js 20+](https://nodejs.org/)\n- [pnpm](https://pnpm.io/) (gestionnaire de paquets recommandé)\n- [Docker](https://www.docker.com/) et [Docker Compose](https://docs.docker.com/compose/)\n\n## Clonage du projet\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\ngit clone  https://github.com/adatechschool/gazette\ncd gazette\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n## Installation des dépendances\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\npnpm i\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n## Installer les DTOs partagés\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\ncd packages/shared\npnpm build\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n### Commandes de migration (depuis apps/backend)\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\n# Créer une migration\npnpm migration:create\n\n# Appliquer les migrations\npnpm db:migration:up\n\n# Revenir en arrière\npnpm db:migration:down\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n---\n\n## Utilisation avec Docker\n\n### 1. Lancer tous les services (backend, frontend, base de données)\n\nÀ la racine du projet :\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\nWindows : docker-compose up --build\nMac : docker compose up --build\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n- Le backend sera accessible sur [http://localhost:3000](http://localhost:3000)\n- Le frontend sur [http://localhost:5173](http://localhost:3002)\n- La base de données Postgres sur le port 5432\n\n### 2. Arrêter les services\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\ndocker-compose down\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n### 3. Voir les logs d'un service\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\ndocker-compose logs backend\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n### 4. Appliquer les migrations dans le conteneur backend\n\nOuvre un shell dans le conteneur backend :\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```bash\ndocker-compose exec backend sh\n# Puis dans le shell :\npnpm db:migration:up\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n---\n\n## Variables d'environnement\n\nCrée un fichier "
+		},
+		{
+			"kind": "code",
+			"text": "`.env`"
+		},
+		{
+			"kind": "text",
+			"text": " dans "
+		},
+		{
+			"kind": "code",
+			"text": "`apps/backend/`"
+		},
+		{
+			"kind": "text",
+			"text": " avec :\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```\nDB_NAME=gazette_db\nDB_HOST=db\nDB_PORT=5432\nDB_USER=postgres\nDB_PASSWORD=motdepasse\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\nCrée un fichier "
+		},
+		{
+			"kind": "code",
+			"text": "`.env`"
+		},
+		{
+			"kind": "text",
+			"text": " dans "
+		},
+		{
+			"kind": "code",
+			"text": "`apps/frontend/`"
+		},
+		{
+			"kind": "text",
+			"text": " avec :\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```\nNEXT_PUBLIC_API_URL=http://localhost:${BACKEND_PORT}\nNODE_ENV=development\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\nCrée un fichier "
+		},
+		{
+			"kind": "code",
+			"text": "`.env`"
+		},
+		{
+			"kind": "text",
+			"text": " dans "
+		},
+		{
+			"kind": "code",
+			"text": "`apps`"
+		},
+		{
+			"kind": "text",
+			"text": " avec :\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```\n# Database\nDB_USER=postgres\nDB_PASSWORD=postgres\nDB_NAME=gazette_db\n\n# Environment\nNODE_ENV=development\n\n# Ports\nFRONTEND_PORT=5173\nBACKEND_PORT=3000\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n---\n\n## Structure du projet\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```\napps/\n  backend/    # API NestJS\n  frontend/   # Frontend React (NextJS)\npackages/\n  shared/     # Code partagé\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n---\n\n## Notes\n\n- Pour le développement avec hot reload dans Docker, une configuration supplémentaire est nécessaire.\n- Les migrations MikroORM doivent être lancées dans le conteneur backend si tu utilises Docker.\n\n---\n\n**Pour toute question, ouvre une issue ou contacte l'équipe !**"
+		}
+	],
+	"symbolIdMap": {
+		"1": {
+			"packageName": "gazette_backend",
+			"packagePath": "src/main.ts",
+			"qualifiedName": ""
+		},
+		"2": {
+			"packageName": "gazette_frontend",
+			"packagePath": "src/app/layout.tsx",
+			"qualifiedName": ""
+		},
+		"3": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/index.ts",
+			"qualifiedName": ""
+		},
+		"4": {
+			"packageName": "gazette_frontend",
+			"packagePath": "src/app/layout.tsx",
+			"qualifiedName": "default"
+		},
+		"5": {
+			"packageName": "gazette_frontend",
+			"packagePath": "src/app/layout.tsx",
+			"qualifiedName": "default"
+		},
+		"6": {
+			"packageName": "gazette_frontend",
+			"packagePath": "src/app/layout.tsx",
+			"qualifiedName": "__0"
+		},
+		"7": {
+			"packageName": "gazette_frontend",
+			"packagePath": "src/app/layout.tsx",
+			"qualifiedName": "__type"
+		},
+		"8": {
+			"packageName": "gazette_frontend",
+			"packagePath": "src/app/layout.tsx",
+			"qualifiedName": "__type.children"
+		},
+		"9": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssArticle"
+		},
+		"10": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssArticle.title"
+		},
+		"11": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssArticle.link"
+		},
+		"12": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssArticle.pubDate"
+		},
+		"13": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssArticle.description"
+		},
+		"14": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssArticle.author"
+		},
+		"15": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssArticle.category"
+		},
+		"16": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem"
+		},
+		"17": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.title"
+		},
+		"18": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.link"
+		},
+		"19": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.comments"
+		},
+		"20": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.pubDate"
+		},
+		"21": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.category"
+		},
+		"22": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.description"
+		},
+		"23": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.content"
+		},
+		"24": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.author"
+		},
+		"25": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssItem.guid"
+		},
+		"26": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssChannel"
+		},
+		"27": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssChannel.title"
+		},
+		"28": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssChannel.link"
+		},
+		"29": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssChannel.description"
+		},
+		"30": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssChannel.language"
+		},
+		"31": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssChannel.lastBuildDate"
+		},
+		"32": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssChannel.item"
+		},
+		"33": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssFeed"
+		},
+		"34": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssFeed.rss"
+		},
+		"35": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "__type"
+		},
+		"36": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "__type.channel"
+		},
+		"37": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssApiResponse"
+		},
+		"38": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "RssApiResponse.rss"
+		},
+		"39": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "__type"
+		},
+		"40": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/rss.dto.ts",
+			"qualifiedName": "__type.channel"
+		},
+		"41": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "transformApiUserToUserDto"
+		},
+		"42": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "transformApiUserToUserDto"
+		},
+		"43": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "apiUser"
+		},
+		"44": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserResponse"
+		},
+		"45": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserResponse.id"
+		},
+		"46": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserResponse.firstName"
+		},
+		"47": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserResponse.lastName"
+		},
+		"48": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserResponse.email"
+		},
+		"49": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserResponse.createdAt"
+		},
+		"50": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserResponse.updatedAt"
+		},
+		"51": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "LoginDto"
+		},
+		"52": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "LoginDto.email"
+		},
+		"53": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "LoginDto.password"
+		},
+		"54": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "ApiUser"
+		},
+		"55": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "ApiUser.sub"
+		},
+		"56": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "ApiUser.email"
+		},
+		"57": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "ApiUser.pseudo"
+		},
+		"58": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "ApiUser.role"
+		},
+		"59": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserProfileDto"
+		},
+		"60": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserProfileDto.message"
+		},
+		"61": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserProfileDto.user"
+		},
+		"62": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserDto"
+		},
+		"63": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserDto.id"
+		},
+		"64": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserDto.email"
+		},
+		"65": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserDto.pseudo"
+		},
+		"66": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/dtos/user.dto.ts",
+			"qualifiedName": "UserDto.role"
+		},
+		"67": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserRole"
+		},
+		"68": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserRole.ADMIN"
+		},
+		"69": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserRole.USER"
+		},
+		"70": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserRole.MODERATOR"
+		},
+		"71": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserStatus"
+		},
+		"72": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserStatus.ACTIVE"
+		},
+		"73": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserStatus.INACTIVE"
+		},
+		"74": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "UserStatus.PENDING"
+		},
+		"75": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "ContentType"
+		},
+		"76": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "ContentType.Article"
+		},
+		"77": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "ContentType.Video"
+		},
+		"78": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "ContentType.Podcast"
+		},
+		"79": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "MediaType"
+		},
+		"80": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "MediaType.Article"
+		},
+		"81": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "MediaType.Video"
+		},
+		"82": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/enums/index.ts",
+			"qualifiedName": "MediaType.Podcast"
+		},
+		"83": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginationParams"
+		},
+		"84": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginationParams.page"
+		},
+		"85": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginationParams.limit"
+		},
+		"86": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginatedResponse"
+		},
+		"87": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginatedResponse.items"
+		},
+		"88": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginatedResponse.total"
+		},
+		"89": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginatedResponse.page"
+		},
+		"90": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginatedResponse.lastPage"
+		},
+		"91": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/interfaces/index.ts",
+			"qualifiedName": "PaginatedResponse.T"
+		},
+		"92": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "CreateUserSchema"
+		},
+		"93": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object"
+		},
+		"94": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object.pseudo"
+		},
+		"95": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object.email"
+		},
+		"96": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object.password"
+		},
+		"97": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object.confirmPassword"
+		},
+		"98": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object.role"
+		},
+		"99": {
+			"packageName": "zod",
+			"packagePath": "dist/types/v3/helpers/util.d.ts",
+			"qualifiedName": "__type"
+		},
+		"100": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "pseudo"
+		},
+		"101": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "email"
+		},
+		"102": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "password"
+		},
+		"103": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "confirmPassword"
+		},
+		"104": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "role"
+		},
+		"105": {
+			"packageName": "zod",
+			"packagePath": "dist/types/v3/helpers/util.d.ts",
+			"qualifiedName": "__type"
+		},
+		"106": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "pseudo"
+		},
+		"107": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "email"
+		},
+		"108": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "password"
+		},
+		"109": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "confirmPassword"
+		},
+		"110": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "role"
+		},
+		"111": {
+			"packageName": "zod",
+			"packagePath": "dist/types/v3/helpers/util.d.ts",
+			"qualifiedName": "__type"
+		},
+		"112": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "pseudo"
+		},
+		"113": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "email"
+		},
+		"114": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "password"
+		},
+		"115": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "confirmPassword"
+		},
+		"116": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "role"
+		},
+		"117": {
+			"packageName": "zod",
+			"packagePath": "dist/types/v3/helpers/util.d.ts",
+			"qualifiedName": "__type"
+		},
+		"118": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "pseudo"
+		},
+		"119": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "email"
+		},
+		"120": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "password"
+		},
+		"121": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "confirmPassword"
+		},
+		"122": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "role"
+		},
+		"123": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "CreateUserDto"
+		},
+		"124": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "LogUserSchema"
+		},
+		"125": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object"
+		},
+		"126": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object.email"
+		},
+		"127": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "__object.password"
+		},
+		"128": {
+			"packageName": "zod",
+			"packagePath": "dist/types/v3/helpers/util.d.ts",
+			"qualifiedName": "__type"
+		},
+		"129": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "email"
+		},
+		"130": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "password"
+		},
+		"131": {
+			"packageName": "zod",
+			"packagePath": "dist/types/v3/helpers/util.d.ts",
+			"qualifiedName": "__type"
+		},
+		"132": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "email"
+		},
+		"133": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "password"
+		},
+		"134": {
+			"packageName": "@gazette/shared",
+			"packagePath": "src/schemas/index.ts",
+			"qualifiedName": "LoginUserDto"
+		}
+	},
+	"files": {
+		"entries": {
+			"1": "apps/backend/src/main.ts",
+			"2": "apps/frontend/src/app/layout.tsx",
+			"3": "packages/shared/src/index.ts",
+			"4": "README.md",
+			"5": ""
+		},
+		"reflections": {
+			"1": 1,
+			"2": 2,
+			"3": 3,
+			"4": 0,
+			"5": 0
+		}
+	}
+}

@@ -1,5 +1,45 @@
 import ClientProviders from '@/components/providers/ClientProviders'
 
+/**
+ * Interface définissant les propriétés du composant RootLayout
+ * @interface RootLayoutProps
+ */
+interface RootLayoutProps {
+  /** Les composants enfants à rendre dans le layout */
+  children: ReactNode
+}
+
+/**
+ * * Composant racine de l'application Next.js
+ * 
+ * Ce composant définit la structure HTML de base de l'application,
+ * incluant les polices Google Fonts et les providers clients.
+ * 
+ * @component
+ * @param {RootLayoutProps} props - Les propriétés du composant
+ * @param {ReactNode} props.children - Les composants enfants à rendre
+ * @returns {JSX.Element} Structure HTML racine de l'application
+ * 
+ * @example
+ * ```tsx
+ * // Utilisation automatique par Next.js
+ * export default function RootLayout({ children }: RootLayoutProps) {
+ *   return (
+ *     <html lang="fr">
+ *       <body>
+ *         <ClientProviders>
+ *           {children}
+ *         </ClientProviders>
+ *       </body>
+ *     </html>
+ *   )
+ * }
+ * ```
+ * 
+ * @see {@link ClientProviders} Pour la configuration des providers
+ * @since 1.0.0
+ */
+
 export default function RootLayout({
   children,
 }: {
@@ -35,6 +75,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body>
+        {/* Wrapper pour tous les providers React (Context, etc.) */}
         <ClientProviders>
           {children}
         </ClientProviders>
