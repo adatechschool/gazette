@@ -12,7 +12,7 @@ jest.mock('@/modules/user/user.utils', () => ({
 }))
 
 describe('usersService', () => {
-  let service: UsersService
+  let UserService: UsersService
 
   // On crée un faux EntityManager avec toutes ses méthodes mockées
   const mockEntityManager = {
@@ -34,13 +34,13 @@ describe('usersService', () => {
       ],
     }).compile()
 
-    service = module.get<UsersService>(UsersService)
+    UserService = module.get<UsersService>(UsersService)
 
     // On remet à zéro tous les mocks avant chaque test
     jest.clearAllMocks()
   })
 
-  describe('create user', () => {
+  describe('créer l utilisateur', () => {
     it('doit créer un utilisateur avec succès', async () => {
       // 1. ARRANGE - On prépare les données de test
       const userData = {
@@ -54,7 +54,7 @@ describe('usersService', () => {
       (hashPassword as jest.Mock).mockResolvedValue(fakeHashedPassword)
 
       // 2. ACT - On exécute la fonction à tester
-      const result = await service.create(userData)
+      const result = await UserService.create(userData)
 
       // 3. ASSERT - On vérifie que tout s'est bien passé
       expect(hashPassword).toHaveBeenCalledWith(userData.password) // Le mot de passe a été haché
@@ -69,17 +69,17 @@ describe('usersService', () => {
       const userData = {
         pseudo: faker.internet.username(),
         email: faker.internet.email(),
-        password: 'monMotDePasse123',
+        password: 'fake_password123',
       }
 
-      const fakeHashedPassword = 'mot_de_passe_hache_fake'
-      ;(hashPassword as jest.Mock).mockResolvedValue(fakeHashedPassword)
+      const fakeHashedPassword = 'fake_hashed_password';
+      (hashPassword as jest.Mock).mockResolvedValue(fakeHashedPassword)
 
-      await service.create(userData)
+      await UserService.create(userData)
 
       // Vérifie que hashPassword a été appelé exactement 1 fois avec le bon mot de passe
       expect(hashPassword).toHaveBeenCalledTimes(1)
-      expect(hashPassword).toHaveBeenCalledWith('monMotDePasse123')
+      expect(hashPassword).toHaveBeenCalledWith(userData.password)
     })
   })
 
@@ -92,7 +92,7 @@ describe('usersService', () => {
       mockEntityManager.findOneOrFail.mockRejectedValue(new Error('User not found'))
 
       // ACT & ASSERT - On teste que l'erreur est bien lancée
-      await expect(service.findOne(emailInexistant)).rejects.toThrow('User not found')
+      await expect(UserService.findOne(emailInexistant)).rejects.toThrow('User not found')
 
       // Vérifie que la méthode a été appelée avec le bon email
       expect(mockEntityManager.findOneOrFail).toHaveBeenCalledWith(User, { email: emailInexistant })
@@ -111,10 +111,12 @@ describe('usersService', () => {
       mockEntityManager.findOneOrFail.mockResolvedValue(fakeUser)
 
       // ACT - On cherche l'utilisateur
-      const result = await service.findOne(fakeUser.email)
+      const result = await UserService.findOne(fakeUser.email)
 
       // ASSERT - On vérifie qu'on récupère bien le bon utilisateur
-      expect(result).toBe(fakeUser)
+      expect(result).toEqual((expect.objectContaining({
+        email: fakeUser.email,
+      })))
       expect(mockEntityManager.findOneOrFail).toHaveBeenCalledWith(User, { email: fakeUser.email })
     })
   })
@@ -147,7 +149,7 @@ describe('usersService', () => {
       mockEntityManager.findAll.mockResolvedValue(fakeUsers)
 
       // ACT - On récupère tous les utilisateurs
-      const result = await service.getAll()
+      const result = await UserService.getAll()
 
       // ASSERT - On vérifie qu'on a bien récupéré tous les utilisateurs
       expect(result).toHaveLength(2)
@@ -161,7 +163,7 @@ describe('usersService', () => {
       mockEntityManager.findAll.mockResolvedValue([])
 
       // ACT
-      const result = await service.getAll()
+      const result = await UserService.getAll()
 
       // ASSERT - On doit avoir un tableau vide
       expect(result).toEqual([])
@@ -184,7 +186,7 @@ describe('usersService', () => {
       mockEntityManager.removeAndFlush.mockResolvedValue(undefined)
 
       // ACT - On supprime l'utilisateur
-      await service.delete(userId)
+      await UserService.delete(userId)
 
       // ASSERT - On vérifie que les bonnes méthodes ont été appelées
       expect(mockEntityManager.findOneOrFail).toHaveBeenCalledWith(User, { id: userId })
@@ -199,7 +201,7 @@ describe('usersService', () => {
       mockEntityManager.findOneOrFail.mockRejectedValue(new Error('User not found'))
 
       // ACT & ASSERT - La suppression doit échouer
-      await expect(service.delete(userIdInexistant)).rejects.toThrow()
+      await expect(UserService.delete(userIdInexistant)).rejects.toThrow()
 
       // Vérifie qu'on a bien cherché l'utilisateur mais pas tenté de le supprimer
       expect(mockEntityManager.findOneOrFail).toHaveBeenCalledWith(User, { id: userIdInexistant })
