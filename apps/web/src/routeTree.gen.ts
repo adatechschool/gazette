@@ -10,121 +10,51 @@
 
 import { createFileRoute } from '@tanstack/react-router'
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
 
-import { Route as rootRoute } from './routes/__root'
+const SigninLazyRouteImport = createFileRoute('/signin')()
+const SettingsLazyRouteImport = createFileRoute('/settings')()
+const LoginLazyRouteImport = createFileRoute('/login')()
+const HomepageLazyRouteImport = createFileRoute('/homepage')()
+const ExploreLazyRouteImport = createFileRoute('/explore')()
+const AboutLazyRouteImport = createFileRoute('/about')()
+const IndexLazyRouteImport = createFileRoute('/')()
 
-// Create Virtual Routes
-
-const SigninLazyImport = createFileRoute('/signin')()
-const SettingsLazyImport = createFileRoute('/settings')()
-const LoginLazyImport = createFileRoute('/login')()
-const HomepageLazyImport = createFileRoute('/homepage')()
-const ExploreLazyImport = createFileRoute('/explore')()
-const AboutLazyImport = createFileRoute('/about')()
-const IndexLazyImport = createFileRoute('/')()
-
-// Create/Update Routes
-
-const SigninLazyRoute = SigninLazyImport.update({
+const SigninLazyRoute = SigninLazyRouteImport.update({
   id: '/signin',
   path: '/signin',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/signin.lazy').then((d) => d.Route))
-
-const SettingsLazyRoute = SettingsLazyImport.update({
+const SettingsLazyRoute = SettingsLazyRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/settings.lazy').then((d) => d.Route))
-
-const LoginLazyRoute = LoginLazyImport.update({
+const LoginLazyRoute = LoginLazyRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
-
-const HomepageLazyRoute = HomepageLazyImport.update({
+const HomepageLazyRoute = HomepageLazyRouteImport.update({
   id: '/homepage',
   path: '/homepage',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/homepage.lazy').then((d) => d.Route))
-
-const ExploreLazyRoute = ExploreLazyImport.update({
+const ExploreLazyRoute = ExploreLazyRouteImport.update({
   id: '/explore',
   path: '/explore',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/explore.lazy').then((d) => d.Route))
-
-const AboutLazyRoute = AboutLazyImport.update({
+const AboutLazyRoute = AboutLazyRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
-
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/explore': {
-      id: '/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof ExploreLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/homepage': {
-      id: '/homepage'
-      path: '/homepage'
-      fullPath: '/homepage'
-      preLoaderRoute: typeof HomepageLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/signin': {
-      id: '/signin'
-      path: '/signin'
-      fullPath: '/signin'
-      preLoaderRoute: typeof SigninLazyImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
@@ -135,7 +65,6 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsLazyRoute
   '/signin': typeof SigninLazyRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
@@ -145,9 +74,8 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsLazyRoute
   '/signin': typeof SigninLazyRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
   '/explore': typeof ExploreLazyRoute
@@ -156,7 +84,6 @@ export interface FileRoutesById {
   '/settings': typeof SettingsLazyRoute
   '/signin': typeof SigninLazyRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -187,7 +114,6 @@ export interface FileRouteTypes {
     | '/signin'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AboutLazyRoute: typeof AboutLazyRoute
@@ -196,6 +122,60 @@ export interface RootRouteChildren {
   LoginLazyRoute: typeof LoginLazyRoute
   SettingsLazyRoute: typeof SettingsLazyRoute
   SigninLazyRoute: typeof SigninLazyRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/homepage': {
+      id: '/homepage'
+      path: '/homepage'
+      fullPath: '/homepage'
+      preLoaderRoute: typeof HomepageLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -207,47 +187,6 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsLazyRoute: SettingsLazyRoute,
   SigninLazyRoute: SigninLazyRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/about",
-        "/explore",
-        "/homepage",
-        "/login",
-        "/settings",
-        "/signin"
-      ]
-    },
-    "/": {
-      "filePath": "index.lazy.tsx"
-    },
-    "/about": {
-      "filePath": "about.lazy.tsx"
-    },
-    "/explore": {
-      "filePath": "explore.lazy.tsx"
-    },
-    "/homepage": {
-      "filePath": "homepage.lazy.tsx"
-    },
-    "/login": {
-      "filePath": "login.lazy.tsx"
-    },
-    "/settings": {
-      "filePath": "settings.lazy.tsx"
-    },
-    "/signin": {
-      "filePath": "signin.lazy.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

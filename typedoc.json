@@ -4,9 +4,8 @@
     "apps/frontend/src/app/layout.tsx",
     "packages/shared/src/index.ts"
   ],
-   "out": "apps/frontend/public/docs",
+  "out": "apps/frontend/public/docs",
   "name": "Documentation projet Gazette",
-  "plugin": ["typedoc-plugin-markdown"],
   "skipErrorChecking": true,
   "excludeExternals": true,
   "excludePrivate": true,
@@ -17,90 +16,8 @@
   "disableSources": false,
   "includeVersion": true,
   "sort": ["source-order"],
-  "kindSortOrder": [
-    "Document",
-    "Project",
-    "Module",
-    "Namespace",
-    "Enum",
-    "EnumMember",
-    "Class",
-    "Interface",
-    "TypeAlias",
-    "Constructor",
-    "Property",
-    "Variable",
-    "Function",
-    "Accessor",
-    "Method",
-    "Parameter",
-    "TypeParameter",
-    "TypeLiteral",
-    "CallSignature",
-    "ConstructorSignature",
-    "IndexSignature",
-    "GetSignature",
-    "SetSignature"
-  ],
   "compilerOptions": {
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "declaration": true,
-    "declarationMap": true
-  },
-  "outputs": [
-    {
-      "name": "html",
-      "path": "apps/frontend/public/docs",
-      "options": {
-        "theme": "default",
-        "hideGenerator": true,
-        "navigation": {
-          "includeCategories": true,
-          "includeGroups": true,
-          "excludeReferences": false,
-          "includeFolders": true
-        }
-      }
-    },
-    {
-      "name": "html",
-      "path": "./docs_html_full_nav",
-      "options": {
-        "theme": "default",
-        "hideGenerator": true,
-        "navigation": {
-          "includeCategories": true,
-          "includeGroups": true,
-          "excludeReferences": false,
-          "includeFolders": true
-        }
-      }
-    },
-    {
-      "name": "json",
-      "path": "./docs.json"
-    },
-    {
-      "name": "markdown",
-      "path": "./docs_markdown",
-      "options": {
-        "theme": "markdown",
-        "hideGenerator": true,
-        "hideBreadcrumbs": true,
-        "hideInPageTOC": false,
-        "namedAnchors": false,
-        "useCodeBlocks": true,
-        "expandObjects": true,
-        "expandParameters": true,
-        "indexFormat": "table",
-        "parametersFormat": "table",
-        "propertiesFormat": "table",
-        "enumMembersFormat": "table",
-        "typeDeclarationFormat": "table",
-        "publicPath": "./",
-        "sanitizeComments": true
-      }
-    }
-  ]
+    "strictNullChecks": false
+  }
 }

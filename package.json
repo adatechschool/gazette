@@ -19,12 +19,10 @@
     "docker:logs": "docker-compose logs -f",
     "schema:fresh": "docker-compose exec backend pnpx mikro-orm schema:fresh --run",
     "docs:build": "typedoc",
-    "docs:build-dev": "typedoc && echo 'Documentation available at /docs'"
-    
+    "docs:build-dev": "typedoc && echo 'Documentation available at /docs'",
     "test:docker": "docker-compose --env-file .env.test -f docker-compose.test.yml up --build --abort-on-container-exit",
     "test:docker:clean": "docker-compose -f docker-compose.test.yml down -v && docker system prune -f",
     "test:docker:logs": "docker-compose -f docker-compose.test.yml logs -f",
-    "schema:fresh": "docker-compose exec backend pnpx mikro-orm schema:fresh --run",
     "test": "jest",
     "test:unit": "docker-compose -f docker-compose.test.yml run --rm test-backend && docker-compose -f docker-compose.test.yml run --rm test-frontend",
     "test:backend": "docker-compose -f docker-compose.test.yml run --rm test-backend",

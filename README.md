@@ -44,6 +44,7 @@ This is a **monorepo** built with modern TypeScript technologies:
 - **Database**: PostgreSQL 15
 - **Containerization**: Docker & Docker Compose
 - **CI/CD**: GitHub Actions with Lighthouse CI
+- **Test**: Jest
 - **Code Quality**: ESLint, TypeScript
 
 ## 📋 Prerequisites
@@ -192,7 +193,9 @@ gazette/
 │   │   │   ├── modules/         # Feature modules
 │   │   │   ├── migrations/      # Database migrations
 │   │   │   └── config/          # Configuration files
+│   │   ├──test/                 # Jest tests
 │   │   └── Dockerfile
+│   │   └── Dockerfile.test
 │   └── frontend/                # Next.js application
 │       ├── src/
 │       │   ├── app/             # App Router pages
@@ -201,7 +204,9 @@ gazette/
 │       │   ├── hooks/           # Custom hooks
 │       │   ├── services/        # API services
 │       │   └── theme/           # Chakra UI theme
+│       ├──test/                 # Jest tests
 │       └── Dockerfile
+│       └── Dockerfile.test
 ├── packages/
 │   └── shared/                  # Shared TypeScript code
 │       └── src/
@@ -211,7 +216,8 @@ gazette/
 ├── .github/
 │   └── workflows/               # GitHub Actions CI/CD
 ├── docker-compose.yml           # Docker services
-└── lighthouserc.js             # Lighthouse CI configuration
+├── docker-compose.test.yml      # Docker services
+└── lighthouserc.js              # Lighthouse CI configuration
 ```
 
 ## 🔧 Configuration
@@ -261,9 +267,10 @@ cd apps/frontend && pnpm test
 # Delete the tables
 pnpm mikro-orm schema:drop --run
 
-#Access to the tables test
+#Access to the tables with data seeds
 docker exec -it test-backend-cli sh
 psql -h test-postgres -U test_user -d gazette_test
+
 # list the tables test
 \dt;
 
@@ -326,7 +333,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 - **Issues**: [GitHub Issues](https://github.com/adatechschool/gazette/issues)
-- **Documentation**: Check the code comments and this README
+- **Documentation**: 
+      -README 
+      -TypeDoc : 1/ npm docs:build (to update the TypeDoc)     
+                 2/ npx serve apps/frontend/public/docs (launch the server of the doc)
+                 3/ http://localhost:3000 (access to the documentation generate by TypeDoc)
+
 - **Team**: Contact the development team for urgent matters
 
 ## 🔄 Changelog

@@ -1,4 +1,5 @@
 import ClientProviders from '@/components/providers/ClientProviders'
+import { ReactNode } from 'react'
 
 /**
  * Interface définissant les propriétés du composant RootLayout
