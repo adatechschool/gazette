@@ -1,7 +1,7 @@
 'use client'
 
-import { Flex, Input, Stack, Text, useToast, VStack } from '@chakra-ui/react'
-import { SignUpFormSchema } from '@gazette/shared'
+import { Flex, FormControl, FormErrorMessage, FormLabel, HStack, Input, Stack, Text, useToast } from '@chakra-ui/react'
+import { SignUpFormDto, SignUpFormSchema } from '@gazette/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next'
 import { PasswordInput } from '@/components/ui/password-input'
 import { useAuth } from '@/hooks/useAuth'
 import { createUser } from '@/services/api/user'
-import { Field } from '../ui/field'
 import Button from './Button'
 import { WelcomeModal } from './Modal'
+import PasswordRequirements from './PasswordRequirements'
 
 const SignUpSchema = SignUpFormSchema
 
@@ -23,22 +23,14 @@ function FormSignUp() {
   })
   const router = useRouter()
   const toast = useToast()
-  const { login } = useAuth()
-  const [isLoading, setIsLoading] = useState(false)
+  const { login, loading } = useAuth()
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false)
-
-  interface FormValuesSignUp {
-    pseudo: string
-    email: string
-    password: string
-    confirmPassword: string
-  }
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormValuesSignUp>({
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpFormDto>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
       pseudo: '',
@@ -48,8 +40,7 @@ function FormSignUp() {
     },
   })
 
-  const onSubmit = async (data: FormValuesSignUp) => {
-    setIsLoading(true)
+  const onSubmit = async (data: SignUpFormDto) => {
     try {
       await createUser({
         pseudo: data.pseudo,
@@ -79,100 +70,89 @@ function FormSignUp() {
         isClosable: true,
       })
     }
-    finally {
-      setIsLoading(false)
-    }
   }
+
+  const isLoading = loading || isSubmitting
 
   return (
     <Flex>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack maxWidth="-webkit-fit-content" paddingTop={6}>
-          <Text color="fg.error" fontSize="sm" alignSelf="flex-end">
-            * Champs obligatoires
-          </Text>
-
-          <VStack gap="4">
-            <Field
-              label={t('pseudo')}
-              isInvalid={!!errors.pseudo}
-              errorText={errors.pseudo?.message}
-            >
-              <Input
-                rounded="md"
-                shadow="md"
-                variant="flushed"
-                {...register('pseudo', { required: t('requiredField') })}
-              />
-            </Field>
-            <Field
-              label={t('mail')}
-              isInvalid={!!errors.email}
-              errorText={errors.email?.message}
-            >
-              <Input
-                rounded="md"
-                shadow="md"
-                variant="flushed"
-                {...register('email', { required: t('requiredField') })}
-              />
-            </Field>
-
-            <Field
-              label={t('password')}
-              isInvalid={!!errors.password}
-              errorText={errors.password?.message}
-            >
-              <PasswordInput
-                minW="md"
-                rounded="md"
-                shadow="md"
-                variant="flushed"
-                {...register('password', { required: t('requiredField') })}
-              />
-            </Field>
-
-            <Field
-              label={t('confirmPassword')}
-              isInvalid={!!errors.confirmPassword}
-              errorText={errors.confirmPassword?.message}
-            >
-              <PasswordInput
-                minW="md"
-                rounded="md"
-                shadow="md"
-                variant="flushed"
-                {...register('confirmPassword', {
-                  required: t('requiredField'),
-                })}
-              />
-            </Field>
-
-            <ul color="red.500">
-              Votre mot de passe doit inclure :
-              <li>au moins 8 caractères</li>
-              <li>une majuscule</li>
-              <li>une minuscule</li>
-              <li>un chiffre</li>
-              <li>un caractère spécial ( - [ ] ( ) * ~ _ # : ?)</li>
-            </ul>
-
-            <Button
-              type="submit"
-              width="22rem"
-              textStyle="button"
-              fontColor="color.white"
-              backgroundColor="color.chaletGreen"
-              text={t('signIn')}
-              disabled={isLoading}
-            />
-            <Text>
-              {`${t('alreadyCreated')} `}
-              <Link href="/login">
-                <b>{t('login')}</b>
-              </Link>
+        <Stack maxWidth="-webkit-fit-content">
+          <HStack justifyContent="end">
+            <Text textColor="red.500" fontSize="sm" alignSelf="flex-end">
+              *
             </Text>
-          </VStack>
+            <Text fontSize="sm" alignSelf="flex-end">
+              {t('requiredFields')}
+            </Text>
+          </HStack>
+
+          <FormControl isRequired isInvalid={!!errors.pseudo}>
+            <FormLabel>{t('pseudo')}</FormLabel>
+            <Input
+              minW="md"
+              rounded="md"
+              shadow="md"
+              variant="flushed"
+              {...register('pseudo', { required: t('requiredField') })}
+            />
+            <FormErrorMessage>{errors.pseudo?.message}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isRequired isInvalid={!!errors.email}>
+            <FormLabel>{t('mail')}</FormLabel>
+            <Input
+              rounded="md"
+              shadow="md"
+              variant="flushed"
+              {...register('email', { required: t('requiredField') })}
+            />
+            <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isRequired isInvalid={!!errors.password}>
+            <FormLabel>{t('password')}</FormLabel>
+            <PasswordInput
+              minW="md"
+              rounded="md"
+              shadow="md"
+              variant="flushed"
+              {...register('password', { required: t('requiredField') })}
+            />
+            <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isRequired isInvalid={!!errors.confirmPassword}>
+            <FormLabel>{t('confirmPassword')}</FormLabel>
+            <PasswordInput
+              minW="md"
+              rounded="md"
+              shadow="md"
+              variant="flushed"
+              {...register('confirmPassword', {
+                required: t('requiredField'),
+              })}
+            />
+            <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+          </FormControl>
+
+          <PasswordRequirements />
+
+          <Button
+            type="submit"
+            width="22rem"
+            textStyle="button"
+            fontColor="color.white"
+            backgroundColor="color.chaletGreen"
+            text={t('signIn')}
+            disabled={isLoading}
+          />
+          <Text>
+            {`${t('alreadyCreated')} `}
+            <Link href="/login">
+              <b>{t('login')}</b>
+            </Link>
+          </Text>
         </Stack>
       </form>
       <WelcomeModal
