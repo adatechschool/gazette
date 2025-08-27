@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { Box, Icon, Link, List, ListItem } from '@chakra-ui/react'
 import { FileBadge, HelpCircle, LogOut, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToaster } from '@/components/ui/toaster'
 import { useAuth } from '@/hooks/useAuth'
@@ -13,7 +13,7 @@ function SettingsMenu() {
   })
 
   const { logout, deleteAccount } = useAuth()
-  const [ deleteModalOpen, setDeleteModalOpen ] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const toaster = useToaster()
   const router = useRouter()
 

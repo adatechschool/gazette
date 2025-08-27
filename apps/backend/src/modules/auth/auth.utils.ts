@@ -1,10 +1,9 @@
-import { Response } from "express"
+import { Response } from 'express'
 
-export const clearAuthCookie = (res: Response): void => {
-  console.log('clearing auth cookie', res)
+export function clearAuthCookie(res: Response): void {
   res.clearCookie('token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-    })
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+  })
 }

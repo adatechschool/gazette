@@ -30,7 +30,7 @@ export class UsersService {
       createdAt: user.createdAt,
       lastConnection: user.lastConnection,
       subscriptions: user.subscriptions,
-      likes: user.likes
+      likes: user.likes,
     }))
   }
 
@@ -41,15 +41,15 @@ export class UsersService {
 
   async delete(id: string): Promise<void> {
     await this.em.transactional(async (em) => {
-      const user = await em.findOne(User, { id }, { 
-        populate: ['subscriptions', 'likes'] 
-      });
+      const user = await em.findOne(User, { id }, {
+        populate: ['subscriptions', 'likes'],
+      })
 
       if (!user) {
-        throw new NotFoundException(`User with ID ${id} not found`);
+        throw new NotFoundException(`User with ID ${id} not found`)
       }
       await this.em.removeAndFlush(user)
-    });
+    })
   }
 }
 
