@@ -1,10 +1,10 @@
 import { SubscriptionDto } from '@gazette/shared'
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common'
+import { Response } from 'express'
 import { AuthGuard } from '../auth/auth.guard'
+import { clearAuthCookie } from '../auth/auth.utils'
 import { SubscriptionsService } from '../subscription/subscription.service'
 import { UsersService } from './user.service'
-import { clearAuthCookie } from '../auth/auth.utils'
-import { Response } from 'express'
 
 interface RequestWithUser extends Request {
   user: {
