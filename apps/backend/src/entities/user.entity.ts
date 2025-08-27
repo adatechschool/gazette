@@ -1,7 +1,7 @@
 import { Cascade, Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
-import { Subscription } from './subscription.entity'
 import { Like } from './like.entity'
+import { Subscription } from './subscription.entity'
 
 @Entity()
 export class User {
@@ -25,13 +25,13 @@ export class User {
 
   @OneToMany(() => Subscription, subscription => subscription.user, {
     orphanRemoval: true,
-    cascade: [Cascade.REMOVE]
+    cascade: [Cascade.REMOVE],
   })
   subscriptions = new Collection<Subscription>(this)
 
-  @OneToMany(() => Like , like => like.user, {
+  @OneToMany(() => Like, like => like.user, {
     orphanRemoval: true,
-    cascade: [Cascade.REMOVE]
+    cascade: [Cascade.REMOVE],
   })
   likes = new Collection<Like>(this)
 }
