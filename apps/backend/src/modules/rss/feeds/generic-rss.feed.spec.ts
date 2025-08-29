@@ -19,15 +19,15 @@ describe('createGenericRssFeed', () => {
         </channel>
       </rss>
     `
-    
+
     nock('https://bondyblog.fr/feed/')
       .get('/rss')
       .reply(200, mockXml)
 
     const feed = createGenericRssFeed({
-      sourceKey: "bondyblog"
+      sourceKey: 'bondyblog',
     })
-    
+
     const items = await feed.fetch()
     expect(items[0].source).toBe('bondyblog')
   })

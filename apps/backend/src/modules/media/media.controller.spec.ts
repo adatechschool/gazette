@@ -1,20 +1,20 @@
 import { Test } from '@nestjs/testing'
-//import { faker } from '@faker-js/faker'
-import { MediaService } from './media.service'
-import { MediaController } from './media.controlller'
 import { Media } from '../../entities/media.entity'
+import { MediaController } from './media.controlller'
+// import { faker } from '@faker-js/faker'
+import { MediaService } from './media.service'
 
-describe('MediaController', () => {
+describe('mediaController', () => {
   let mediaController: MediaController
   let mediaService: MediaService
 
   // Factory function pour créer des médias de test
   const createMockMedia = (): Media => ({
-    id: "96166e08-cbe6-494c-8706-db0e690763bb",
-    name: "gazette",
-    description: "agrégateur de news",
-    picture: "https://companieslogo.com/img/orig/DDOG-60ca9565.png?t=1720244491",
-    urlRss: "https://gazette.fr" + '/feed.xml',
+    id: '96166e08-cbe6-494c-8706-db0e690763bb',
+    name: 'gazette',
+    description: 'agrégateur de news',
+    picture: 'https://companieslogo.com/img/orig/DDOG-60ca9565.png?t=1720244491',
+    urlRss: 'https://gazette.fr' + '/feed.xml',
     createdAt: new Date(),
     subscribers: undefined,
   })
@@ -46,7 +46,7 @@ describe('MediaController', () => {
       jest.spyOn(mediaService, 'findAll').mockResolvedValue(mockMedias)
 
       const result = await mediaController.findAll()
-      
+
       expect(result).toEqual(mockMedias)
       expect(result).toHaveLength(5)
       expect(mediaService.findAll).toHaveBeenCalledTimes(1)
