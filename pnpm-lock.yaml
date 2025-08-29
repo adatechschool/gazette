@@ -250,6 +250,9 @@ importers:
       '@mikro-orm/core':
         specifier: ^5.0.0
         version: 5.9.8
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
