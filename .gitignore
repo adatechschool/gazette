@@ -114,7 +114,6 @@ apps/*/pnpm-lock.yaml
 packages/*/pnpm-lock.yaml
 
 # Test files
-**/*.spec.ts
 **/*.e2e-spec.ts
 **/jest-e2e.json
 
