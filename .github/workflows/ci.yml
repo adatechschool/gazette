@@ -95,8 +95,11 @@ jobs:
       - name: Setup pnpm
         run: npm install -g pnpm@10.11.0
 
+      - name: Build shared packages
+        run: pnpm build
+
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Run schema validation tests
         working-directory: ./packages/shared
