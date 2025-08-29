@@ -80,9 +80,30 @@ jobs:
           CI: true
         run: pnpm -r build
 
+  tests:
+    needs: build
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.15.0
+
+      - name: Setup pnpm
+        run: npm install -g pnpm@10.11.0
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run tests
+        run: pnpm test
+
   lighthouse:
     name: Lighthouse Accessibility Audit
-    needs: build
+    needs: tests
     runs-on: ubuntu-latest
 
     steps:

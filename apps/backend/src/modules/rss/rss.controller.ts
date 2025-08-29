@@ -25,4 +25,14 @@ export class RssController {
   async getBlastFeed(): Promise<RssItemDto[]> {
     return this.rssService.fetchBlastFeed()
   }
+
+  @Get('invisibleoranges')
+  async getInvisibleOrangesFeed(): Promise<RssItemDto[]> {
+    return this.rssService.fetchInvisibleOrangesFeed()
+  }
+
+  @Get('metalorgie')
+  async getMetalorgieFeed(): Promise<RssItemDto[]> {
+    return this.rssService.fetchMetalorgieFeed()
+  }
 }
