@@ -98,8 +98,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run backend tests
-        working-directory: ./apps/backend
+      - name: Run schema validation tests
+        working-directory: ./packages/shared
         run: pnpm test
 
   lighthouse:
