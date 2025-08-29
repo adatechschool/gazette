@@ -19,14 +19,12 @@ function FormLogin() {
   const toast = useToast()
   const { login, loading: authLoading } = useAuth()
 
-  const LoginSchema = LogUserSchema
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginUserDto>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(LogUserSchema),
     defaultValues: {
       email: '',
       password: '',

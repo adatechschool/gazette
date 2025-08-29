@@ -5,7 +5,7 @@ const passwordValidation = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[-[\]()*~_#:
 export const CreateUserSchema = z
   .object({
     pseudo: z.string().min(2, { message: 'Must be at least 2 characters' }),
-    email: z.string().email(),
+    email: z.email(),
     password: z
       .string()
       .min(8, { message: 'Must contain at least 8 characters' })
@@ -18,7 +18,7 @@ export type CreateUserDto = z.infer<typeof CreateUserSchema>
 export const SignUpFormSchema = z
   .object({
     pseudo: z.string().min(2, { message: 'Le pseudo doit être composé au minimun de 2 caractères' }),
-    email: z.string().email('Le format de l\'email est invalide'),
+    email: z.email('Le format de l\'email est invalide'),
     password: z
       .string()
       .min(8, { message: 'Le mot de passe doit être composé au minimum de 8 caractères' })
@@ -34,7 +34,7 @@ export type SignUpFormDto = z.infer<typeof SignUpFormSchema>
 
 export const LogUserSchema = z
   .object({
-    email: z.string().email('Le format de l\'email est invalide'),
+    email: z.email('Le format de l\'email est invalide'),
     password: z
       .string()
       .min(8, 'Le mot de passe doit être composé au minimum de 8 caractères')
