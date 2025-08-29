@@ -31,7 +31,7 @@ describe('user Schema Validation', () => {
 
         if (!result.success) {
           const pseudoError = result.error.issues.find(issue => issue.path[0] === 'pseudo')
-          expect(pseudoError?.message).toBe('must be at least 2 characters')
+          expect(pseudoError?.message).toBe('Must be at least 2 characters')
         }
       })
 
@@ -111,7 +111,7 @@ describe('user Schema Validation', () => {
 
         if (!result.success) {
           const passwordError = result.error.issues.find(issue => issue.path[0] === 'password')
-          expect(passwordError?.message).toBe('must contains at least 8 characters')
+          expect(passwordError?.message).toBe('Must contains at least 8 characters')
         }
       })
 
@@ -222,7 +222,7 @@ describe('user Schema Validation', () => {
         const confirmPasswordError = result.error.issues.find(
           issue => issue.path.includes('confirmPassword'),
         )
-        expect(confirmPasswordError?.message).toBe('Passwords must match!')
+        expect(confirmPasswordError?.message).toBe('Les mots de passe doivent être identiques')
       }
     })
 
