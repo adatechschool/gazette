@@ -99,7 +99,7 @@ jobs:
         run: pnpm install
 
       - name: Run tests
-        run: pnpm test
+        run: pnpm jest --config jest.config.ts
 
   lighthouse:
     name: Lighthouse Accessibility Audit
