@@ -4,11 +4,12 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { SubscriptionsService } from '@/modules/subscription/subscription.service'
 import { UsersController } from '@/modules/user/user.controller'
 import { UsersService } from '@/modules/user/user.service'
+import { faker } from '@faker-js/faker/.'
 
 describe('usersController', () => {
   let usersController: UsersController
 
-  // 🎭 Mocks des services
+  // Mocks des services
   const mockUsersService = {
     create: jest.fn(),
     getAll: jest.fn(),
@@ -20,7 +21,7 @@ describe('usersController', () => {
     findByUserId: jest.fn(),
   }
 
-  // 🔐 Mocks pour l'authentification
+  // Mocks pour l'authentification
   const mockJwtService = {
     sign: jest.fn(() => 'mock-jwt-token'),
     verify: jest.fn(() => ({ sub: 'user-id', email: 'test@example.com' })),
@@ -45,7 +46,7 @@ describe('usersController', () => {
       providers: [
         { provide: UsersService, useValue: mockUsersService },
         { provide: SubscriptionsService, useValue: mockSubscriptionsService },
-        // 👉 Ajouter les services requis pour AuthGuard
+        // Ajouter les services requis pour AuthGuard
         { provide: JwtService, useValue: mockJwtService },
         { provide: ConfigService, useValue: mockConfigService },
       ],
@@ -58,20 +59,20 @@ describe('usersController', () => {
   // ----------- TESTS -----------
   describe('create', () => {
     it('should create a new user', async () => {
-      const fakeUser = { id: '1', pseudo: 'john', email: 'john@test.com', password: 'secret' }
-      // 🪄 ici on cast pour dire à TS que c'est un mock Jest
+      const fakeUser = { id: faker.string.uuid(), pseudo: faker.internet.username(), email: faker.internet.email(), password: faker.internet.password(), }
+      // ici on cast pour dire à TS que c'est un mock Jest
       ;(mockUsersService.create as jest.Mock).mockResolvedValue(fakeUser)
 
       const result = await usersController.create({
-        pseudo: 'john',
-        email: 'john@test.com',
-        password: 'secret',
+        pseudo: fakeUser.pseudo,
+        email: fakeUser.email,
+        password: fakeUser.password,
       })
 
       expect(mockUsersService.create).toHaveBeenCalledWith({
-        pseudo: 'john',
-        email: 'john@test.com',
-        password: 'secret',
+        pseudo: result.pseudo,
+        email: result.email,
+        password: result.password,
       })
       expect(result).toEqual(fakeUser)
     })
@@ -80,8 +81,8 @@ describe('usersController', () => {
   describe('getAll', () => {
     it('should return all users', async () => {
       const fakeUsers = [
-        { id: '1', pseudo: 'john', email: 'john@test.com' },
-        { id: '2', pseudo: 'jane', email: 'jane@test.com' },
+        { id: faker.string.uuid() , pseudo:  faker.internet.username(), email: faker.internet.email() },
+        { id: faker.string.uuid() , pseudo: faker.internet.username(), email: faker.internet.email() },
       ]
       ;(mockUsersService.getAll as jest.Mock).mockResolvedValue(fakeUsers)
 

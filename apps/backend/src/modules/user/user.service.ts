@@ -62,8 +62,6 @@ export class UsersService {
    * 1. Utilise `EntityManager.findAll(User)` pour charger tous les utilisateurs.
    * 2. Transforme la liste pour retourner uniquement certains champs.
    *
-   * Actuellement, tu retournes aussi `password`, ce qui est rarement conseillé
-   * côté API (même hashé). Il vaut mieux l’exclure de la réponse.
    *
    * @returns La liste des utilisateurs.
    */

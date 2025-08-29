@@ -51,7 +51,7 @@ export class UsersController {
     @Body() body: { pseudo: string, email: string, password: string },
   ) {
     const user = body
-    const newUser = await this.usersService.create(user) // Délégué au service
+    const newUser = await this.usersService.create(user)
     return newUser
   }
 
