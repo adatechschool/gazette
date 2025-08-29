@@ -86,6 +86,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: 8ebb400dc71a3f2c8dfd44aaf9409043533fe18f
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
