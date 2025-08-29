@@ -7,7 +7,7 @@ export const MediaSchema = z.object({
   picture: z.url({ message: 'Picture must be a valid URL' }),
   urlRss: z.url({ message: 'RSS URL must be a valid URL' }),
   createdAt: z.date().optional(),
-  subscribers: z.object().optional()
+  subscribers: z.object().optional(),
 })
 
 export type MediaDto = z.infer<typeof MediaSchema>

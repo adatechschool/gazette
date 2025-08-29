@@ -1,5 +1,4 @@
-import { RssItemDto } from "@/schemas/ContentSchema"
-
+import type { RssItemDto } from '@/schemas/ContentSchema'
 
 export interface FeedSource {
   name: string

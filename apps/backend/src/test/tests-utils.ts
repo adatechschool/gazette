@@ -13,17 +13,3 @@ export function createMockUser(overrides: Partial<User> = {}): User {
 
   return Object.assign(user, overrides)
 }
-
-// src/test-utils/factories.ts
-import { faker } from '@faker-js/faker';
-import { Media } from '@/entities/media.entity';
-
-export const createTestMedia = (): Media => ({
-  id: faker.string.uuid(),
-  name: faker.company.name(),
-  description: faker.lorem.sentences(2),
-  picture: faker.image.url(),
-  urlRss: faker.internet.url() + '/feed.xml',
-  createdAt: new Date(),
-  subscribers: undefined,
-});

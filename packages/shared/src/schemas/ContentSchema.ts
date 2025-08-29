@@ -14,6 +14,6 @@ export const ContentSchema = z.object({
 
 export type ContentDto = z.infer<typeof ContentSchema>
 
-export const RssItemSchema = ContentSchema.omit({ id: true})
+export const RssItemSchema = ContentSchema.omit( { id: true} )
 
 export type RssItemDto = z.infer<typeof RssItemSchema>

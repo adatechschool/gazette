@@ -17,7 +17,8 @@ export default {
   },
   testMatch: [
     '**/?(*.)+(spec|test).[tj]s?(x)',
-    'src/**/?(*.)+(spec|test).[tj]s?(x)'],
+    'src/**/?(*.)+(spec|test).[tj]s?(x)'
+  ],
   transformIgnorePatterns: [
     'node_modules/(?!(.*\\.mjs$))',
   ],

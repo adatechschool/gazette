@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/core'
 import { Injectable } from '@nestjs/common'
-import { Media } from '../../entities/media.entity'
 import { RSS_SOURCES, RssSourceKey } from '../../config/rss-sources'
+import { Media } from '../../entities/media.entity'
 
 @Injectable()
 export class MediaService {
