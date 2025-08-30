@@ -1,5 +1,6 @@
-import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
+import { Cascade, Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { Like } from './like.entity'
 import { Subscription } from './subscription.entity'
 
 @Entity()
@@ -22,6 +23,15 @@ export class User {
   @Property({ onUpdate: () => new Date() })
   lastConnection = new Date()
 
-  @OneToMany(() => Subscription, subscription => subscription.user)
+  @OneToMany(() => Subscription, subscription => subscription.user, {
+    orphanRemoval: true,
+    cascade: [Cascade.REMOVE],
+  })
   subscriptions = new Collection<Subscription>(this)
+
+  @OneToMany(() => Like, like => like.user, {
+    orphanRemoval: true,
+    cascade: [Cascade.REMOVE],
+  })
+  likes = new Collection<Like>(this)
 }

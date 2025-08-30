@@ -4,6 +4,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { UsersService, verifyPassword } from '../user/user.service'
+import { clearAuthCookie } from './auth.utils'
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid credentials')
       }
 
-      const payload = { id: user.id, email: user.email, pseudo: user.pseudo }
+      const payload = { id: user.id }
       return {
         access_token: await this.jwtService.signAsync(payload, {
           secret: this.configService.get('JWT_SECRET'),
@@ -41,10 +42,6 @@ export class AuthService {
   }
 
   async logout(res: Response): Promise<void> {
-    res.clearCookie('token', {
-      httpOnly: true,
-      secure: this.configService.get('NODE_ENV') === 'production',
-      sameSite: 'strict',
-    })
+    clearAuthCookie(res)
   }
 }

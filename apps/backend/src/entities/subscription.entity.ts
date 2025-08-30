@@ -8,7 +8,7 @@ export class Subscription {
   @PrimaryKeyUuid()
   id!: string
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { deleteRule: 'cascade' })
   user!: User
 
   @ManyToOne(() => Media)
