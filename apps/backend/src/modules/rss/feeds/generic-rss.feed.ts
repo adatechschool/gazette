@@ -1,5 +1,5 @@
 import { FeedSource, RssItemDto } from '@gazette/shared'
-import Parser from 'rss-parser'
+import * as Parser from 'rss-parser'
 import { RSS_SOURCES, RssSourceKey } from '../../../config/rss-sources'
 
 interface GenericRssConfig {
