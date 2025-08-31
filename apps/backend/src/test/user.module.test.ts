@@ -12,7 +12,7 @@ describe('usersModule', () => {
   let subscriptionsService: SubscriptionsService
 
   beforeEach(async () => {
-    // 👉 Mock factory pour créer des mocks complets
+    // Mock factory pour créer des mocks complets
     const mockJwtService = {
       sign: jest.fn(() => 'mock-jwt-token'),
       verify: jest.fn(() => ({ sub: 'user-id', email: 'test@example.com' })),

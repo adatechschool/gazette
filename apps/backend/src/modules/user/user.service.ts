@@ -99,6 +99,7 @@ export class UsersService {
       createdAt: user.createdAt,
       lastConnection: user.lastConnection,
       subscriptions: user.subscriptions,
+      likes: user.likes
     }
   }
 
@@ -123,7 +124,7 @@ export class UsersService {
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`)
       }
-      await this.em.removeAndFlush(user)
+      await em.removeAndFlush(user)
     })
   }
 
