@@ -111,7 +111,7 @@ describe('user Schema Validation', () => {
 
         if (!result.success) {
           const passwordError = result.error.issues.find(issue => issue.path[0] === 'password')
-          expect(passwordError?.message).toBe('Must contains at least 8 characters')
+          expect(passwordError?.message).toBe('Must contain at least 8 characters')
         }
       })
 

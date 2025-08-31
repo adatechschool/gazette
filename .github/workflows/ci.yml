@@ -13,12 +13,6 @@ on:
       - staging
       - dev
       - branche-de-france
-  workflow_dispatch: # ← Permet le déclenchement manuel
-    inputs:
-      commit:
-        description: Commit SHA (optionnel)
-        required: false
-        type: string
 
 jobs:
   lint:

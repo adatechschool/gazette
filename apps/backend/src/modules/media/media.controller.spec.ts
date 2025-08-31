@@ -1,4 +1,6 @@
+import { Collection } from '@mikro-orm/core'
 import { Test } from '@nestjs/testing'
+import { Subscription } from '@/entities/subscription.entity'
 import { Media } from '../../entities/media.entity'
 import { MediaController } from './media.controlller'
 // import { faker } from '@faker-js/faker'
@@ -16,7 +18,7 @@ describe('mediaController', () => {
     picture: 'https://companieslogo.com/img/orig/DDOG-60ca9565.png?t=1720244491',
     urlRss: 'https://gazette.fr' + '/feed.xml',
     createdAt: new Date(),
-    subscribers: undefined,
+    subscribers: new Collection<Subscription>(this),
   })
 
   beforeEach(async () => {
