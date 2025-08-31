@@ -3,14 +3,12 @@ import { Test } from '@nestjs/testing'
 import { Subscription } from '@/entities/subscription.entity'
 import { Media } from '../../entities/media.entity'
 import { MediaController } from './media.controlller'
-// import { faker } from '@faker-js/faker'
 import { MediaService } from './media.service'
 
 describe('mediaController', () => {
   let mediaController: MediaController
   let mediaService: MediaService
 
-  // Factory function pour créer des médias de test
   const createMockMedia = (): Media => ({
     id: '96166e08-cbe6-494c-8706-db0e690763bb',
     name: 'gazette',
@@ -42,7 +40,6 @@ describe('mediaController', () => {
 
   describe('findAll', () => {
     it('should return an array of medias', async () => {
-      // Générez plusieurs médias de test
       const mockMedias: Media[] = Array.from({ length: 5 }, () => createMockMedia())
 
       jest.spyOn(mediaService, 'findAll').mockResolvedValue(mockMedias)
