@@ -56,7 +56,7 @@ function FormSignUp() {
         duration: 3000,
         isClosable: true,
       })
-      //setIsWelcomeModalOpen(true)
+      // setIsWelcomeModalOpen(true)
       router.replace('/explore')
     }
     catch (error) {

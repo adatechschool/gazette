@@ -30,8 +30,8 @@ test.describe('Authentication E2E', () => {
 
   test('should login with existing user', async ({ page }) => {
     const existingUser = {
-    email: 'test@example.com',
-    password: 'Password(123)',
+      email: 'test@example.com',
+      password: 'Password(123)',
     }
     await page.click('a[href="/login"]')
     await expect(page).toHaveURL('http://localhost:3002/login')
@@ -48,8 +48,8 @@ test.describe('Authentication E2E', () => {
 
   test('should logout user', async ({ page }) => {
     const existingUser = {
-    email: 'test@example.com',
-    password: 'Password(123)',
+      email: 'test@example.com',
+      password: 'Password(123)',
     }
     await page.click('a[href="/login"]')
     await page.fill('[data-testid="email-input"]', existingUser.email)
