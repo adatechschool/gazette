@@ -116,7 +116,7 @@ jobs:
         working-directory: ./apps/backend
         run: pnpm exec playwright install --with-deps
       - name: Create .env file for CI
-        working-directory: ./apps/backend
+        working-directory:
         run: |
           cat > .env << EOF
           DB_USER=${{ secrets.DB_USER }}
