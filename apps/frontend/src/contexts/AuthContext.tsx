@@ -1,6 +1,7 @@
 'use client'
 
 import { UserDto } from '@gazette/shared'
+import { useRouter } from 'next/navigation'
 import { createContext, useEffect, useMemo, useState } from 'react'
 import { deleteUserAccount, getUserProfile, loginUser, logoutUser } from '@/services/api/user'
 
@@ -31,6 +32,7 @@ async function loadUserProfile(setUser: (user: UserDto | null) => void) {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserDto | null>(null)
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     loadUserProfile(setUser).finally(() => setLoading(false))
@@ -39,11 +41,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     await loginUser(email, password)
     await loadUserProfile(setUser)
+    router.replace('/explore')
   }
 
   const logout = async () => {
     await logoutUser()
     setUser(null)
+    router.replace('/')
   }
 
   const deleteAccount = async () => {

@@ -49,7 +49,6 @@ function FormSignUp() {
       })
 
       await login(data.email, data.password)
-
       toast({
         title: t('success'),
         description: t('confirmCreation'),
@@ -57,8 +56,8 @@ function FormSignUp() {
         duration: 3000,
         isClosable: true,
       })
-
-      setIsWelcomeModalOpen(true)
+      //setIsWelcomeModalOpen(true)
+      router.replace('/explore')
     }
     catch (error) {
       console.error(error)
@@ -94,6 +93,7 @@ function FormSignUp() {
               rounded="md"
               shadow="md"
               variant="flushed"
+              data-testid="pseudo-input"
               {...register('pseudo', { required: t('requiredField') })}
             />
             <FormErrorMessage>{errors.pseudo?.message}</FormErrorMessage>
@@ -105,6 +105,7 @@ function FormSignUp() {
               rounded="md"
               shadow="md"
               variant="flushed"
+              data-testid="email-input"
               {...register('email', { required: t('requiredField') })}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -117,6 +118,7 @@ function FormSignUp() {
               rounded="md"
               shadow="md"
               variant="flushed"
+              data-testid="password-input"
               {...register('password', { required: t('requiredField') })}
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
@@ -129,6 +131,7 @@ function FormSignUp() {
               rounded="md"
               shadow="md"
               variant="flushed"
+              data-testid="confirm-password-input"
               {...register('confirmPassword', {
                 required: t('requiredField'),
               })}
@@ -144,7 +147,9 @@ function FormSignUp() {
             textStyle="button"
             fontColor="color.white"
             backgroundColor="color.chaletGreen"
+            data-testid="submit-button"
             text={t('signIn')}
+            isLoading={isSubmitting || isLoading}
             disabled={isLoading}
           />
           <Text>
@@ -159,7 +164,7 @@ function FormSignUp() {
         isOpen={isWelcomeModalOpen}
         onClose={() => {
           setIsWelcomeModalOpen(false)
-          router.push('/explore')
+          router.replace('/explore')
         }}
       />
     </Flex>

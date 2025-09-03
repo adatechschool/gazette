@@ -10,9 +10,7 @@ export default {
   coverageDirectory: '../coverage',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    // Mapping pour les imports depuis src
     '^@/(.*)': '<rootDir>',
-    // Si vous avez des imports depuis la racine du projet
     '^~/(.*)$': '<rootDir>/../$1',
   },
   testMatch: [
@@ -23,4 +21,6 @@ export default {
     'node_modules/(?!(.*\\.mjs$))',
   ],
   extensionsToTreatAsEsm: ['.ts'],
+  verbose: true,
+  detectOpenHandles: true,
 }

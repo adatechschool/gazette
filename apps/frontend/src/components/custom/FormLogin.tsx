@@ -34,7 +34,7 @@ function FormLogin() {
   const onSubmit = async (data: LoginUserDto) => {
     try {
       await login(data.email, data.password)
-      router.push('/explore')
+      router.replace('/explore')
     }
     catch (error) {
       console.error('login error:', error)
@@ -70,6 +70,7 @@ function FormLogin() {
               rounded="md"
               shadow="md"
               variant="flushed"
+              data-testid="email-input"
               {...register('email', { required: t('requiredField') })}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -82,6 +83,7 @@ function FormLogin() {
               rounded="md"
               shadow="md"
               variant="flushed"
+              data-testid="password-input"
               {...register('password', { required: t('requiredField') })}
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
@@ -96,6 +98,7 @@ function FormLogin() {
             fontColor="color.white"
             backgroundColor="color.chaletGreen"
             text={t('login')}
+            data-testid="submit-button"
             isLoading={isSubmitting || isLoading}
             disabled={isLoading}
           />

@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker/.'
 import { Collection } from '@mikro-orm/core'
 import { Test } from '@nestjs/testing'
 import { Subscription } from '@/entities/subscription.entity'
@@ -10,11 +11,11 @@ describe('mediaController', () => {
   let mediaService: MediaService
 
   const createMockMedia = (): Media => ({
-    id: '96166e08-cbe6-494c-8706-db0e690763bb',
-    name: 'gazette',
-    description: 'agrégateur de news',
-    picture: 'https://companieslogo.com/img/orig/DDOG-60ca9565.png?t=1720244491',
-    urlRss: 'https://gazette.fr' + '/feed.xml',
+    id: faker.string.uuid(),
+    name: faker.company.name(),
+    description: faker.company.catchPhrase(),
+    picture: faker.image.urlLoremFlickr({ category: 'business' }),
+    urlRss: faker.internet.url(),
     createdAt: new Date(),
     subscribers: new Collection<Subscription>(this),
   })
