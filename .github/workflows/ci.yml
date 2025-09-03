@@ -125,7 +125,7 @@ jobs:
 
   lighthouse:
     name: Lighthouse Accessibility Audit
-    needs: playwright tests
+    needs: playwright
     runs-on: ubuntu-latest
 
     steps:
