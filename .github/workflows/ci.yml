@@ -112,6 +112,9 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
+      - name: Install Playwright Browsers
+        working-directory: ./apps/backend
+        run: pnpm exec playwright install --with-deps
       - name: Create .env file for CI
         run: |
           cat > .env << EOF
@@ -180,9 +183,6 @@ jobs:
           echo "Backend port mapping:"
           docker compose port backend ${{ secrets.BACKEND_PORT }} || echo "❌ Backend port mapping failed"
 
-      - name: Install Playwright Browsers
-        working-directory: ./apps/backend
-        run: pnpm exec playwright install --with-deps
       - name: Run Playwright tests
         working-directory: ./apps/backend
         run: pnpm exec playwright test
