@@ -109,14 +109,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: lts/*  
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
       - name: Install Playwright Browsers
         working-directory: ./apps/backend
         run: pnpm exec playwright install --with-deps
       - name: Create .env file for CI
-        working-directory: ./apps/backend
+        working-directory: ./apps/backend  # Créer le .env dans le bon répertoire
         run: |
           cat > .env << EOF
           DB_USER=${{ secrets.DB_USER }}
@@ -131,8 +131,8 @@ jobs:
           FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
           NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
           EOF
-          echo "Created .env file (values hidden for security)"
-          echo "Checking if all required secrets are set..."
+          echo "Created .env file in backend directory"
+          # Vérification des secrets critiques
           if [ -z "${{ secrets.DB_USER }}" ] || [ -z "${{ secrets.BACKEND_PORT }}" ] || [ -z "${{ secrets.FRONTEND_PORT }}" ]; then
             echo "❌ Missing required secrets!"
             exit 1
@@ -140,26 +140,33 @@ jobs:
           echo "✅ All required secrets are set"
 
       - name: Start Docker services
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+          NODE_ENV: test
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: |
           echo "=== Starting Docker services ==="
-          
           # Nettoyage plus robuste
           docker compose down --volumes --remove-orphans || true
           docker system prune -f || true
-          
           # Construction et démarrage
           docker compose up --build -d
-          
           # Attente plus intelligente avec vérification de santé
           echo "=== Waiting for services to be ready ==="
-          
           # Fonction pour vérifier si un service répond
           check_service() {
             local url=$1
             local service_name=$2
             local max_attempts=30
             local attempt=1
-            
             while [ $attempt -le $max_attempts ]; do
               echo "Checking $service_name (attempt $attempt/$max_attempts)..."
               if curl -f -s --max-time 5 "$url" > /dev/null 2>&1; then
@@ -169,36 +176,29 @@ jobs:
               sleep 2
               attempt=$((attempt + 1))
             done
-            
             echo "❌ $service_name failed to become ready after $max_attempts attempts"
             return 1
           }
-          
           # Vérifier que les conteneurs sont démarrés
           sleep 10
-          
           if ! docker compose ps --status running | grep -q "frontend\|backend"; then
             echo "❌ Containers failed to start!"
             docker compose logs --tail=50
             exit 1
           fi
-          
           # Vérifier la connectivité des services
           BACKEND_URL="http://localhost:${{ secrets.BACKEND_PORT }}/health"
           FRONTEND_URL="http://localhost:${{ secrets.FRONTEND_PORT }}"
-          
           if ! check_service "$BACKEND_URL" "Backend"; then
             echo "Backend logs:"
             docker compose logs backend --tail=50
             exit 1
           fi
-          
           if ! check_service "$FRONTEND_URL" "Frontend"; then
             echo "Frontend logs:"
             docker compose logs frontend --tail=50
             exit 1
           fi
-          
           echo "✅ All services are ready for testing!"
 
       - name: Run Playwright tests
@@ -210,19 +210,31 @@ jobs:
           echo "=== Running Playwright Tests ==="
           echo "Frontend URL: http://localhost:${{ secrets.FRONTEND_PORT }}"
           echo "Backend URL: http://localhost:${{ secrets.BACKEND_PORT }}"
-
           # Exécuter les tests avec retry en cas d'échec
           pnpm exec playwright test --reporter=html || {
             echo "❌ Tests failed, showing service logs:"
             docker compose logs --tail=30
             exit 1
-          }
-      - uses: actions/upload-artifact@v4
+          }  
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          path: ./apps/backend/playwright-report/  # Chemin correct vers le rapport
+          retention-days: 30  
+      - name: Upload test videos (if any)
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-videos
+          path: ./apps/backend/test-results/  # Vidéos des tests échoués
+          retention-days: 7  
+      - name: Cleanup
+        if: always()
+        run: |
+          echo "=== Cleaning up ==="
+          docker compose down --volumes --remove-orphans || true
 
   lighthouse:
     name: Lighthouse Accessibility Audit
