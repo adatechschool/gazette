@@ -116,6 +116,7 @@ jobs:
         working-directory: ./apps/backend
         run: pnpm exec playwright install --with-deps
       - name: Create .env file for CI
+        working-directory: ./apps/backend
         run: |
           cat > .env << EOF
           DB_USER=${{ secrets.DB_USER }}
@@ -142,7 +143,8 @@ jobs:
         run: |
           echo "=== Starting Docker services ==="
           echo "Stopping any existing containers..."
-          docker compose down --volumes --remove-orphans
+          docker compose down --volumes --remove-orphans || true
+          docker system prune -f || true
 
           echo "Removing any existing images..."
           docker compose rm -f
@@ -185,7 +187,20 @@ jobs:
 
       - name: Run Playwright tests
         working-directory: ./apps/backend
-        run: pnpm exec playwright test
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:${{ secrets.FRONTEND_PORT }}
+          API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
+        run: |
+          echo "=== Running Playwright Tests ==="
+          echo "Frontend URL: http://localhost:${{ secrets.FRONTEND_PORT }}"
+          echo "Backend URL: http://localhost:${{ secrets.BACKEND_PORT }}"
+          
+          # Exécuter les tests avec retry en cas d'échec
+          pnpm exec playwright test --reporter=html || {
+            echo "❌ Tests failed, showing service logs:"
+            docker compose logs --tail=30
+            exit 1
+          }
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
