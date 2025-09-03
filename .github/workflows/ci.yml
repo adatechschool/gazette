@@ -112,6 +112,74 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
+      - name: Create .env file for CI
+        run: |
+          cat > .env << EOF
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          BACKEND_PORT=${{ secrets.BACKEND_PORT }}
+          NODE_ENV=test
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}
+          ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
+          FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
+          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+          EOF
+          echo "Created .env file (values hidden for security)"
+          echo "Checking if all required secrets are set..."
+          if [ -z "${{ secrets.DB_USER }}" ] || [ -z "${{ secrets.BACKEND_PORT }}" ] || [ -z "${{ secrets.FRONTEND_PORT }}" ]; then
+            echo "❌ Missing required secrets!"
+            exit 1
+          fi
+          echo "✅ All required secrets are set"
+
+      - name: Start Docker services
+        run: |
+          echo "=== Starting Docker services ==="
+          echo "Stopping any existing containers..."
+          docker compose down --volumes --remove-orphans
+
+          echo "Removing any existing images..."
+          docker compose rm -f
+          docker rmi gazette-frontend gazette-backend || echo "No images to remove"
+
+          echo "Building and starting all services..."
+          docker compose up --build -d
+
+          echo "=== Waiting for services to start ==="
+          echo "Waiting 60 seconds for services to fully start..."
+          sleep 60
+
+          echo "=== Container Status Check ==="
+          echo "All containers status:"
+          docker compose ps -a
+
+          echo "=== Container Health Check ==="
+          echo "Checking if containers are running..."
+          if ! docker compose ps --status running | grep -q "frontend\|backend"; then
+            echo "❌ Some containers are not running!"
+            echo "Container logs:"
+            docker compose logs --tail=50
+            echo "❌ Exiting due to container startup failure"
+            exit 1
+          fi
+
+          echo "✅ All containers are running!"
+
+          echo "=== Network Configuration ==="
+          echo "Docker networks:"
+          docker network ls
+          echo "Gazette network details:"
+          docker network inspect gazette_gazette-network || echo "Network not found"
+
+          echo "=== Port Mappings ==="
+          echo "Frontend port mapping:"
+          docker compose port frontend ${{ secrets.FRONTEND_PORT }} || echo "❌ Frontend port mapping failed"
+          echo "Backend port mapping:"
+          docker compose port backend ${{ secrets.BACKEND_PORT }} || echo "❌ Backend port mapping failed"
+
       - name: Install Playwright Browsers
         working-directory: ./apps/backend
         run: pnpm exec playwright install --with-deps
