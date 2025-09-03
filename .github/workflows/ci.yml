@@ -101,7 +101,7 @@ jobs:
         working-directory: ./packages/shared
         run: pnpm test
 
-  playwright tests:
+  playwright:
     needs: tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
