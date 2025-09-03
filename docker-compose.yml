@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: apps/backend/Dockerfile
     env_file:
-      - .env # Charge le .env racine
+      - ./.env # Charge le .env racine
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
