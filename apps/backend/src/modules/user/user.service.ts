@@ -51,6 +51,24 @@ export class UsersService {
       await this.em.removeAndFlush(user)
     })
   }
+
+  async update(id: string, updateData: { pseudo?: string; email?: string; password?: string }): Promise<User> {
+    const user = await this.em.findOne(User, { id })
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`)
+    }
+    if (updateData.pseudo) {
+      user.pseudo = updateData.pseudo
+    }
+    if (updateData.email) {
+      user.email = updateData.email
+    }
+    if (updateData.password) {
+      user.password = await hashPassword(updateData.password)
+    }
+    await this.em.persistAndFlush(user)
+    return user
+  }
 }
 
 export { hashPassword, verifyPassword }

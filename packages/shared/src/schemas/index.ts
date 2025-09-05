@@ -42,3 +42,17 @@ export const LogUserSchema = z
   })
 
 export type LoginUserDto = z.infer<typeof LogUserSchema>
+
+export const UpdateUserSchema = z
+  .object({
+    pseudo: z.string().min(2, { message: 'Must be at least 2 characters' }).optional().nullable(),
+    email: z.string().email().optional().nullable(),
+    password: z
+      .string()
+      .min(8, { message: 'Must contain at least 8 characters' })
+      .regex(passwordValidation, { message: 'Password must contain at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (- [ ] ( ) * ~ _ # : ?)' })
+      .optional()
+      .nullable(),
+  })
+
+export type UpdateUserDto = z.infer<typeof UpdateUserSchema>

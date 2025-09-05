@@ -43,5 +43,9 @@
     "scss",
     "pcss",
     "postcss"
-  ]
+  ],
+  "remote.extensionKind": {
+    "adpyke.codesnap": ["ui"],
+    "dbaeumer.vscode-eslint": ["workspace"],
+  },
 }
