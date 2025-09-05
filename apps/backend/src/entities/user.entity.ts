@@ -1,6 +1,7 @@
-import { UserRole } from '@gazette/shared'
-import { Entity, Enum, Property } from '@mikro-orm/core'
+import { Cascade, Collection, Entity, OneToMany, Property } from '@mikro-orm/core'
 import { PrimaryKeyUuid } from '../utils/PrimaryKeyUuid.decorator'
+import { Like } from './like.entity'
+import { Subscription } from './subscription.entity'
 
 @Entity()
 export class User {
@@ -13,7 +14,7 @@ export class User {
   @Property()
   email!: string
 
-  @Property()
+  @Property({ hidden: true })
   password!: string
 
   @Property()
@@ -22,9 +23,15 @@ export class User {
   @Property({ onUpdate: () => new Date() })
   lastConnection = new Date()
 
-  @Enum(() => UserRole)
-  role: UserRole = UserRole.USER // Valeur user par défault
+  @OneToMany(() => Subscription, subscription => subscription.user, {
+    orphanRemoval: true,
+    cascade: [Cascade.REMOVE],
+  })
+  subscriptions = new Collection<Subscription>(this)
 
-  // @OneToMany(() => Media, media => media.id)
-  // mediaId!: number[]
+  @OneToMany(() => Like, like => like.user, {
+    orphanRemoval: true,
+    cascade: [Cascade.REMOVE],
+  })
+  likes = new Collection<Like>(this)
 }

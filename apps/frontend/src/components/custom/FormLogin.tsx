@@ -1,16 +1,15 @@
 import type { LoginUserDto } from '@gazette/shared'
-import { Flex, Input, Stack, Text, useToast } from '@chakra-ui/react'
+import { Flex, FormControl, FormErrorMessage, FormLabel, HStack, Input, Stack, Text, useToast } from '@chakra-ui/react'
 import { LogUserSchema } from '@gazette/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
-import { Field } from '../ui/field'
 import { PasswordInput } from '../ui/password-input'
 import Button from './Button'
+import PasswordRequirements from './PasswordRequirements'
 
 function FormLogin() {
   const { t } = useTranslation('common', {
@@ -18,70 +17,68 @@ function FormLogin() {
   })
   const router = useRouter()
   const toast = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const { login } = useAuth()
+  const { login, loading: authLoading } = useAuth()
 
-  type FormValuesLog = Omit<LoginUserDto, 'role'>
+  const LoginSchema = LogUserSchema
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormValuesLog>({
-    resolver: zodResolver(LogUserSchema),
+    formState: { errors, isSubmitting },
+  } = useForm<LoginUserDto>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  const onSubmit = async (data: FormValuesLog) => {
-    setIsLoading(true)
+  const onSubmit = async (data: LoginUserDto) => {
     try {
       await login(data.email, data.password)
       router.push('/explore')
     }
     catch (error) {
-      console.error(error)
+      console.error('login error:', error)
       toast({
         title: t('error'),
-        description: t('errorCreation'), // a renommer,
+        description: t('invalidCredentials'),
         status: 'error',
         duration: 4000,
         isClosable: true,
       })
     }
-    finally {
-      setIsLoading(false)
-    }
   }
+
+  const isLoading = authLoading || isSubmitting
 
   return (
     <Flex>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack maxWidth="-webkit-fit-content" paddingTop={6}>
-          <Text color="fg.error" fontSize="sm" alignSelf="flex-end">
-            * Champs obligatoires
-          </Text>
+          <HStack justifyContent="end">
+            <Text textColor="red.500" fontSize="sm" alignSelf="flex-end">
+              *
+            </Text>
+            <Text fontSize="sm" alignSelf="flex-end">
+              {t('requiredFields')}
+            </Text>
+          </HStack>
 
-          <Field
-            label={t('mail')}
-            isInvalid={!!errors.email}
-            errorText={errors.email?.message}
-          >
+          <FormControl isRequired isInvalid={!!errors.email}>
+            <FormLabel>{t('mail')}</FormLabel>
             <Input
+              minW="md"
               rounded="md"
               shadow="md"
               variant="flushed"
               {...register('email', { required: t('requiredField') })}
             />
-          </Field>
+            <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+          </FormControl>
 
-          <Field
-            label={t('password')}
-            isInvalid={!!errors.password}
-            errorText={errors.password?.message}
-          >
+          <FormControl isRequired isInvalid={!!errors.password}>
+            <FormLabel>{t('password')}</FormLabel>
             <PasswordInput
               minW="md"
               rounded="md"
@@ -89,31 +86,25 @@ function FormLogin() {
               variant="flushed"
               {...register('password', { required: t('requiredField') })}
             />
-          </Field>
+            <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+          </FormControl>
 
-          <ul color="red.500">
-            Votre mot de passe doit inclure :
-            <li>au moins 8 caractères</li>
-            <li>une majuscule</li>
-            <li>une minuscule</li>
-            <li>un chiffre</li>
-            <li>un caractère spécial (- [ ] ( ) * ~ _ # : ?)</li>
-          </ul>
+          <PasswordRequirements />
 
           <Button
             type="submit"
             width="22rem"
-            fontSize="1.375rem"
-            fontWeight="bold"
+            textStyle="button"
             fontColor="color.white"
             backgroundColor="color.chaletGreen"
             text={t('login')}
+            isLoading={isSubmitting || isLoading}
             disabled={isLoading}
           />
           <Text>
-            {`${t('alreadyConnected')} `}
-            <Link href="/login">
-              <b>{t('login')}</b>
+            {`${t('noAccount')} `}
+            <Link href="/signin">
+              <b>{t('signIn')}</b>
             </Link>
           </Text>
         </Stack>

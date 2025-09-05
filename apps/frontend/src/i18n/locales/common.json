@@ -3,6 +3,7 @@
     "appTitle": "Gazette",
     "create": "Créer un compte",
     "login": "Se connecter",
+    "aboutGazette": "Gazette, c'est quoi ?",
     "pseudo": "Pseudo",
     "mail": "Adresse mail",
     "password": "Mot de passe",
@@ -13,25 +14,57 @@
     "logout": "Se déconnecter",
     "delete": "Supprimer mon compte",
     "accountDeleted": "Votre compte a été supprimé avec succès",
+    "error": "Erreur",
     "errorDeletingAccount": "Une erreur est survenue lors de la suppression de votre compte",
     "confirmDelete": "Votre compte a bien été supprimé",
     "confirmCreation": "Votre compte a bien été créé",
+    "errorCreation": "Une erreur est survenue lors de la création de votre compte",
+    "invalidCredentials": "Email ou mot de passe invalide",
     "about": "À propos",
     "policy": "Politique et confidentialité",
     "account": "Mon compte",
-    "obligatoryField": "* champs obligatoires",
+    "requiredFields": "champs obligatoires",
     "requiredField": "Champ obligatoire"
   },
   "navigateApp": {
     "explore": "Explorer",
     "subscribe": "S'abonner",
+    "unsubscribe": "Se désabonner",
     "subscriber": "Abonné·e",
     "home": "Accueil",
     "menu": "Menu",
     "appTitle": "Gazette",
-    "account": "Mon compte"
+    "account": "Mon compte",
+    "subscriptions": "Abonnements",
+    "library": "Bibliothèque"
   },
   "form": {
     "passwordInstructions": "Votre mot de passe doit inclure : <ul><li>au moins 8 caractères</li> <li>une majuscule</li> <li>une minuscule</li> <li>un chiffre</li> <li>un caractère spécial (+ - [ ] * ~ _ # : ?)</li></ul>"
+  },
+  "login": {
+    "error": "Erreur de connexion",
+    "errorCreation": "Une erreur est survenue lors de la connexion",
+    "success": "Succès",
+    "passwordRequirements": "Votre mot de passe doit inclure :",
+    "passwordRequirementsList": {
+      "minLength": "au moins 8 caractères",
+      "uppercase": "une majuscule",
+      "lowercase": "une minuscule",
+      "number": "un chiffre",
+      "specialChar": "un caractère spécial (- [ ] ( ) * ~ _ # : ?)"
+    }
+  },
+  "signup": {
+    "error": "Erreur d'inscription",
+    "errorCreation": "Une erreur est survenue lors de la création du compte",
+    "success": "Compte créé avec succès",
+    "confirmCreation": "Votre compte a bien été créé"
+  },
+  "about": {
+    "title": "À propos de Gazette",
+    "description": "Gazette est un agrégateur de news qui se base sur la gestion de flux RSS. Son objectif est de vous proposer un fil d'actualité adapté à vos centres d'intérêt, avec la possibilité de s'abonner à certains médias et d'enregistrer en favoris certains articles.",
+    "mission": "Le parti-pris de Gazette est de mettre en avant des médias indépendants, afin de proposer un choix d'articles respectant la liberté de la presse. Notre mission : faciliter l'accès à une information libre et de qualité, en respectant les droits d'auteur via redirection vers les sources originales. N'hésitez pas à vous créer un compte et à tester l'application !",
+    "dataPrivacy": "Les données personnelles sont stockées de manière sécurisée et ne sont pas revendues à des tiers. Vous pouvez à tout moment modifier ou supprimer votre compte et toutes les données associées.",
+    "contact": "En cas de problème, vous pouvez contacter l'équipe via l'adresse suivante : gazette-team@gmail.com"
   }
 }

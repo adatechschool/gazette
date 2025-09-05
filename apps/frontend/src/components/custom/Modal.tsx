@@ -10,7 +10,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { api } from '../../config'
-import { useUser } from '../../contexts/UserContext'
+import { useAuth } from '../../hooks/useAuth'
 import Button from './Button'
 
 interface WelcomeModalProps {
@@ -29,10 +29,10 @@ export function WelcomeModal({ isOpen: externalIsOpen, onClose: externalOnClose 
   const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen
   const onClose = externalOnClose || internalOnClose
   const toast = useToast()
-  const { user } = useUser()
+  const { user } = useAuth()
 
   const handleMediaSelection = async (mediaType: { id: string, name: string, type: string }) => {
-    if (!user?.sub) {
+    if (!user?.id) {
       toast({
         title: 'Erreur',
         description: 'Utilisateur non identifié',
@@ -44,7 +44,7 @@ export function WelcomeModal({ isOpen: externalIsOpen, onClose: externalOnClose 
     }
 
     try {
-      await api.post(`users/${user.sub}/preferred-media`, {
+      await api.post(`users/${user.id}/preferred-media`, {
         json: { mediaType: mediaType.type },
       }).json()
 
@@ -98,7 +98,7 @@ export function WelcomeModal({ isOpen: externalIsOpen, onClose: externalOnClose 
           gap="20px"
           paddingTop="100px"
         >
-          <Heading color="color.white" fontSize="3.5rem" textAlign="center" letterSpacing="0.05em">
+          <Heading color="color.white" textStyle="modalTitle" textAlign="center">
             Choisissez votre média préféré
           </Heading>
           <ModalCloseButton />
@@ -110,8 +110,7 @@ export function WelcomeModal({ isOpen: externalIsOpen, onClose: externalOnClose 
                   onClick={() => handleMediaSelection(mediaType)}
                   padding="40px"
                   fontColor="color.white"
-                  fontFamily="Staatliches"
-                  fontSize="2.5rem"
+                  textStyle="modalButton"
                   backgroundColor="color.chaletGreen"
                   text={mediaType.name}
                   letterSpacing="0.05em"
