@@ -335,7 +335,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Issues**: [GitHub Issues](https://github.com/adatechschool/gazette/issues)
 - **Documentation**: 
       -README 
-      -TypeDoc : 1/ npm docs:build (to update the TypeDoc)     
+      -TypeDoc : 1/ pnpm docs:build (to update the TypeDoc)     
                  2/ npx serve apps/frontend/public/docs (launch the server of the doc)
                  3/ http://localhost:3000 (access to the documentation generate by TypeDoc)
 
