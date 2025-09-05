@@ -1,5 +1,5 @@
 import { FeedSource, RssItemDto } from '@gazette/shared'
-import { XMLParser } from 'fast-xml-parser'
+import * as Parser from 'rss-parser'
 import { RSS_SOURCES, RssSourceKey } from '../../../config/rss-sources'
 
 interface GenericRssConfig {
@@ -11,42 +11,23 @@ interface GenericRssConfig {
 
 export function createGenericRssFeed(config: GenericRssConfig): FeedSource {
   const sourceConfig = RSS_SOURCES[config.sourceKey]
+  const parser = new Parser()
 
   return {
     name: config.sourceKey,
     url: sourceConfig.url,
 
     async fetch(): Promise<RssItemDto[]> {
-      const res = await fetch(this.url)
-      const xml = await res.text()
-      const parser = new XMLParser()
-      const data = parser.parse(xml)
+      const feed = await parser.parseURL(this.url)
 
-      const channel = data.rss?.channel
-      let logoUrl: string | undefined
-
-      if (config.extractLogo) {
-        logoUrl = config.extractLogo(channel)
-      }
-      else if (channel?.image) {
-        logoUrl = channel.image.url
-      }
-
-      const items = data.rss?.channel?.item ?? []
-
-      return items.map((item: unknown): RssItemDto => {
-        const itemData = item as { title: string, link: string, pubDate: string, description?: string }
-        return {
-          title: config.titleCleaner ? config.titleCleaner(itemData.title) : itemData.title,
-          link: itemData.link,
-          pubDate: itemData.pubDate,
-          description: itemData.description
-            ? (config.descriptionCleaner ? config.descriptionCleaner(itemData.description) : itemData.description)
-            : undefined,
-          source: config.sourceKey,
-          logo: logoUrl,
-        }
-      })
+      return feed.items.map(item => ({
+        title: config.titleCleaner ? config.titleCleaner(item.title) : (item.title),
+        link: item.link,
+        pubDate: item.pubDate,
+        description: item.contentSnippet || item.content,
+        source: config.sourceKey,
+        logo: feed.image?.url || sourceConfig.picture,
+      }))
     },
   }
 }
