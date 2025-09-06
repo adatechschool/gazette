@@ -269,12 +269,12 @@ jobs:
           }
 
           # Tester différents endpoints pour le backend
-          BACKEND_READY=false
-          for endpoint in "/health" "/api/health" "/" "/api"; do
-            BACKEND_URL="http://localhost:${{ secrets.BACKEND_PORT }}$endpoint"
-            echo "Testing backend endpoint: $BACKEND_URL"
-            if wait_for_service "$BACKEND_URL" "Backend"; then
-              BACKEND_READY=true
+          BACKEND_WORKING=false
+          for endpoint in "" "/health" "/api-docs" "/api/contents" "/contents"; do
+            url="http://localhost:${{ secrets.BACKEND_PORT }}$endpoint"
+            if test_endpoint "$url" "Backend$endpoint"; then
+              echo "✅ Backend is responding at $endpoint"
+              BACKEND_WORKING=true
               break
             fi
           done
