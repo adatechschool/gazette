@@ -105,101 +105,196 @@ jobs:
     needs: tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    # Service PostgreSQL géré par GitHub Actions
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 22.15.0
+
+      - name: Setup pnpm
+        run: npm install -g pnpm@10.11.0
+
       - name: Install dependencies
-        run: npm install -g pnpm && pnpm install
+        run: pnpm install
+
       - name: Install Playwright Browsers
         working-directory: ./apps/backend
         run: pnpm exec playwright install --with-deps
+
       - name: Create .env file for CI
-        working-directory:
         run: |
           cat > .env << EOF
           DB_USER=${{ secrets.DB_USER }}
           DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           DB_NAME=${{ secrets.DB_NAME }}
-          DB_PORT=${{ secrets.DB_PORT }}
+          DB_PORT=5432
+          DB_HOST=localhost
           BACKEND_PORT=${{ secrets.BACKEND_PORT }}
           NODE_ENV=test
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}
           ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
           FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_URL=http://localhost:${{ secrets.BACKEND_PORT }}
+          DATABASE_URL=postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
           EOF
-          echo "Created .env file in backend directory"
-          # Vérification des secrets critiques
+          echo "✅ .env file created"
+
+          # Vérification des secrets
           if [ -z "${{ secrets.DB_USER }}" ] || [ -z "${{ secrets.BACKEND_PORT }}" ] || [ -z "${{ secrets.FRONTEND_PORT }}" ]; then
             echo "❌ Missing required secrets!"
             exit 1
           fi
           echo "✅ All required secrets are set"
 
-      - name: Start Docker services
-        env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
-          NODE_ENV: test
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
-          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
-          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+      - name: Wait for PostgreSQL and run migrations
         run: |
-          echo "=== Starting Docker services ==="
-          # Nettoyage plus robuste
-          docker compose down --volumes --remove-orphans || true
-          docker system prune -f || true
-          # Construction et démarrage
-          docker compose up --build -d
-          # Attente plus intelligente avec vérification de santé
-          echo "=== Waiting for services to be ready ==="
-          # Fonction pour vérifier si un service répond
-          check_service() {
+          echo "=== Waiting for PostgreSQL ==="
+
+          # Attendre que PostgreSQL soit prêt
+          for i in {1..30}; do
+            if pg_isready -h localhost -p 5432 -U ${{ secrets.DB_USER }}; then
+              echo "✅ PostgreSQL is ready!"
+              break
+            fi
+            echo "Waiting for PostgreSQL... ($i/30)"
+            sleep 2
+          done
+
+          # Test de connexion
+          echo "Testing database connection..."
+          PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h localhost -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -c "SELECT version();" || {
+            echo "❌ Failed to connect to database"
+            exit 1
+          }
+
+          echo "✅ Database connection successful"
+
+      - name: Start application services
+        run: |
+          echo "=== Starting Docker services (app only) ==="
+
+          # Créer un docker-compose spécial pour la CI (sans PostgreSQL)
+          cat > docker-compose.ci.yml << EOF
+          services:
+            backend:
+              build:
+                context: .
+                dockerfile: apps/backend/Dockerfile
+              env_file:
+                - ./.env
+              environment:
+                DB_HOST: host.docker.internal
+                DB_PORT: 5432
+                DB_USER: ${{ secrets.DB_USER }}
+                DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+                DB_NAME: ${{ secrets.DB_NAME }}
+                NODE_ENV: test
+                PORT: ${{ secrets.BACKEND_PORT }}
+                JWT_SECRET: ${{ secrets.JWT_SECRET }}
+                ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+              ports:
+                - '${{ secrets.BACKEND_PORT }}:${{ secrets.BACKEND_PORT }}'
+              extra_hosts:
+                - "host.docker.internal:host-gateway"
+
+            frontend:
+              build:
+                context: .
+                dockerfile: apps/frontend/Dockerfile
+              environment:
+                NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
+                NODE_ENV: development
+                PORT: ${{ secrets.FRONTEND_PORT }}
+                NEXT_TELEMETRY_DISABLED: 1
+              ports:
+                - '${{ secrets.FRONTEND_PORT }}:${{ secrets.FRONTEND_PORT }}'
+              depends_on:
+                - backend
+          EOF
+
+          # Démarrer les services
+          docker compose -f docker-compose.ci.yml up --build -d
+
+          echo "=== Waiting for services ==="
+          sleep 20
+
+          # Vérifier les conteneurs
+          docker compose -f docker-compose.ci.yml ps -a
+
+          if ! docker compose -f docker-compose.ci.yml ps --status running | grep -q "frontend\|backend"; then
+            echo "❌ Containers failed to start!"
+            docker compose -f docker-compose.ci.yml logs
+            exit 1
+          fi
+
+      - name: Wait for services to be ready
+        run: |
+          echo "=== Health Check ==="
+
+          # Fonction pour vérifier les services
+          wait_for_service() {
             local url=$1
-            local service_name=$2
+            local name=$2
             local max_attempts=30
-            local attempt=1
-            while [ $attempt -le $max_attempts ]; do
-              echo "Checking $service_name (attempt $attempt/$max_attempts)..."
+
+            for i in $(seq 1 $max_attempts); do
+              echo "Checking $name ($i/$max_attempts)..."
               if curl -f -s --max-time 5 "$url" > /dev/null 2>&1; then
-                echo "✅ $service_name is ready!"
+                echo "✅ $name is ready!"
                 return 0
               fi
-              sleep 2
-              attempt=$((attempt + 1))
+              sleep 3
             done
-            echo "❌ $service_name failed to become ready after $max_attempts attempts"
+
+            echo "❌ $name failed to become ready"
             return 1
           }
-          # Vérifier que les conteneurs sont démarrés
-          sleep 10
-          if ! docker compose ps --status running | grep -q "frontend\|backend"; then
-            echo "❌ Containers failed to start!"
-            docker compose logs --tail=50
-            exit 1
-          fi
-          # Vérifier la connectivité des services
-          BACKEND_URL="http://localhost:${{ secrets.BACKEND_PORT }}/health"
-          FRONTEND_URL="http://localhost:${{ secrets.FRONTEND_PORT }}"
-          if ! check_service "$BACKEND_URL" "Backend"; then
+
+          # Tester différents endpoints pour le backend
+          BACKEND_READY=false
+          for endpoint in "/health" "/api/health" "/" "/api"; do
+            BACKEND_URL="http://localhost:${{ secrets.BACKEND_PORT }}$endpoint"
+            echo "Testing backend endpoint: $BACKEND_URL"
+            if wait_for_service "$BACKEND_URL" "Backend"; then
+              BACKEND_READY=true
+              break
+            fi
+          done
+
+          if [ "$BACKEND_READY" = false ]; then
+            echo "❌ Backend is not responding on any endpoint"
             echo "Backend logs:"
-            docker compose logs backend --tail=50
+            docker compose -f docker-compose.ci.yml logs backend --tail=30
             exit 1
           fi
-          if ! check_service "$FRONTEND_URL" "Frontend"; then
+
+          # Tester le frontend
+          FRONTEND_URL="http://localhost:${{ secrets.FRONTEND_PORT }}"
+          if ! wait_for_service "$FRONTEND_URL" "Frontend"; then
             echo "Frontend logs:"
-            docker compose logs frontend --tail=50
+            docker compose -f docker-compose.ci.yml logs frontend --tail=30
             exit 1
           fi
-          echo "✅ All services are ready for testing!"
+
+          echo "✅ All services are ready!"
 
       - name: Run Playwright tests
         working-directory: ./apps/backend
@@ -210,12 +305,13 @@ jobs:
           echo "=== Running Playwright Tests ==="
           echo "Frontend URL: http://localhost:${{ secrets.FRONTEND_PORT }}"
           echo "Backend URL: http://localhost:${{ secrets.BACKEND_PORT }}"
-          # Exécuter les tests avec retry en cas d'échec
+
           pnpm exec playwright test --reporter=html || {
             echo "❌ Tests failed, showing service logs:"
-            docker compose logs --tail=30
+            docker compose -f docker-compose.ci.yml logs --tail=30
             exit 1
           }
+
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -223,11 +319,12 @@ jobs:
           name: playwright-report
           path: ./apps/backend/playwright-report/
           retention-days: 30
+
       - name: Cleanup
         if: always()
         run: |
           echo "=== Cleaning up ==="
-          docker compose down --volumes --remove-orphans || true
+          docker compose -f docker-compose.ci.yml down --volumes --remove-orphans || true
 
   lighthouse:
     name: Lighthouse Accessibility Audit

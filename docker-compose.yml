@@ -23,7 +23,7 @@ services:
       dockerfile: apps/backend/Dockerfile
     env_file:
       - ./.env # Charge le .env racine
-    network_mode: host  # Partage le réseau avec la machine hôte
+    network_mode: host
     environment:
       DB_HOST: localhost
       DB_PORT: 5432
@@ -45,8 +45,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    networks:
-      - gazette-network
 
   frontend:
     build:
