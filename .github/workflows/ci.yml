@@ -182,6 +182,43 @@ jobs:
 
           echo "✅ Database connection successful"
 
+      - name: Override PostgreSQL service in docker-compose
+        run: |
+          # Créer un override pour désactiver PostgreSQL dans docker-compose
+          cat > docker-compose.override.yml << EOF
+          services:
+            postgres:
+              # Désactiver le service PostgreSQL car on utilise celui de GitHub Actions
+              deploy:
+                replicas: 0
+
+            backend:
+              environment:
+                - DB_HOST=host.docker.internal
+                - DB_PORT=5432
+                - DB_USER=postgres
+                - DB_PASSWORD=postgres
+                - DB_NAME=test_db
+                - NODE_ENV=test
+                - PORT=3001
+                - JWT_SECRET=test-jwt-secret-for-ci
+                - ALLOWED_ORIGINS=http://localhost:3000
+              extra_hosts:
+                - "host.docker.internal:host-gateway"
+              ports:
+                - "3001:3001"
+
+            frontend:
+              environment:
+                - NEXT_PUBLIC_API_URL=http://localhost:3001
+                - NODE_ENV=development
+                - PORT=3000
+                - NEXT_TELEMETRY_DISABLED=1
+              ports:
+                - "3000:3000"
+          EOF
+          echo "✅ Docker compose override created"
+
       - name: Start application services
         run: |
           echo "=== Starting Docker services (app only) ==="
