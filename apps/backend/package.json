@@ -32,7 +32,7 @@
     "migration:pending": "mikro-orm migration:pending",
     "seeder:run": "mikro-orm seeder:run",
     "seeder:create": "mikro-orm seeder:create",
-    "db:setup": "pnpm migrate && pnpm seeder:run",
+    "db:setup": "pnpm migrate",
     "clean": "rimraf dist coverage *.log"
   },
   "dependencies": {
