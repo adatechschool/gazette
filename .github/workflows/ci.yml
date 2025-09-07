@@ -183,13 +183,57 @@ jobs:
           pnpm db:setup
 
       - name: Start Backend
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PORT: 5432
+          DB_HOST: localhost
+          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+          NODE_ENV: test
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+          DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
         run: |
           echo "Starting backend..."
           cd apps/backend
+
+          # Copy .env file to backend directory
+          cp ../../.env ./.env
+
+          # Verify environment variables
+          echo "Verifying environment variables..."
+          echo "DB_NAME: $DB_NAME"
+          echo "DB_HOST: $DB_HOST"
+          echo "DB_PORT: $DB_PORT"
+
+          # Start the backend with explicit environment variables
+          NODE_ENV=test \
+          DB_NAME=$DB_NAME \
+          DB_USER=$DB_USER \
+          DB_PASSWORD=$DB_PASSWORD \
+          DB_HOST=$DB_HOST \
+          DB_PORT=$DB_PORT \
+          BACKEND_PORT=$BACKEND_PORT \
+          JWT_SECRET=$JWT_SECRET \
+          JWT_EXPIRATION=$JWT_EXPIRATION \
+          ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
+          DATABASE_URL=$DATABASE_URL \
           nohup pnpm start > ../../backend.log 2>&1 &
           echo $! > ../../backend.pid
 
-          # Attendre que le backend soit prêt
+          # Give it a moment to start
+          sleep 2
+
+          # Check if process is still running
+          if ! ps -p $(cat ../../backend.pid) > /dev/null; then
+            echo "❌ Backend process failed to start"
+            echo "Backend logs:"
+            cat ../../backend.log
+            exit 1
+          fi
+
           echo "Waiting for backend to be ready..."
           for i in {1..60}; do
             if curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health 2>/dev/null; then
@@ -199,9 +243,21 @@ jobs:
               echo "❌ Backend failed to start within 60 attempts"
               echo "Backend logs:"
               cat ../../backend.log
+              # Also show running processes for debugging
+              echo "Process status:"
+              ps aux | grep node
               exit 1
             fi
             echo "Waiting for backend... ($i/60)"
+
+            # Check if process died while waiting
+            if ! ps -p $(cat ../../backend.pid) > /dev/null; then
+              echo "❌ Backend process died while waiting"
+              echo "Backend logs:"
+              cat ../../backend.log
+              exit 1
+            fi
+
             sleep 2
           done
 
