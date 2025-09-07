@@ -57,6 +57,7 @@ function WelcomeDisplay() {
             href="/login"
             textStyle="welcomeLink"
             color="color.white"
+            data-testid="login-link"
           >
             {t('login')}
           </Link>

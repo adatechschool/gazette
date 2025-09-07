@@ -1,9 +1,9 @@
 import { Card, CardFooter, Flex, Heading, Image, Link, Text } from '@chakra-ui/react'
-import { ContentWithMediaDto } from '@gazette/shared'
+import { ContentDto } from '@gazette/shared'
 import { Heart } from 'lucide-react'
 
 interface LibraryCardProps {
-  content: ContentWithMediaDto
+  content: ContentDto
   like: (contentId: string) => void
   dislike: (contentId: string) => void
   isLiked: (contentId: string) => boolean
@@ -48,8 +48,8 @@ function LibraryCard({ content, like, dislike, isLiked }: LibraryCardProps) {
 
           >
             <Image
-              src={content.media.picture}
-              alt={content.media.name}
+              src={content.media?.picture}
+              alt={content.media?.name}
               maxW="100%"
               maxH={{ base: '80px', md: '120px' }}
               objectFit="contain"
@@ -57,7 +57,7 @@ function LibraryCard({ content, like, dislike, isLiked }: LibraryCardProps) {
             />
           </Flex>
           <Text fontSize="sm" fontWeight="bold">
-            {content.media.name}
+            {content.media?.name}
           </Text>
         </Flex>
         <Flex flexDirection="column" gap={2}>

@@ -8,6 +8,7 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { LoggerModule } from 'nestjs-pino'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { validateEnv } from './config/env.validation'
 import { AuthModule } from './modules/auth/auth.module'
 import { ContentModule } from './modules/content/content.module'
 import { JobService } from './modules/job/job.service'
@@ -22,9 +23,7 @@ import { UsersModule } from './modules/user/user.module'
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validate: (config: Record<string, unknown>) => {
-        return config
-      },
+      validate: validateEnv,
     }),
     LoggerModule.forRoot({
       pinoHttp: {

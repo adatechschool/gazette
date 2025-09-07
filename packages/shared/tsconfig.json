@@ -4,9 +4,14 @@
     "lib": ["ES2020"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "baseUrl": "./",
     "rootDir": "src",
     "module": "ESNext",
     "moduleResolution": "node",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true,
     "strict": true,
     "declaration": true,
     "outDir": "dist",

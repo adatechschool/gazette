@@ -22,4 +22,12 @@ export class RssService {
   async fetchBlastFeed(): Promise<RssItemDto[]> {
     return RSS_FEEDS.blast.fetch()
   }
+
+  async fetchInvisibleOrangesFeed(): Promise<RssItemDto[]> {
+    return RSS_FEEDS.invisibleoranges.fetch()
+  }
+
+  async fetchMetalorgieFeed(): Promise<RssItemDto[]> {
+    return RSS_FEEDS.metalorgie.fetch()
+  }
 }

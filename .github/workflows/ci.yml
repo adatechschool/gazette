@@ -14,6 +14,20 @@ on:
       - dev
       - branche-de-france
 
+# 🎯 VARIABLES GLOBALES : disponibles dans tous les jobs
+env:
+  # Versions des outils
+  NODE_VERSION: 22.15.0
+
+  # Configuration de l'environnement
+  NODE_ENV: test
+  DB_PORT: 5432
+  DB_HOST: localhost
+
+  # Timeouts (en minutes)
+  SERVICE_TIMEOUT: 60
+  PLAYWRIGHT_TIMEOUT: 60
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -21,199 +35,460 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
-
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
-
-      - name: Install dependencies
-        run: pnpm install
+          node-version: ${{ env.NODE_VERSION }}
+          # pnpm-version omis volontairement pour auto-détection
 
       - name: Run ESLint
         run: pnpm lint
 
   typecheck:
-    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
-
-      - name: Install dependencies
-        run: pnpm install
+      - name: Build packages for typecheck
+        run: pnpm ci:prebuild && pnpm ci:build
 
       - name: Run TypeScript typecheck
-        run: pnpm -r run typecheck
+        run: pnpm typecheck
 
   build:
-    needs: typecheck
+    needs: [lint, typecheck]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build packages
+      - name: Build all packages
         env:
           NODE_ENV: production
           CI: true
-        run: pnpm -r build
+        run: pnpm ci:build
 
-  lighthouse:
-    name: Lighthouse Accessibility Audit
+  tests:
     needs: build
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
+
+      - name: Run unit tests
+        working-directory: packages/shared
+        run: pnpm test
+
+  playwright:
+    needs: tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+      ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+      FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
+      # Variables calculées
+      DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
+      NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y lsof
 
-      - name: Install dependencies
+      - name: Install Playwright Browsers
+        run: pnpm --filter gazette_backend exec playwright install --with-deps
+
+      - name: Create environment file
+        uses: ./.github/actions/create-env-file
+
+      - name: Setup services
+        uses: ./.github/actions/setup-services
+
+      - name: Build applications
+        run: pnpm ci:build
+
+      - name: Start Backend
         run: |
-          echo "Installing dependencies..."
-          pnpm install
-          echo "Building shared packages..."
-          pnpm --filter @gazette/shared build
+          echo "Starting backend..."
+          cd apps/backend
 
-      - name: Create .env file for CI
-        run: |
-          cat > .env << EOF
-          DB_USER=${{ secrets.DB_USER }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          DB_NAME=${{ secrets.DB_NAME }}
-          DB_PORT=${{ secrets.DB_PORT }}
-          BACKEND_PORT=${{ secrets.BACKEND_PORT }}
-          NODE_ENV=test
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}
-          ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
-          FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
-          EOF
-          echo "Created .env file (values hidden for security)"
-          echo "Checking if all required secrets are set..."
-          if [ -z "${{ secrets.DB_USER }}" ] || [ -z "${{ secrets.BACKEND_PORT }}" ] || [ -z "${{ secrets.FRONTEND_PORT }}" ]; then
-            echo "❌ Missing required secrets!"
-            exit 1
-          fi
-          echo "✅ All required secrets are set"
+          # Copy .env file to backend directory
+          cp ../../.env ./.env
 
-      - name: Start Docker services
-        run: |
-          echo "=== Starting Docker services ==="
-          echo "Stopping any existing containers..."
-          docker compose down --volumes --remove-orphans
+          # Verify environment variables (sans exposer les secrets)
+          echo "Verifying environment variables..."
+          echo "DB_NAME: $DB_NAME"
+          echo "DB_HOST: ${{ env.DB_HOST }}"
+          echo "DB_PORT: ${{ env.DB_PORT }}"
 
-          echo "Removing any existing images..."
-          docker compose rm -f
-          docker rmi gazette-frontend gazette-backend || echo "No images to remove"
+          # Start the backend with explicit environment variables
+          NODE_ENV=${{ env.NODE_ENV }} \
+          DB_NAME=$DB_NAME \
+          DB_USER=$DB_USER \
+          DB_PASSWORD=$DB_PASSWORD \
+          DB_HOST=${{ env.DB_HOST }} \
+          DB_PORT=${{ env.DB_PORT }} \
+          BACKEND_PORT=$BACKEND_PORT \
+          JWT_SECRET=$JWT_SECRET \
+          JWT_EXPIRATION=$JWT_EXPIRATION \
+          ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
+          DATABASE_URL=$DATABASE_URL \
+          nohup pnpm start > ../../backend.log 2>&1 &
+          echo $! > ../../backend.pid
 
-          echo "Building and starting all services..."
-          docker compose up --build -d
+          # Give it a moment to start
+          sleep 2
 
-          echo "=== Waiting for services to start ==="
-          echo "Waiting 60 seconds for services to fully start..."
-          sleep 60
-
-          echo "=== Container Status Check ==="
-          echo "All containers status:"
-          docker compose ps -a
-
-          echo "=== Container Health Check ==="
-          echo "Checking if containers are running..."
-          if ! docker compose ps --status running | grep -q "frontend\|backend"; then
-            echo "❌ Some containers are not running!"
-            echo "Container logs:"
-            docker compose logs --tail=50
-            echo "❌ Exiting due to container startup failure"
+          # Check if process is still running
+          if ! ps -p $(cat ../../backend.pid) > /dev/null; then
+            echo "❌ Backend process failed to start"
+            echo "Backend logs:"
+            cat ../../backend.log
             exit 1
           fi
 
-          echo "✅ All containers are running!"
-
-          echo "=== Network Configuration ==="
-          echo "Docker networks:"
-          docker network ls
-          echo "Gazette network details:"
-          docker network inspect gazette_gazette-network || echo "Network not found"
-
-          echo "=== Port Mappings ==="
-          echo "Frontend port mapping:"
-          docker compose port frontend ${{ secrets.FRONTEND_PORT }} || echo "❌ Frontend port mapping failed"
-          echo "Backend port mapping:"
-          docker compose port backend ${{ secrets.BACKEND_PORT }} || echo "❌ Backend port mapping failed"
-
-          echo "=== Service Accessibility ==="
-          echo "Testing backend accessibility..."
-          for i in {1..15}; do
-            echo "Attempt $i/15 to connect to backend on port ${{ secrets.BACKEND_PORT }}..."
-            if curl -s http://localhost:${{ secrets.BACKEND_PORT }}/contents > /dev/null 2>&1; then
-              echo "✅ Backend is accessible!"
+          echo "Waiting for backend to be ready..."
+          for i in {1..60}; do
+            if curl -f http://localhost:$BACKEND_PORT/health 2>/dev/null; then
+              echo "✅ Backend is ready!"
               break
-            fi
-            if [ $i -eq 15 ]; then
-              echo "❌ Backend is not accessible after 15 attempts"
+            elif [ $i -eq 60 ]; then
+              echo "❌ Backend failed to start within 60 attempts"
               echo "Backend logs:"
-              docker compose logs backend --tail=30
+              cat ../../backend.log
+              # Also show running processes for debugging
+              echo "Process status:"
+              ps aux | grep node
               exit 1
             fi
-            sleep 5
+            echo "Waiting for backend... ($i/60)"
+
+            # Check if process died while waiting
+            if ! ps -p $(cat ../../backend.pid) > /dev/null; then
+              echo "❌ Backend process died while waiting"
+              echo "Backend logs:"
+              cat ../../backend.log
+              exit 1
+            fi
+
+            sleep 2
           done
 
-          echo "Testing frontend accessibility..."
-          for i in {1..15}; do
-            echo "Attempt $i/15 to connect to frontend on port ${{ secrets.FRONTEND_PORT }}..."
-            if curl -s http://localhost:${{ secrets.FRONTEND_PORT }}/ > /dev/null 2>&1; then
-              echo "✅ Frontend is accessible!"
+      - name: Start Frontend
+        run: |
+          echo "Starting frontend..."
+
+          # Check if port is in use and kill the process if it exists
+          echo "Checking if port $FRONTEND_PORT is in use..."
+          if lsof -i :$FRONTEND_PORT; then
+            echo "Port $FRONTEND_PORT is in use. Attempting to free it..."
+            sudo fuser -k $FRONTEND_PORT/tcp || true
+            sleep 2
+          fi
+
+          cd apps/frontend
+
+          # Copy .env file to frontend directory
+          cp ../../.env ./.env
+
+          # Verify environment variables (sans exposer les secrets)
+          echo "Verifying environment variables..."
+          echo "FRONTEND_PORT: $FRONTEND_PORT"
+          echo "NEXT_PUBLIC_API_URL: $NEXT_PUBLIC_API_URL"
+
+          # Start the frontend with explicit environment variables and port
+          FRONTEND_PORT=$FRONTEND_PORT \
+          NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+          NODE_ENV=${{ env.NODE_ENV }} \
+          nohup pnpm start -p $FRONTEND_PORT > ../../frontend.log 2>&1 &
+          echo $! > ../../frontend.pid
+
+          # Give it a moment to start
+          sleep 2
+
+          # Check if process is still running
+          if ! ps -p $(cat ../../frontend.pid) > /dev/null; then
+            echo "❌ Frontend process failed to start"
+            echo "Frontend logs:"
+            cat ../../frontend.log
+            exit 1
+          fi
+
+          echo "Waiting for frontend to be ready..."
+          for i in {1..60}; do
+            if curl -f http://localhost:$FRONTEND_PORT 2>/dev/null; then
+              echo "✅ Frontend is ready!"
               break
-            fi
-            if [ $i -eq 15 ]; then
-              echo "❌ Frontend is not accessible after 15 attempts"
+            elif [ $i -eq 60 ]; then
+              echo "❌ Frontend failed to start within 60 attempts"
               echo "Frontend logs:"
-              docker compose logs frontend --tail=30
+              cat ../../frontend.log
+              # Also show running processes for debugging
+              echo "Process status:"
+              ps aux | grep node
               exit 1
             fi
-            sleep 5
+            echo "Waiting for frontend... ($i/60)"
+
+            # Check if process died while waiting
+            if ! ps -p $(cat ../../frontend.pid) > /dev/null; then
+              echo "❌ Frontend process died while waiting"
+              echo "Frontend logs:"
+              cat ../../frontend.log
+              exit 1
+            fi
+
+            sleep 3
           done
 
-          echo "✅ All services are accessible!"
+      - name: Verify services are accessible
+        run: |
+          echo "=== Final health checks ==="
+          echo "Backend health check:"
+          curl -f http://localhost:$BACKEND_PORT/health || exit 1
+
+          echo "Frontend accessibility:"
+          curl -f http://localhost:$FRONTEND_PORT || exit 1
+
+          echo "✅ All services are ready for testing!"
+
+      - name: Run Playwright tests
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:${{ env.FRONTEND_PORT }}
+          API_URL: http://localhost:${{ env.BACKEND_PORT }}
+        run: |
+          echo "Running Playwright tests..."
+          pnpm test:e2e --reporter=html
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: ./apps/backend/playwright-report/
+          retention-days: 30
+
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          echo "=== Backend logs ==="
+          cat backend.log 2>/dev/null || echo "No backend logs found"
+          echo "=== Frontend logs ==="
+          cat frontend.log 2>/dev/null || echo "No frontend logs found"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          echo "Cleaning up processes..."
+          [ -f backend.pid ] && kill $(cat backend.pid) 2>/dev/null || echo "No backend process to kill"
+          [ -f frontend.pid ] && kill $(cat frontend.pid) 2>/dev/null || echo "No frontend process to kill"
+
+  lighthouse:
+    name: Lighthouse Accessibility Audit
+    needs: playwright
+    runs-on: ubuntu-latest
+
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+      ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+      FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
+      DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
+      NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Create environment file
+        uses: ./.github/actions/create-env-file
+
+      - name: Setup services
+        uses: ./.github/actions/setup-services
+
+      - name: Build and start applications
+        run: |
+          # Build all packages
+          pnpm ci:build
+
+          # Start backend with proper environment
+          cd apps/backend
+          echo "Starting backend from $(pwd)"
+          NODE_ENV=${{ env.NODE_ENV }} \
+          DB_NAME=$DB_NAME \
+          DB_USER=$DB_USER \
+          DB_PASSWORD=$DB_PASSWORD \
+          DB_HOST=${{ env.DB_HOST }} \
+          DB_PORT=${{ env.DB_PORT }} \
+          BACKEND_PORT=$BACKEND_PORT \
+          JWT_SECRET=$JWT_SECRET \
+          JWT_EXPIRATION=$JWT_EXPIRATION \
+          ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
+          DATABASE_URL=$DATABASE_URL \
+          nohup pnpm start > ../../backend.log 2>&1 &
+          BACKEND_PID=$!
+          echo $BACKEND_PID > ../../backend.pid
+
+          # Give backend a moment to start
+          sleep 5
+
+          # Check if backend process is running
+          if ! ps -p $BACKEND_PID > /dev/null; then
+            echo "❌ Backend process failed to start"
+            echo "Backend logs:"
+            cat ../../backend.log
+            exit 1
+          fi
+
+          # Start frontend with proper environment
+          cd ../frontend
+          echo "Starting frontend from $(pwd)"
+          FRONTEND_PORT=$FRONTEND_PORT \
+          NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+          NODE_ENV=${{ env.NODE_ENV }} \
+          nohup pnpm start -p $FRONTEND_PORT > ../../frontend.log 2>&1 &
+          FRONTEND_PID=$!
+          echo $FRONTEND_PID > ../../frontend.pid
+
+          cd ../..
+          echo "Current directory: $(pwd)"
+
+          # Wait for services with better error handling
+          echo "Waiting for services to start..."
+
+          echo "Checking backend..."
+          for i in {1..30}; do
+            if curl -f http://localhost:$BACKEND_PORT/health 2>/dev/null; then
+              echo "✅ Backend is ready!"
+              break
+            elif [ $i -eq 30 ]; then
+              echo "❌ Backend failed to start within 30 attempts"
+              echo "Backend logs:"
+              cat backend.log || echo "No backend log file found"
+              echo "Process status:"
+              ps aux | grep node
+              exit 1
+            fi
+            echo "Waiting for backend... ($i/30)"
+
+            # Check if process died
+            if ! ps -p $(cat backend.pid) > /dev/null; then
+              echo "❌ Backend process died"
+              echo "Backend logs:"
+              cat backend.log || echo "No backend log file found"
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+          echo "Checking frontend..."
+          for i in {1..30}; do
+            if curl -f http://localhost:$FRONTEND_PORT 2>/dev/null; then
+              echo "✅ Frontend is ready!"
+              break
+            elif [ $i -eq 30 ]; then
+              echo "❌ Frontend failed to start within 30 attempts"
+              echo "Frontend logs:"
+              cat frontend.log || echo "No frontend log file found"
+              echo "Process status:"
+              ps aux | grep node
+              exit 1
+            fi
+            echo "Waiting for frontend... ($i/30)"
+
+            # Check if process died
+            if ! ps -p $(cat frontend.pid) > /dev/null; then
+              echo "❌ Frontend process died"
+              echo "Frontend logs:"
+              cat frontend.log || echo "No frontend log file found"
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+          echo "✅ All services ready for Lighthouse!"
+
+          # Show running processes for verification
+          echo "Running processes:"
+          ps aux | grep node
 
       - name: Run Lighthouse CI
-        env:
-          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
         run: |
-          echo "Installing Lighthouse CLI..."
           npm install -g @lhci/cli@0.15.x
-
-          echo "Running Lighthouse with localhost..."
-          lhci collect --url=http://localhost:${{ secrets.FRONTEND_PORT }}/
+          lhci collect --url=http://localhost:$FRONTEND_PORT/
           lhci upload --target=temporary-public-storage

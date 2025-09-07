@@ -2,6 +2,13 @@
   "name": "@gazette/shared",
   "version": "1.0.0",
   "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -10,13 +17,17 @@
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "clean": "rimraf dist",
     "lint": "eslint src/**/*.ts",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "jest --config jest.config.js"
   },
   "dependencies": {
     "@mikro-orm/core": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
-    "zod": "^3.25.28"
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.0",
+    "zod": "^4.1.4"
   },
   "devDependencies": {
     "rimraf": "^5.0.0",

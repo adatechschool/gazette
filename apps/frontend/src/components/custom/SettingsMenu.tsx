@@ -20,7 +20,6 @@ function SettingsMenu() {
   const handleLogout = async () => {
     try {
       await logout()
-      router.push('/')
     }
     catch (error) {
       console.error('Erreur lors de la déconnexion:', error)
@@ -44,7 +43,7 @@ function SettingsMenu() {
         duration: 5000,
       })
       setDeleteModalOpen(false)
-      router.push('/')
+      router.replace('/')
     }
     catch (error) {
       console.error('Erreur lors de la suppression du compte:', error)
@@ -66,6 +65,7 @@ function SettingsMenu() {
             onClick={handleLogout}
             cursor="pointer"
             textStyle="nav"
+            data-testid="logout-link"
           >
             {t('logout')}
           </Link>
