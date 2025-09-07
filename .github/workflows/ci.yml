@@ -14,6 +14,21 @@ on:
       - dev
       - branche-de-france
 
+# 🎯 VARIABLES GLOBALES : disponibles dans tous les jobs
+env:
+  # Versions des outils
+  NODE_VERSION: 22.15.0
+  PNPM_VERSION: 10.11.0
+
+  # Configuration de l'environnement
+  NODE_ENV: test
+  DB_PORT: 5432
+  DB_HOST: localhost
+
+  # Timeouts (en minutes)
+  SERVICE_TIMEOUT: 60
+  PLAYWRIGHT_TIMEOUT: 60
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -21,16 +36,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
-
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
-
-      - name: Install dependencies
-        run: pnpm ci:install
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Run ESLint
         run: pnpm lint
@@ -41,37 +51,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
-
-      - name: Install dependencies
-        run: pnpm ci:install && pnpm ci:prebuild && pnpm ci:build
+      - name: Build packages for typecheck
+        run: pnpm ci:prebuild && pnpm ci:build
 
       - name: Run TypeScript typecheck
         run: pnpm typecheck
 
   build:
-    needs: typecheck
+    needs: [lint, typecheck]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
-
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
-
-      - name: Install dependencies
-        run: pnpm ci:install
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Build all packages
         env:
@@ -86,16 +89,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
-
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
-
-      - name: Install dependencies
-        run: pnpm ci:install
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Run unit tests
         working-directory: packages/shared
@@ -103,10 +101,22 @@ jobs:
 
   playwright:
     needs: tests
-    timeout-minutes: 60
+    timeout-minutes: ${{ fromJson(env.PLAYWRIGHT_TIMEOUT) }}
     runs-on: ubuntu-latest
 
-    # Service PostgreSQL géré par GitHub Actions
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+      ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+      FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
+      # Variables calculées
+      DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
+      NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
+
     services:
       postgres:
         image: postgres:15
@@ -123,81 +133,31 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.15.0
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y lsof
 
-      - name: Install dependencies
-        run: pnpm ci:install
-
       - name: Install Playwright Browsers
         run: pnpm --filter gazette_backend exec playwright install --with-deps
 
-      - name: Create .env file for CI
-        run: |
-          cat > .env << EOF
-          DB_USER=${{ secrets.DB_USER }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          DB_NAME=${{ secrets.DB_NAME }}
-          DB_PORT=5432
-          DB_HOST=localhost
-          BACKEND_PORT=${{ secrets.BACKEND_PORT }}
-          NODE_ENV=test
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}
-          ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
-          FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL=http://localhost:${{ secrets.BACKEND_PORT }}
-          DATABASE_URL=postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
-          EOF
+      - name: Create environment file
+        uses: ./.github/actions/create-env-file
 
-      - name: Wait for PostgreSQL
-        run: |
-          echo "Waiting for PostgreSQL to be ready..."
-          for i in {1..30}; do
-            if pg_isready -h localhost -p 5432 -U ${{ secrets.DB_USER }}; then
-              echo "✅ PostgreSQL is ready!"
-              break
-            fi
-            echo "Waiting for PostgreSQL... ($i/30)"
-            sleep 2
-          done
+      - name: Setup services
+        uses: ./.github/actions/setup-services
 
       - name: Build applications
         run: pnpm ci:build
 
-      - name: Setup database
-        env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
-        run: |
-          echo "Setting up database..."
-          pnpm db:setup
-
       - name: Start Backend
-        env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PORT: 5432
-          DB_HOST: localhost
-          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
-          NODE_ENV: test
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
-          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
-          DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
         run: |
           echo "Starting backend..."
           cd apps/backend
@@ -205,19 +165,19 @@ jobs:
           # Copy .env file to backend directory
           cp ../../.env ./.env
 
-          # Verify environment variables
+          # Verify environment variables (sans exposer les secrets)
           echo "Verifying environment variables..."
           echo "DB_NAME: $DB_NAME"
-          echo "DB_HOST: $DB_HOST"
-          echo "DB_PORT: $DB_PORT"
+          echo "DB_HOST: ${{ env.DB_HOST }}"
+          echo "DB_PORT: ${{ env.DB_PORT }}"
 
           # Start the backend with explicit environment variables
-          NODE_ENV=test \
+          NODE_ENV=${{ env.NODE_ENV }} \
           DB_NAME=$DB_NAME \
           DB_USER=$DB_USER \
           DB_PASSWORD=$DB_PASSWORD \
-          DB_HOST=$DB_HOST \
-          DB_PORT=$DB_PORT \
+          DB_HOST=${{ env.DB_HOST }} \
+          DB_PORT=${{ env.DB_PORT }} \
           BACKEND_PORT=$BACKEND_PORT \
           JWT_SECRET=$JWT_SECRET \
           JWT_EXPIRATION=$JWT_EXPIRATION \
@@ -239,7 +199,7 @@ jobs:
 
           echo "Waiting for backend to be ready..."
           for i in {1..60}; do
-            if curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health 2>/dev/null; then
+            if curl -f http://localhost:$BACKEND_PORT/health 2>/dev/null; then
               echo "✅ Backend is ready!"
               break
             elif [ $i -eq 60 ]; then
@@ -265,10 +225,6 @@ jobs:
           done
 
       - name: Start Frontend
-        env:
-          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
-          NODE_ENV: test
         run: |
           echo "Starting frontend..."
 
@@ -285,7 +241,7 @@ jobs:
           # Copy .env file to frontend directory
           cp ../../.env ./.env
 
-          # Verify environment variables
+          # Verify environment variables (sans exposer les secrets)
           echo "Verifying environment variables..."
           echo "FRONTEND_PORT: $FRONTEND_PORT"
           echo "NEXT_PUBLIC_API_URL: $NEXT_PUBLIC_API_URL"
@@ -293,7 +249,7 @@ jobs:
           # Start the frontend with explicit environment variables and port
           FRONTEND_PORT=$FRONTEND_PORT \
           NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-          NODE_ENV=$NODE_ENV \
+          NODE_ENV=${{ env.NODE_ENV }} \
           nohup pnpm start -p $FRONTEND_PORT > ../../frontend.log 2>&1 &
           echo $! > ../../frontend.pid
 
@@ -310,7 +266,7 @@ jobs:
 
           echo "Waiting for frontend to be ready..."
           for i in {1..60}; do
-            if curl -f http://localhost:${{ secrets.FRONTEND_PORT }} 2>/dev/null; then
+            if curl -f http://localhost:$FRONTEND_PORT 2>/dev/null; then
               echo "✅ Frontend is ready!"
               break
             elif [ $i -eq 60 ]; then
@@ -339,17 +295,17 @@ jobs:
         run: |
           echo "=== Final health checks ==="
           echo "Backend health check:"
-          curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health || exit 1
+          curl -f http://localhost:$BACKEND_PORT/health || exit 1
 
           echo "Frontend accessibility:"
-          curl -f http://localhost:${{ secrets.FRONTEND_PORT }} || exit 1
+          curl -f http://localhost:$FRONTEND_PORT || exit 1
 
           echo "✅ All services are ready for testing!"
 
       - name: Run Playwright tests
         env:
-          PLAYWRIGHT_BASE_URL: http://localhost:${{ secrets.FRONTEND_PORT }}
-          API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
+          PLAYWRIGHT_BASE_URL: http://localhost:${{ env.FRONTEND_PORT }}
+          API_URL: http://localhost:${{ env.BACKEND_PORT }}
         run: |
           echo "Running Playwright tests..."
           pnpm test:e2e --reporter=html
@@ -382,6 +338,18 @@ jobs:
     needs: playwright
     runs-on: ubuntu-latest
 
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+      ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+      FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
+      DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
+      NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
+
     services:
       postgres:
         image: postgres:15
@@ -401,80 +369,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: 22.15.0
+          node-version: ${{ env.NODE_VERSION }}
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup pnpm
-        run: npm install -g pnpm@10.11.0
+      - name: Create environment file
+        uses: ./.github/actions/create-env-file
 
-      - name: Install dependencies
-        run: pnpm ci:install
-
-      - name: Create .env file for CI
-        run: |
-          cat > .env << EOF
-          DB_USER=${{ secrets.DB_USER }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          DB_NAME=${{ secrets.DB_NAME }}
-          DB_PORT=5432
-          DB_HOST=localhost
-          BACKEND_PORT=${{ secrets.BACKEND_PORT }}
-          NODE_ENV=test
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}
-          ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
-          FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL=http://localhost:${{ secrets.BACKEND_PORT }}
-          DATABASE_URL=postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
-          EOF
-
-      - name: Wait for PostgreSQL and setup database
-        run: |
-          echo "Waiting for PostgreSQL..."
-          for i in {1..30}; do
-            if pg_isready -h localhost -p 5432 -U ${{ secrets.DB_USER }}; then
-              echo "✅ PostgreSQL is ready!"
-              break
-            fi
-            sleep 2
-          done
+      - name: Setup services
+        uses: ./.github/actions/setup-services
 
       - name: Build and start applications
-        env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PORT: 5432
-          DB_HOST: localhost
-          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
-          NODE_ENV: test
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
-          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
-          DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
-          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
         run: |
           # Build all packages
           pnpm ci:build
 
-          # Setup database with environment variables
-          cd apps/backend
-          cp ../../.env ./.env
-          cd ../..
-          pnpm db:setup
-
           # Start backend with proper environment
           cd apps/backend
           echo "Starting backend from $(pwd)"
-          NODE_ENV=test \
+          NODE_ENV=${{ env.NODE_ENV }} \
           DB_NAME=$DB_NAME \
           DB_USER=$DB_USER \
           DB_PASSWORD=$DB_PASSWORD \
-          DB_HOST=$DB_HOST \
-          DB_PORT=$DB_PORT \
+          DB_HOST=${{ env.DB_HOST }} \
+          DB_PORT=${{ env.DB_PORT }} \
           BACKEND_PORT=$BACKEND_PORT \
           JWT_SECRET=$JWT_SECRET \
           JWT_EXPIRATION=$JWT_EXPIRATION \
@@ -500,7 +420,7 @@ jobs:
           echo "Starting frontend from $(pwd)"
           FRONTEND_PORT=$FRONTEND_PORT \
           NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-          NODE_ENV=$NODE_ENV \
+          NODE_ENV=${{ env.NODE_ENV }} \
           nohup pnpm start -p $FRONTEND_PORT > ../../frontend.log 2>&1 &
           FRONTEND_PID=$!
           echo $FRONTEND_PID > ../../frontend.pid
@@ -513,7 +433,7 @@ jobs:
 
           echo "Checking backend..."
           for i in {1..30}; do
-            if curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health 2>/dev/null; then
+            if curl -f http://localhost:$BACKEND_PORT/health 2>/dev/null; then
               echo "✅ Backend is ready!"
               break
             elif [ $i -eq 30 ]; then
@@ -539,7 +459,7 @@ jobs:
 
           echo "Checking frontend..."
           for i in {1..30}; do
-            if curl -f http://localhost:${{ secrets.FRONTEND_PORT }} 2>/dev/null; then
+            if curl -f http://localhost:$FRONTEND_PORT 2>/dev/null; then
               echo "✅ Frontend is ready!"
               break
             elif [ $i -eq 30 ]; then
@@ -570,9 +490,7 @@ jobs:
           ps aux | grep node
 
       - name: Run Lighthouse CI
-        env:
-          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
         run: |
           npm install -g @lhci/cli@0.15.x
-          lhci collect --url=http://localhost:${{ secrets.FRONTEND_PORT }}/
+          lhci collect --url=http://localhost:$FRONTEND_PORT/
           lhci upload --target=temporary-public-storage

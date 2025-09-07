@@ -1,0 +1,32 @@
+name: Create Environment File
+description: Create .env file with all necessary variables
+runs:
+  using: composite
+  steps:
+    - name: Create .env file
+      shell: bash
+      env:
+        DB_USER: ${{ env.DB_USER }}
+        DB_PASSWORD: ${{ env.DB_PASSWORD }}
+        DB_NAME: ${{ env.DB_NAME }}
+        BACKEND_PORT: ${{ env.BACKEND_PORT }}
+        JWT_SECRET: ${{ env.JWT_SECRET }}
+        JWT_EXPIRATION: ${{ env.JWT_EXPIRATION }}
+        ALLOWED_ORIGINS: ${{ env.ALLOWED_ORIGINS }}
+        FRONTEND_PORT: ${{ env.FRONTEND_PORT }}
+      run: |
+        cat > .env << EOF
+        DB_USER=${DB_USER}
+        DB_PASSWORD=${DB_PASSWORD}
+        DB_NAME=${DB_NAME}
+        DB_PORT=5432
+        DB_HOST=localhost
+        BACKEND_PORT=${BACKEND_PORT}
+        NODE_ENV=test
+        JWT_SECRET=${JWT_SECRET}
+        JWT_EXPIRATION=${JWT_EXPIRATION}
+        ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+        FRONTEND_PORT=${FRONTEND_PORT}
+        NEXT_PUBLIC_API_URL=http://localhost:${BACKEND_PORT}
+        DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/${DB_NAME}
+        EOF
