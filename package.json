@@ -39,7 +39,8 @@
     "db:fresh": "pnpm --filter gazette_backend schema:fresh",
     "docker:restart": "pnpm docker:down && pnpm docker:up",
     "ci:install": "pnpm install --frozen-lockfile",
-    "ci:build": "pnpm build:shared && pnpm build:backend && pnpm build:frontend",
+    "ci:prebuild": "pnpm build:shared && pnpm -r exec pnpm link @gazette/shared",
+    "ci:build": "pnpm ci:prebuild && pnpm build:backend && pnpm build:frontend",
     "ci:test": "pnpm typecheck && pnpm lint && pnpm test:unit",
     "fresh": "pnpm clean:all && pnpm install && pnpm ci:build"
   },
