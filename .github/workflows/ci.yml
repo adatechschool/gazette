@@ -98,6 +98,7 @@ jobs:
         run: pnpm ci:install
 
       - name: Run unit tests
+        working-directory: packages/shared
         run: pnpm test:unit
 
   playwright:
