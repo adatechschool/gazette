@@ -83,12 +83,6 @@ test.describe('Authentication E2E', () => {
     await page.click('[data-testid="submit-button"]')
     await page.waitForURL('http://localhost:3002/explore')
 
-    // Now continue with the logout test
-    await page.click('a[href="/login"]')
-    await page.fill('[data-testid="email-input"]', existingUser.email)
-    await page.fill('[data-testid="password-input"]', existingUser.password)
-    await page.click('[data-testid="submit-button"]')
-
     await page.click('a[href="/settings"]')
     const navigationPromise = page.waitForURL('http://localhost:3002/')
     await page.click('[data-testid="logout-link"]')
