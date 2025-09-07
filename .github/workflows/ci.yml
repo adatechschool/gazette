@@ -466,34 +466,108 @@ jobs:
           cd ../..
           pnpm db:setup
 
-          # Start backend
+          # Start backend with proper environment
           cd apps/backend
+          echo "Starting backend from $(pwd)"
+          NODE_ENV=test \
+          DB_NAME=$DB_NAME \
+          DB_USER=$DB_USER \
+          DB_PASSWORD=$DB_PASSWORD \
+          DB_HOST=$DB_HOST \
+          DB_PORT=$DB_PORT \
+          BACKEND_PORT=$BACKEND_PORT \
+          JWT_SECRET=$JWT_SECRET \
+          JWT_EXPIRATION=$JWT_EXPIRATION \
+          ALLOWED_ORIGINS=$ALLOWED_ORIGINS \
+          DATABASE_URL=$DATABASE_URL \
           nohup pnpm start > ../../backend.log 2>&1 &
+          BACKEND_PID=$!
+          echo $BACKEND_PID > ../../backend.pid
 
-          # Start frontend
-          cd ../frontend
-          nohup pnpm start > ../../frontend.log 2>&1 &
+          # Give backend a moment to start
+          sleep 5
 
-          # Wait for services
-          echo "Waiting for services to start..."
-          sleep 45
-
-          # Verify services
-          if ! curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health 2>/dev/null; then
-            echo "❌ Backend not ready"
+          # Check if backend process is running
+          if ! ps -p $BACKEND_PID > /dev/null; then
+            echo "❌ Backend process failed to start"
             echo "Backend logs:"
-            cat backend.log
+            cat ../../backend.log
             exit 1
           fi
 
-          if ! curl -f http://localhost:${{ secrets.FRONTEND_PORT }} 2>/dev/null; then
-            echo "❌ Frontend not ready"
-            echo "Frontend logs:"
-            cat frontend.log
-            exit 1
-          fi
+          # Start frontend with proper environment
+          cd ../frontend
+          echo "Starting frontend from $(pwd)"
+          FRONTEND_PORT=$FRONTEND_PORT \
+          NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+          NODE_ENV=$NODE_ENV \
+          nohup pnpm start -p $FRONTEND_PORT > ../../frontend.log 2>&1 &
+          FRONTEND_PID=$!
+          echo $FRONTEND_PID > ../../frontend.pid
+
+          cd ../..
+          echo "Current directory: $(pwd)"
+
+          # Wait for services with better error handling
+          echo "Waiting for services to start..."
+
+          echo "Checking backend..."
+          for i in {1..30}; do
+            if curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health 2>/dev/null; then
+              echo "✅ Backend is ready!"
+              break
+            elif [ $i -eq 30 ]; then
+              echo "❌ Backend failed to start within 30 attempts"
+              echo "Backend logs:"
+              cat backend.log || echo "No backend log file found"
+              echo "Process status:"
+              ps aux | grep node
+              exit 1
+            fi
+            echo "Waiting for backend... ($i/30)"
+
+            # Check if process died
+            if ! ps -p $(cat backend.pid) > /dev/null; then
+              echo "❌ Backend process died"
+              echo "Backend logs:"
+              cat backend.log || echo "No backend log file found"
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+          echo "Checking frontend..."
+          for i in {1..30}; do
+            if curl -f http://localhost:${{ secrets.FRONTEND_PORT }} 2>/dev/null; then
+              echo "✅ Frontend is ready!"
+              break
+            elif [ $i -eq 30 ]; then
+              echo "❌ Frontend failed to start within 30 attempts"
+              echo "Frontend logs:"
+              cat frontend.log || echo "No frontend log file found"
+              echo "Process status:"
+              ps aux | grep node
+              exit 1
+            fi
+            echo "Waiting for frontend... ($i/30)"
+
+            # Check if process died
+            if ! ps -p $(cat frontend.pid) > /dev/null; then
+              echo "❌ Frontend process died"
+              echo "Frontend logs:"
+              cat frontend.log || echo "No frontend log file found"
+              exit 1
+            fi
+
+            sleep 2
+          done
 
           echo "✅ All services ready for Lighthouse!"
+
+          # Show running processes for verification
+          echo "Running processes:"
+          ps aux | grep node
 
       - name: Run Lighthouse CI
         env:
