@@ -290,11 +290,11 @@ jobs:
           echo "FRONTEND_PORT: $FRONTEND_PORT"
           echo "NEXT_PUBLIC_API_URL: $NEXT_PUBLIC_API_URL"
 
-          # Start the frontend with explicit environment variables
+          # Start the frontend with explicit environment variables and port
           FRONTEND_PORT=$FRONTEND_PORT \
           NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
           NODE_ENV=$NODE_ENV \
-          nohup pnpm start > ../../frontend.log 2>&1 &
+          nohup pnpm start -p $FRONTEND_PORT > ../../frontend.log 2>&1 &
           echo $! > ../../frontend.pid
 
           # Give it a moment to start
