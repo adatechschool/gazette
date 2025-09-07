@@ -18,7 +18,7 @@ on:
 env:
   # Versions des outils
   NODE_VERSION: 22.15.0
-  PNPM_VERSION: pnpm@10.12.4
+  PNPM_VERSION: 10.11.0
 
   # Configuration de l'environnement
   NODE_ENV: test
@@ -27,6 +27,7 @@ env:
 
   # Timeouts (en minutes)
   SERVICE_TIMEOUT: 60
+  PLAYWRIGHT_TIMEOUT: 60
 
 jobs:
   lint:
@@ -39,7 +40,7 @@ jobs:
         uses: ./.github/actions/setup-node-pnpm
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
+          # pnpm-version omis volontairement pour auto-détection
 
       - name: Run ESLint
         run: pnpm lint
