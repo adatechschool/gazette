@@ -27,7 +27,6 @@ env:
 
   # Timeouts (en minutes)
   SERVICE_TIMEOUT: 60
-  PLAYWRIGHT_TIMEOUT: 60
 
 jobs:
   lint:
@@ -101,7 +100,7 @@ jobs:
 
   playwright:
     needs: tests
-    timeout-minutes: ${{ fromJson(env.PLAYWRIGHT_TIMEOUT) }}
+    timeout-minutes: 60
     runs-on: ubuntu-latest
 
     env:
