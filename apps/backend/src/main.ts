@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as cookieParser from 'cookie-parser'
+import { Request, Response } from 'express'
 import { Logger } from 'nestjs-pino'
 import { AppModule } from './app.module'
 
@@ -15,6 +16,8 @@ async function bootstrap() {
       exposedHeaders: 'Set-Cookie',
     },
   })
+
+  // Configuration Swagger
   const config = new DocumentBuilder()
     .setTitle('Gazette API')
     .setDescription('API pour l\'application Gazette')
@@ -27,6 +30,24 @@ async function bootstrap() {
   app.useLogger(app.get(Logger))
   app.use(cookieParser())
 
+  // Endpoint de health check simple
+  const expressApp = app.getHttpAdapter().getInstance()
+  expressApp.get('/health', (req: Request, res: Response) => {
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      environment: process.env.NODE_ENV || 'development',
+      port: process.env.PORT ?? 3000,
+    })
+  })
+
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0')
+
+  const logger = app.get(Logger)
+  logger.log(`🚀 Application is running on: http://localhost:${process.env.PORT ?? 3000}`)
+  logger.log(`📚 Swagger documentation: http://localhost:${process.env.PORT ?? 3000}/api-docs`)
+  logger.log(`💓 Health check: http://localhost:${process.env.PORT ?? 3000}/health`)
 }
+
 bootstrap()

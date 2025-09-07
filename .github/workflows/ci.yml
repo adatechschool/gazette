@@ -30,7 +30,7 @@ jobs:
         run: npm install -g pnpm@10.11.0
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm ci:install
 
       - name: Run ESLint
         run: pnpm lint
@@ -50,10 +50,10 @@ jobs:
         run: npm install -g pnpm@10.11.0
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm ci:install
 
       - name: Run TypeScript typecheck
-        run: pnpm -r run typecheck
+        run: pnpm typecheck
 
   build:
     needs: typecheck
@@ -71,13 +71,13 @@ jobs:
         run: npm install -g pnpm@10.11.0
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm ci:install
 
-      - name: Build packages
+      - name: Build all packages
         env:
           NODE_ENV: production
           CI: true
-        run: pnpm -r build
+        run: pnpm ci:build
 
   tests:
     needs: build
@@ -95,11 +95,10 @@ jobs:
         run: npm install -g pnpm@10.11.0
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm ci:install
 
-      - name: Run schema validation tests
-        working-directory: ./packages/shared
-        run: pnpm test
+      - name: Run unit tests
+        run: pnpm test:unit
 
   playwright:
     needs: tests
@@ -116,6 +115,11 @@ jobs:
           POSTGRES_DB: ${{ secrets.DB_NAME }}
         ports:
           - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -127,11 +131,10 @@ jobs:
         run: npm install -g pnpm@10.11.0
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm ci:install
 
       - name: Install Playwright Browsers
-        working-directory: ./apps/backend
-        run: pnpm exec playwright install --with-deps
+        run: pnpm --filter gazette_backend exec playwright install --with-deps
 
       - name: Create .env file for CI
         run: |
@@ -150,20 +153,10 @@ jobs:
           NEXT_PUBLIC_API_URL=http://localhost:${{ secrets.BACKEND_PORT }}
           DATABASE_URL=postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
           EOF
-          echo "✅ .env file created"
 
-          # Vérification des secrets
-          if [ -z "${{ secrets.DB_USER }}" ] || [ -z "${{ secrets.BACKEND_PORT }}" ] || [ -z "${{ secrets.FRONTEND_PORT }}" ]; then
-            echo "❌ Missing required secrets!"
-            exit 1
-          fi
-          echo "✅ All required secrets are set"
-
-      - name: Wait for PostgreSQL and run migrations
+      - name: Wait for PostgreSQL
         run: |
-          echo "=== Waiting for PostgreSQL ==="
-
-          # Attendre que PostgreSQL soit prêt
+          echo "Waiting for PostgreSQL to be ready..."
           for i in {1..30}; do
             if pg_isready -h localhost -p 5432 -U ${{ secrets.DB_USER }}; then
               echo "✅ PostgreSQL is ready!"
@@ -173,176 +166,78 @@ jobs:
             sleep 2
           done
 
-          # Test de connexion
-          echo "Testing database connection..."
-          PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h localhost -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -c "SELECT version();" || {
-            echo "❌ Failed to connect to database"
-            exit 1
-          }
+      - name: Build applications
+        run: pnpm ci:build
 
-          echo "✅ Database connection successful"
-
-      - name: Override PostgreSQL service in docker-compose
+      - name: Setup database
         run: |
-          # Créer un override pour désactiver PostgreSQL dans docker-compose
-          cat > docker-compose.override.yml << EOF
-          services:
-            postgres:
-              # Désactiver le service PostgreSQL car on utilise celui de GitHub Actions
-              deploy:
-                replicas: 0
+          echo "Setting up database..."
+          pnpm db:setup
 
-            backend:
-              environment:
-                - DB_HOST=host.docker.internal
-                - DB_PORT=5432
-                - DB_USER=postgres
-                - DB_PASSWORD=postgres
-                - DB_NAME=test_db
-                - NODE_ENV=test
-                - PORT=3001
-                - JWT_SECRET=test-jwt-secret-for-ci
-                - ALLOWED_ORIGINS=http://localhost:3000
-              extra_hosts:
-                - "host.docker.internal:host-gateway"
-              ports:
-                - "3001:3001"
-
-            frontend:
-              environment:
-                - NEXT_PUBLIC_API_URL=http://localhost:3001
-                - NODE_ENV=development
-                - PORT=3000
-                - NEXT_TELEMETRY_DISABLED=1
-              ports:
-                - "3000:3000"
-          EOF
-          echo "✅ Docker compose override created"
-
-      - name: Start application services
+      - name: Start Backend
         run: |
-          echo "=== Starting Docker services (app only) ==="
+          echo "Starting backend..."
+          cd apps/backend
+          nohup pnpm start > ../../backend.log 2>&1 &
+          echo $! > ../../backend.pid
 
-          # Créer un docker-compose spécial pour la CI (sans PostgreSQL)
-          cat > docker-compose.ci.yml << EOF
-          services:
-            backend:
-              build:
-                context: .
-                dockerfile: apps/backend/Dockerfile
-              env_file:
-                - ./.env
-              environment:
-                DB_HOST: host.docker.internal
-                DB_PORT: 5432
-                DB_USER: ${{ secrets.DB_USER }}
-                DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-                DB_NAME: ${{ secrets.DB_NAME }}
-                NODE_ENV: test
-                PORT: ${{ secrets.BACKEND_PORT }}
-                JWT_SECRET: ${{ secrets.JWT_SECRET }}
-                ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
-              ports:
-                - '${{ secrets.BACKEND_PORT }}:${{ secrets.BACKEND_PORT }}'
-              extra_hosts:
-                - "host.docker.internal:host-gateway"
-
-            frontend:
-              build:
-                context: .
-                dockerfile: apps/frontend/Dockerfile
-              environment:
-                NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
-                NODE_ENV: development
-                PORT: ${{ secrets.FRONTEND_PORT }}
-                NEXT_TELEMETRY_DISABLED: 1
-              ports:
-                - '${{ secrets.FRONTEND_PORT }}:${{ secrets.FRONTEND_PORT }}'
-              depends_on:
-                - backend
-          EOF
-
-          # Démarrer les services
-          docker compose -f docker-compose.ci.yml up --build -d
-
-          echo "=== Waiting for services ==="
-          sleep 20
-
-          # Vérifier les conteneurs
-          docker compose -f docker-compose.ci.yml ps -a
-
-          if ! docker compose -f docker-compose.ci.yml ps --status running | grep -q "frontend\|backend"; then
-            echo "❌ Containers failed to start!"
-            docker compose -f docker-compose.ci.yml logs
-            exit 1
-          fi
-
-      - name: Wait for services to be ready
-        run: |
-          echo "=== Health Check ==="
-
-          # Fonction pour vérifier les services
-          wait_for_service() {
-            local url=$1
-            local name=$2
-            local max_attempts=30
-
-            for i in $(seq 1 $max_attempts); do
-              echo "Checking $name ($i/$max_attempts)..."
-              if curl -f -s --max-time 5 "$url" > /dev/null 2>&1; then
-                echo "✅ $name is ready!"
-                return 0
-              fi
-              sleep 3
-            done
-
-            echo "❌ $name failed to become ready"
-            return 1
-          }
-
-          # Tester différents endpoints pour le backend
-          BACKEND_WORKING=false
-          for endpoint in "" "/health" "/api-docs" "/api/contents" "/contents"; do
-            url="http://localhost:${{ secrets.BACKEND_PORT }}$endpoint"
-            if test_endpoint "$url" "Backend$endpoint"; then
-              echo "✅ Backend is responding at $endpoint"
-              BACKEND_WORKING=true
+          # Attendre que le backend soit prêt
+          echo "Waiting for backend to be ready..."
+          for i in {1..60}; do
+            if curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health 2>/dev/null; then
+              echo "✅ Backend is ready!"
               break
+            elif [ $i -eq 60 ]; then
+              echo "❌ Backend failed to start within 60 attempts"
+              echo "Backend logs:"
+              cat ../../backend.log
+              exit 1
             fi
+            echo "Waiting for backend... ($i/60)"
+            sleep 2
           done
 
-          if [ "$BACKEND_READY" = false ]; then
-            echo "❌ Backend is not responding on any endpoint"
-            echo "Backend logs:"
-            docker compose -f docker-compose.ci.yml logs backend --tail=30
-            exit 1
-          fi
+      - name: Start Frontend
+        run: |
+          echo "Starting frontend..."
+          cd apps/frontend
+          nohup pnpm start > ../../frontend.log 2>&1 &
+          echo $! > ../../frontend.pid
 
-          # Tester le frontend
-          FRONTEND_URL="http://localhost:${{ secrets.FRONTEND_PORT }}"
-          if ! wait_for_service "$FRONTEND_URL" "Frontend"; then
-            echo "Frontend logs:"
-            docker compose -f docker-compose.ci.yml logs frontend --tail=30
-            exit 1
-          fi
+          # Attendre que le frontend soit prêt
+          echo "Waiting for frontend to be ready..."
+          for i in {1..60}; do
+            if curl -f http://localhost:${{ secrets.FRONTEND_PORT }} 2>/dev/null; then
+              echo "✅ Frontend is ready!"
+              break
+            elif [ $i -eq 60 ]; then
+              echo "❌ Frontend failed to start within 60 attempts"
+              echo "Frontend logs:"
+              cat ../../frontend.log
+              exit 1
+            fi
+            echo "Waiting for frontend... ($i/60)"
+            sleep 3
+          done
 
-          echo "✅ All services are ready!"
+      - name: Verify services are accessible
+        run: |
+          echo "=== Final health checks ==="
+          echo "Backend health check:"
+          curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health || exit 1
+
+          echo "Frontend accessibility:"
+          curl -f http://localhost:${{ secrets.FRONTEND_PORT }} || exit 1
+
+          echo "✅ All services are ready for testing!"
 
       - name: Run Playwright tests
-        working-directory: ./apps/backend
         env:
           PLAYWRIGHT_BASE_URL: http://localhost:${{ secrets.FRONTEND_PORT }}
           API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
         run: |
-          echo "=== Running Playwright Tests ==="
-          echo "Frontend URL: http://localhost:${{ secrets.FRONTEND_PORT }}"
-          echo "Backend URL: http://localhost:${{ secrets.BACKEND_PORT }}"
-
-          pnpm exec playwright test --reporter=html || {
-            echo "❌ Tests failed, showing service logs:"
-            docker compose -f docker-compose.ci.yml logs --tail=30
-            exit 1
-          }
+          echo "Running Playwright tests..."
+          pnpm test:e2e --reporter=html
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -352,16 +247,40 @@ jobs:
           path: ./apps/backend/playwright-report/
           retention-days: 30
 
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          echo "=== Backend logs ==="
+          cat backend.log 2>/dev/null || echo "No backend logs found"
+          echo "=== Frontend logs ==="
+          cat frontend.log 2>/dev/null || echo "No frontend logs found"
+
       - name: Cleanup
         if: always()
         run: |
-          echo "=== Cleaning up ==="
-          docker compose -f docker-compose.ci.yml down --volumes --remove-orphans || true
+          echo "Cleaning up processes..."
+          [ -f backend.pid ] && kill $(cat backend.pid) 2>/dev/null || echo "No backend process to kill"
+          [ -f frontend.pid ] && kill $(cat frontend.pid) 2>/dev/null || echo "No frontend process to kill"
 
   lighthouse:
     name: Lighthouse Accessibility Audit
     needs: playwright
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout repository
@@ -376,11 +295,7 @@ jobs:
         run: npm install -g pnpm@10.11.0
 
       - name: Install dependencies
-        run: |
-          echo "Installing dependencies..."
-          pnpm install
-          echo "Building shared packages..."
-          pnpm --filter @gazette/shared build
+        run: pnpm ci:install
 
       - name: Create .env file for CI
         run: |
@@ -388,110 +303,70 @@ jobs:
           DB_USER=${{ secrets.DB_USER }}
           DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           DB_NAME=${{ secrets.DB_NAME }}
-          DB_PORT=${{ secrets.DB_PORT }}
+          DB_PORT=5432
+          DB_HOST=localhost
           BACKEND_PORT=${{ secrets.BACKEND_PORT }}
           NODE_ENV=test
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}
           ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
           FRONTEND_PORT=${{ secrets.FRONTEND_PORT }}
-          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_URL=http://localhost:${{ secrets.BACKEND_PORT }}
+          DATABASE_URL=postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
           EOF
-          echo "Created .env file (values hidden for security)"
-          echo "Checking if all required secrets are set..."
-          if [ -z "${{ secrets.DB_USER }}" ] || [ -z "${{ secrets.BACKEND_PORT }}" ] || [ -z "${{ secrets.FRONTEND_PORT }}" ]; then
-            echo "❌ Missing required secrets!"
-            exit 1
-          fi
-          echo "✅ All required secrets are set"
 
-      - name: Start Docker services
+      - name: Wait for PostgreSQL and setup database
         run: |
-          echo "=== Starting Docker services ==="
-          echo "Stopping any existing containers..."
-          docker compose down --volumes --remove-orphans
+          echo "Waiting for PostgreSQL..."
+          for i in {1..30}; do
+            if pg_isready -h localhost -p 5432 -U ${{ secrets.DB_USER }}; then
+              echo "✅ PostgreSQL is ready!"
+              break
+            fi
+            sleep 2
+          done
 
-          echo "Removing any existing images..."
-          docker compose rm -f
-          docker rmi gazette-frontend gazette-backend || echo "No images to remove"
+      - name: Build and start applications
+        run: |
+          # Build all packages
+          pnpm ci:build
 
-          echo "Building and starting all services..."
-          docker compose up --build -d
+          # Setup database
+          pnpm db:setup
 
-          echo "=== Waiting for services to start ==="
-          echo "Waiting 60 seconds for services to fully start..."
-          sleep 60
+          # Start backend
+          cd apps/backend
+          nohup pnpm start > ../../backend.log 2>&1 &
 
-          echo "=== Container Status Check ==="
-          echo "All containers status:"
-          docker compose ps -a
+          # Start frontend
+          cd ../frontend
+          nohup pnpm start > ../../frontend.log 2>&1 &
 
-          echo "=== Container Health Check ==="
-          echo "Checking if containers are running..."
-          if ! docker compose ps --status running | grep -q "frontend\|backend"; then
-            echo "❌ Some containers are not running!"
-            echo "Container logs:"
-            docker compose logs --tail=50
-            echo "❌ Exiting due to container startup failure"
+          # Wait for services
+          echo "Waiting for services to start..."
+          sleep 45
+
+          # Verify services
+          if ! curl -f http://localhost:${{ secrets.BACKEND_PORT }}/health 2>/dev/null; then
+            echo "❌ Backend not ready"
+            echo "Backend logs:"
+            cat backend.log
             exit 1
           fi
 
-          echo "✅ All containers are running!"
+          if ! curl -f http://localhost:${{ secrets.FRONTEND_PORT }} 2>/dev/null; then
+            echo "❌ Frontend not ready"
+            echo "Frontend logs:"
+            cat frontend.log
+            exit 1
+          fi
 
-          echo "=== Network Configuration ==="
-          echo "Docker networks:"
-          docker network ls
-          echo "Gazette network details:"
-          docker network inspect gazette_gazette-network || echo "Network not found"
-
-          echo "=== Port Mappings ==="
-          echo "Frontend port mapping:"
-          docker compose port frontend ${{ secrets.FRONTEND_PORT }} || echo "❌ Frontend port mapping failed"
-          echo "Backend port mapping:"
-          docker compose port backend ${{ secrets.BACKEND_PORT }} || echo "❌ Backend port mapping failed"
-
-          echo "=== Service Accessibility ==="
-          echo "Testing backend accessibility..."
-          for i in {1..15}; do
-            echo "Attempt $i/15 to connect to backend on port ${{ secrets.BACKEND_PORT }}..."
-            if curl -s http://localhost:${{ secrets.BACKEND_PORT }}/contents > /dev/null 2>&1; then
-              echo "✅ Backend is accessible!"
-              break
-            fi
-            if [ $i -eq 15 ]; then
-              echo "❌ Backend is not accessible after 15 attempts"
-              echo "Backend logs:"
-              docker compose logs backend --tail=30
-              exit 1
-            fi
-            sleep 5
-          done
-
-          echo "Testing frontend accessibility..."
-          for i in {1..15}; do
-            echo "Attempt $i/15 to connect to frontend on port ${{ secrets.FRONTEND_PORT }}..."
-            if curl -s http://localhost:${{ secrets.FRONTEND_PORT }}/ > /dev/null 2>&1; then
-              echo "✅ Frontend is accessible!"
-              break
-            fi
-            if [ $i -eq 15 ]; then
-              echo "❌ Frontend is not accessible after 15 attempts"
-              echo "Frontend logs:"
-              docker compose logs frontend --tail=30
-              exit 1
-            fi
-            sleep 5
-          done
-
-          echo "✅ All services are accessible!"
+          echo "✅ All services ready for Lighthouse!"
 
       - name: Run Lighthouse CI
         env:
           FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
         run: |
-          echo "Installing Lighthouse CLI..."
           npm install -g @lhci/cli@0.15.x
-
-          echo "Running Lighthouse with localhost..."
           lhci collect --url=http://localhost:${{ secrets.FRONTEND_PORT }}/
           lhci upload --target=temporary-public-storage

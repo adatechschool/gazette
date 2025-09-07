@@ -6,7 +6,8 @@
     "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rimraf .next out dist *.log"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.2.0",
