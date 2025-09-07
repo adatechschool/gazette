@@ -18,7 +18,6 @@ on:
 env:
   # Versions des outils
   NODE_VERSION: 22.15.0
-  PNPM_VERSION: 10.11.0
 
   # Configuration de l'environnement
   NODE_ENV: test
@@ -373,7 +372,6 @@ jobs:
         uses: ./.github/actions/setup-node-pnpm
         with:
           node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Create environment file
         uses: ./.github/actions/create-env-file

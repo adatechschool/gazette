@@ -5,19 +5,11 @@ inputs:
     description: Node.js version
     required: false
     default: 22.15.0
-  pnpm-version:
-    description: pnpm version (optional - will auto-detect from packageManager field if not provided)
-    required: false
-    default: ''
 runs:
   using: composite
   steps:
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
-      with:
-        # Si pnpm-version est vide, l'action va automatiquement détecter
-        # la version depuis le champ "packageManager" du package.json
-        version: ${{ inputs.pnpm-version != '' && inputs.pnpm-version || '' }}
 
     - name: Setup Node.js with cache
       uses: actions/setup-node@v4
