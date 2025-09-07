@@ -442,11 +442,28 @@ jobs:
           done
 
       - name: Build and start applications
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PORT: 5432
+          DB_HOST: localhost
+          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+          NODE_ENV: test
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+          ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}
+          DATABASE_URL: postgresql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}
+          FRONTEND_PORT: ${{ secrets.FRONTEND_PORT }}
+          NEXT_PUBLIC_API_URL: http://localhost:${{ secrets.BACKEND_PORT }}
         run: |
           # Build all packages
           pnpm ci:build
 
-          # Setup database
+          # Setup database with environment variables
+          cd apps/backend
+          cp ../../.env ./.env
+          cd ../..
           pnpm db:setup
 
           # Start backend
