@@ -99,7 +99,7 @@ jobs:
 
       - name: Run unit tests
         working-directory: packages/shared
-        run: pnpm test:unit
+        run: pnpm test
 
   playwright:
     needs: tests
