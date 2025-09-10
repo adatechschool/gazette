@@ -10,14 +10,14 @@ export class JobService {
 
   @Cron('0 0 * * *') // toutes les 24 heures (minuit)
   async handleCron() {
-    console.warn('[CRON] Lancement de la synchronisation des flux RSS...')
+    console.warn('[CRON] Starting RSS feeds synchronization...')
 
     try {
       const result = await this.contentService.syncRssFeeds()
-      console.warn(`[CRON] Synchronisation terminée: ${result.created} créés, ${result.updated} mis à jour, ${result.errors} erreurs`)
+      console.warn(`[CRON] Synchronization completed: ${result.created} created, ${result.updated} updated, ${result.errors} errors`)
     }
     catch (error) {
-      console.error('[CRON] Erreur lors de la synchronisation:', error)
+      console.error('[CRON] Error during synchronization:', error)
     }
   }
 }

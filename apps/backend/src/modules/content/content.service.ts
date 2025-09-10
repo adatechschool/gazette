@@ -43,38 +43,59 @@ export class ContentService {
 
   async syncRssFeeds(): Promise<{ created: number, updated: number, errors: number }> {
     const em = this.em.fork()
-    const rssItems = await this.rssService.fetchAllFeeds()
-    const mediaMap = await this.mediaService.getMediaMap()
-
     const result = { created: 0, updated: 0, errors: 0 }
 
-    for (const item of rssItems) {
-      const media = mediaMap.get(item.source)
+    try {
+      await em.begin()
+      const rssItems = await this.rssService.fetchAllFeeds()
+      const mediaMap = await this.mediaService.getMediaMap()
 
-      if (!media) {
-        console.warn(`[ContentService] Aucun média trouvé pour la source: ${item.source}`)
-        result.errors++
-        continue
+      for (const item of rssItems) {
+        try {
+          const media = mediaMap.get(item.source)
+
+          if (!media) {
+            console.warn(`[ContentService] No media found for this source: ${item.source}`)
+            result.errors++
+            continue
+          }
+
+          const existing = await em.findOne(Content, { link: item.link })
+          if (existing) {
+            result.updated++
+            continue
+          }
+
+          const content = new Content()
+          content.title = item.title
+          content.description = item.description
+          content.link = item.link
+          content.date = new Date(item.pubDate)
+          content.media = media
+          content.createdAt = new Date()
+
+          em.persist(content)
+          result.created++
+        }
+        catch (itemError) {
+          console.error(`Error appears while processing item: ${item.link}:`, itemError)
+          result.errors++
+        }
       }
-
-      const existing = await em.findOne(Content, { link: item.link })
-      if (existing) {
-        result.updated++
-        continue
-      }
-
-      const content = new Content()
-      content.title = item.title
-      content.description = item.description
-      content.link = item.link
-      content.date = new Date(item.pubDate)
-      content.media = media
-      content.createdAt = new Date()
-
-      await em.persistAndFlush(content)
-      result.created++
+      await em.flush()
+      await em.commit()
     }
+    catch (error) {
+      try {
+        await em.rollback()
+      }
+      catch (rollbackError) {
+        console.error('Error appears during rollback:', rollbackError)
+      }
 
+      console.error('Critical error during RSS sync:', error)
+      throw error
+    }
     return result
   }
 }

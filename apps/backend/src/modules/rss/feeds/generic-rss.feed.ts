@@ -21,7 +21,7 @@ export function createGenericRssFeed(config: GenericRssConfig): FeedSource {
       const feed = await parser.parseURL(this.url)
 
       return feed.items.map(item => ({
-        title: config.titleCleaner ? config.titleCleaner(item.title) : (item.title),
+        title: item.title,
         link: item.link,
         pubDate: item.pubDate,
         description: item.contentSnippet || item.content,
