@@ -46,6 +46,6 @@
   ],
   "remote.extensionKind": {
     "adpyke.codesnap": ["ui"],
-    "dbaeumer.vscode-eslint": ["workspace"],
-  },
+    "dbaeumer.vscode-eslint": ["workspace"]
+  }
 }

@@ -78,7 +78,7 @@ export class UsersController {
   @Patch('me')
   async updateCurrentUser(
     @Req() req: RequestWithUser,
-    @Body() body: { pseudo?: string; email?: string; password?: string },
+    @Body() body: { pseudo?: string, email?: string, password?: string },
   ) {
     try {
       // Validation basique
@@ -92,32 +92,32 @@ export class UsersController {
         }
       }
 
-      console.log('Updating user:', req.user.id, 'with data:', body)
+      console.warn('Updating user:', req.user.id, 'with data:', body)
       const updatedUser = await this.usersService.update(req.user.id, body)
-      
+
       if (!updatedUser) {
         throw new NotFoundException('User not found')
       }
 
-      console.log('User updated successfully:', updatedUser)
+      console.warn('User updated successfully:', updatedUser)
       return updatedUser
     }
     catch (error) {
       console.error('Error updating user:', error)
-      
+
       // Re-lancer les erreurs HTTP connues
       if (error instanceof NotFoundException) {
         throw error
       }
-      
+
       // Pour les autres erreurs, logs détaillés
       console.error('Unexpected error during user update:', {
         userId: req.user.id,
         body,
         error: error.message,
-        stack: error.stack
+        stack: error.stack,
       })
-      
+
       throw new NotFoundException('Failed to update user profile')
     }
   }
