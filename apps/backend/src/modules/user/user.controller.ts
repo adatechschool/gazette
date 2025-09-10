@@ -1,5 +1,5 @@
 import { SubscriptionDto } from '@gazette/shared'
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common'
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, Req, Res, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
 import { AuthGuard } from '../auth/auth.guard'
 import { clearAuthCookie } from '../auth/auth.utils'
@@ -72,5 +72,53 @@ export class UsersController {
       mediaId: subscription.media.id,
       createdAt: subscription.createdAt.toISOString(),
     }))
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch('me')
+  async updateCurrentUser(
+    @Req() req: RequestWithUser,
+    @Body() body: { pseudo?: string, email?: string, password?: string },
+  ) {
+    try {
+      // Validation basique
+      if (!body || Object.keys(body).length === 0) {
+        throw new NotFoundException('No data provided for update')
+      }
+      if (body.email && body.email !== req.user.email) {
+        const existingUser = await this.usersService.findOne(body.email)
+        if (existingUser && existingUser.id !== req.user.id) {
+          throw new BadRequestException('Email already exists')
+        }
+      }
+
+      console.warn('Updating user:', req.user.id, 'with data:', body)
+      const updatedUser = await this.usersService.update(req.user.id, body)
+
+      if (!updatedUser) {
+        throw new NotFoundException('User not found')
+      }
+
+      console.warn('User updated successfully:', updatedUser)
+      return updatedUser
+    }
+    catch (error) {
+      console.error('Error updating user:', error)
+
+      // Re-lancer les erreurs HTTP connues
+      if (error instanceof NotFoundException) {
+        throw error
+      }
+
+      // Pour les autres erreurs, logs détaillés
+      console.error('Unexpected error during user update:', {
+        userId: req.user.id,
+        body,
+        error: error.message,
+        stack: error.stack,
+      })
+
+      throw new NotFoundException('Failed to update user profile')
+    }
   }
 }

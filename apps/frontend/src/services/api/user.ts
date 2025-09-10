@@ -1,4 +1,4 @@
-import type { CreateUserDto, UserProfileDto } from '@gazette/shared'
+import type { CreateUserDto, UpdateUserDto, UserProfileDto } from '@gazette/shared'
 import { api } from '../../config'
 
 export async function createUser(user: CreateUserDto): Promise<CreateUserDto> {
@@ -50,5 +50,11 @@ export async function getUserProfile(): Promise<UserProfileDto> {
 export async function deleteUserAccount(): Promise<void> {
   return await api
     .delete('users/me')
+    .json()
+}
+
+export async function updateUser(updateData: UpdateUserDto): Promise<UserProfileDto> {
+  return await api
+    .patch('users/me', { json: updateData })
     .json()
 }
